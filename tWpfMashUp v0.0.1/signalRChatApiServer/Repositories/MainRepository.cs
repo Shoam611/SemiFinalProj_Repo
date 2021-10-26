@@ -74,5 +74,8 @@ namespace signalRChatApiServer.Repositories
             context.SaveChanges();
         }
         #endregion
+
+        public User Authenticate(string username, string password) 
+            => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
     }
 }

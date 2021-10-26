@@ -12,16 +12,12 @@
              d:DesignHeight="500" d:DesignWidth="300"
              MinWidth="300" MinHeight="450"
             DataContext="{Binding Source={StaticResource Locator},Path=Authenticat}">
-    <!--<UserControl.DataContext>
-        <vm:LoginViewModel />
-    </UserControl.DataContext>-->
 
     <Grid  Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!--Background="#252525"-->
         <Border  Grid.RowSpan="2">
             <Border.Background>
                 <LinearGradientBrush>

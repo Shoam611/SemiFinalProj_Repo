@@ -21,6 +21,7 @@ namespace signalRChatApiServer.Repositories
         List<Message> GetMessages(int chatId);
         List<Message> GetAllMessages();
         Chat GetChat(int userA, int userB);
+        User Authenticate(string username, string password);
 
         #endregion
 
