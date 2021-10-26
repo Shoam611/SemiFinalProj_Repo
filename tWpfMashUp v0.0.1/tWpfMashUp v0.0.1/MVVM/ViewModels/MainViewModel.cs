@@ -13,8 +13,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             set { view = value; onProppertyChange(); }
         }
 
-        //public RelayCommand OnLoadedCommand { get; set; }
-        
         public MainViewModel() => View = new LoginView();
 
 
