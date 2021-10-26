@@ -14,7 +14,6 @@
   <ItemGroup>
     <Folder Include="Assets\Fonts\" />
     <Folder Include="Extentions\" />
-    <Folder Include="MVVM\Models\" />
     <Folder Include="Sevices\" />
   </ItemGroup>
 
