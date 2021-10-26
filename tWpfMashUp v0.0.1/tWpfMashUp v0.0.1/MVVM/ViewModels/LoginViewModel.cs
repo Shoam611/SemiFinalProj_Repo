@@ -41,7 +41,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             {
                 try
                 {
-                    var response = await client.GetAsync(url);
+                    //var response = await client.GetAsync(url);
                     //response.EnsureSuccessStatusCode();
                     //if (response.IsSuccessStatusCode)
                     //{
