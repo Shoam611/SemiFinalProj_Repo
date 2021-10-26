@@ -19,6 +19,7 @@ namespace signalRChatApiServer.Repositories
         #region Read
         User GetUser(int id);
         List<Message> GetMessages(int chatId);
+        IEnumerable<Chat> GetUserChatsById(int id);
         List<Message> GetAllMessages();
         Chat GetChat(int userA, int userB);
         User Authenticate(string username, string password);
