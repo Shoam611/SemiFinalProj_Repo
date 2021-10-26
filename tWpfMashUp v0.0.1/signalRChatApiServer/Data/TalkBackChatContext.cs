@@ -47,8 +47,8 @@ namespace signalRChatApiServer.Data
 
             //modelBuilder.Entity<User>().HasMany(c => c.Friends).WithMany(c=>c.Friends);
 
-            modelBuilder.Entity<Chat>().HasOne(c => c.UserA).WithMany(u=>u.ChatsA);
-            modelBuilder.Entity<Chat>().HasOne(c => c.UserB).WithMany(u => u.ChatsB);
+            //modelBuilder.Entity<Chat>().HasOne(c => c.UserA).WithMany(u=>u.ChatsA);
+            //modelBuilder.Entity<Chat>().HasOne(c => c.UserB).WithMany(u => u.ChatsB);
             
                        
             //modelBuilder.Entity<User>().HasMany(u => u.Chats);
