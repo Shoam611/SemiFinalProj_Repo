@@ -88,6 +88,12 @@ namespace signalRChatApiServer.Repositories
                            select msg;
             
             return chats;
+            ///testing the option to fetch all single user chats.
+            ///currently fetching all chats with empty messeges list.
+            ///fix requierd: adding to query a fetch of all messeges related to the chats
+            ///             as in the second query. 
+            ///             second query throws inner exception
+
         }
     }
 }
