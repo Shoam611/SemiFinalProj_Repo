@@ -9,11 +9,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using Microsoft.Xaml.Behaviors;
-using Microsoft.Xaml.Behaviors.Core;
-using Microsoft.Xaml.Behaviors.Input;
-using Microsoft.Xaml.Behaviors.Layout;
-using Microsoft.Xaml.Behaviors.Media;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -58,7 +53,7 @@ namespace tWpfMashUp_v0._0._1 {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/tWpfMashUp v0.0.1;component/mainwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/tWpfMashUp v0.0.1;V1.0.0.0;component/mainwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\MainWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

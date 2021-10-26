@@ -53,7 +53,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/tWpfMashUp v0.0.1;component/mvvm/views/chatthreadview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/tWpfMashUp v0.0.1;V1.0.0.0;component/mvvm/views/chatthreadview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\MVVM\Views\ChatThreadView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
