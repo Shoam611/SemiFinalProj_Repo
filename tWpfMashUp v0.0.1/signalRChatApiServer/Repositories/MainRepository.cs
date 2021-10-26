@@ -1,4 +1,5 @@
-﻿using signalRChatApiServer.Models;
+﻿using signalRChatApiServer.Data;
+using signalRChatApiServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,16 @@ namespace signalRChatApiServer.Repositories
 {
     public class MainRepository : IRepository
     {
+        private readonly TalkBackChatContext context;
+        private List<User> users;
+        private List<Message> messages;
+        private List<Chat> chats;
+
+        public MainRepository(TalkBackChatContext context)
+        {
+            this.context = context;
+            users = context.Users.ToList();
+        }
         public Task AddChat(Chat chat)
         {
             throw new NotImplementedException();
