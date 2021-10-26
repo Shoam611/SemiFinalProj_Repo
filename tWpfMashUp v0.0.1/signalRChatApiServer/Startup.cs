@@ -5,7 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using signalRChatApiServer.Data;
 using signalRChatApiServer.Hubs;
+using signalRChatApiServer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +17,18 @@ namespace signalRChatApiServer
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration configuration;
         
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IRepository, MainRepository>();
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<TalkBackChatContext>();
             services.AddSignalR();
             services.AddControllers();
         }

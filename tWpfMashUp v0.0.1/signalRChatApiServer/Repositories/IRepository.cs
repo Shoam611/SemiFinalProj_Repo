@@ -14,7 +14,6 @@ namespace signalRChatApiServer.Repositories
         Task AddUser(User user);
         Task AddMessage(Message message);
         Task AddChat(Chat chat);
-        //Task AddMessageToChat(Chat chat, Message message); #In diffrent repository?
         #endregion
 
         #region Read
