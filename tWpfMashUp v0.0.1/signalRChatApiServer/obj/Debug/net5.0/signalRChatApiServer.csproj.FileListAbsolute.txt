@@ -72,7 +72,6 @@ C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\sign
 C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\signalRChatApiServer\obj\Debug\net5.0\staticwebassets\signalRChatApiServer.StaticWebAssets.xml
 C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\signalRChatApiServer\obj\Debug\net5.0\scopedcss\bundle\signalRChatApiServer.styles.css
 C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\signalRChatApiServer\obj\Debug\net5.0\signalRChatApiServer.RazorTargetAssemblyInfo.cache
-C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\signalRChatApiServer\obj\Debug\net5.0\signalRChatApiServer.csproj.CopyComplete
 C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\signalRChatApiServer\obj\Debug\net5.0\signalRChatApiServer.dll
 C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\signalRChatApiServer\obj\Debug\net5.0\ref\signalRChatApiServer.dll
 C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\signalRChatApiServer\obj\Debug\net5.0\signalRChatApiServer.pdb

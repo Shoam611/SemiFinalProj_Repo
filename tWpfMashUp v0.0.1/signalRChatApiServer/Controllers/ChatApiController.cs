@@ -26,7 +26,11 @@ namespace signalRChatApiServer.Controllers
             return "In Get Action";
         }
         [HttpPost]
-        public void Post(string value) => hbcntx.Clients.All.SendAsync("Posted", value);
+
+        public void Post(string value)
+        {
+            hbcntx.Clients.All.SendAsync("Posted", value);
+        }
         /* http://localhost:14795/ChatApi?value=TestValue */
     }
 }
