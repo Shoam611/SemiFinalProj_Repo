@@ -18,7 +18,8 @@ namespace signalRChatApiServer.Repositories
 
         #region Read
         User GetUser(int id);
-        List<Message> GetMessages(Chat chat);
+        List<Message> GetMessages(int chatId);
+        List<Message> GetAllMessages();
         Chat GetChat(int userA, int userB);
 
         #endregion
