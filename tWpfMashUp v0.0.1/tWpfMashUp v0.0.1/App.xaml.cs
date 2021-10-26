@@ -7,7 +7,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+
 using tWpfMashUp_v0._0._1.MVVM.ViewModels;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1
 {
@@ -29,11 +31,14 @@ namespace tWpfMashUp_v0._0._1
         private void ConfigServices(HostBuilderContext context, IServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
+            
             services.AddScoped<MainViewModel>();
             services.AddScoped<LoginViewModel>();
             services.AddScoped<ChatAppViewModel>();
             services.AddScoped<ChatThreadViewModel>();
             services.AddScoped<GameViewModel>();
+            
+            services.AddTransient<NavigationService>();
         }
         private void Start(IServiceProvider services)
         {
