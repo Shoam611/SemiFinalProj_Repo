@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\Fonts\" />
+    <Folder Include="MVVM\Models\" />
   </ItemGroup>
 
   <ItemGroup>

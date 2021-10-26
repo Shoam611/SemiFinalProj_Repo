@@ -22,7 +22,7 @@ namespace signalRChatApiServer
         {
             services.AddTransient<IRepository, MainRepository>();
             string connectionString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<TalkBackChatContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString));
+            services.AddDbContext<TalkBackChatContext>(options => options.UseSqlServer(connectionString));
             services.AddSignalR();
             services.AddControllers();
         }
