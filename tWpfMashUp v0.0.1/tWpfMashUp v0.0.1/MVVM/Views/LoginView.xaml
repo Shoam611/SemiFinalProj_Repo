@@ -32,7 +32,7 @@
         </Border>
 
         <StackPanel VerticalAlignment="Center" Height="auto">
-            <Image Source="/Assets/Images/HomeLogo.png" Width="50"/>
+            <Image Source="/Assets/Images/HomeLogo.png" Height="50" Width="50"/>
             <TextBlock Text="Login" VerticalAlignment="Center" FontWeight="Light"
                     FontSize="28" FontFamily="Halvetica" Foreground="White"
                     HorizontalAlignment="Center"/> 
