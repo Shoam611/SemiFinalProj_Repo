@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
@@ -33,7 +34,28 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             PasswordChangedCommand= new RelayCommand((o) => HandlePasswordChanged(o as RoutedEventArgs));
         }
 
-        private void SighnUpHandler() => Debug.WriteLine($"UserName: {UserName} , Paasord : {Password}");
+        private void SighnUpHandler()
+        {
+            var url = @$"http://localhost:14795/Users?username={UserName}&password={Password}";
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync(url);
+                    //response.EnsureSuccessStatusCode();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    var rawData = await response.Content.ReadAsStringAsync();
+                    //    return rawData;
+                    //}
+                    //throw new Exception();
+                }
+                catch
+                {
+                    throw new Exception("Failed To GetData From Service");
+                }
+            }
+        }
 
         private void HandlePasswordChanged(RoutedEventArgs args) => Password = (args.Source as PasswordBox).Password;
     }
