@@ -134,3 +134,71 @@ C:\Users\LIAD\Documents\Sela 155827\Project SOA\Project\SemiFinalProj_Repo\tWpfM
 C:\Users\LIAD\Documents\Sela 155827\Project SOA\Project\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\ref\tWpfMashUp v0.0.1.dll
 C:\Users\LIAD\Documents\Sela 155827\Project SOA\Project\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.pdb
 C:\Users\LIAD\Documents\Sela 155827\Project SOA\Project\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.genruntimeconfig.cache
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\tWpfMashUp v0.0.1.exe
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\tWpfMashUp v0.0.1.deps.json
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\tWpfMashUp v0.0.1.runtimeconfig.json
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\tWpfMashUp v0.0.1.runtimeconfig.dev.json
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\tWpfMashUp v0.0.1.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\ref\tWpfMashUp v0.0.1.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\tWpfMashUp v0.0.1.pdb
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\MahApps.Metro.IconPacks.Core.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\MahApps.Metro.IconPacks.Material.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.CommandLine.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Configuration.UserSecrets.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Hosting.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Logging.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Logging.Configuration.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Logging.Console.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Logging.Debug.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Logging.EventLog.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Logging.EventSource.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Options.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\bin\Debug\net5.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.csproj.AssemblyReference.cache
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\Assets\Templates\ButtonTheme.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\Assets\Templates\ContectListItem.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\Assets\Templates\MessageListItem.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\Assets\Templates\MessegeTextBox.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\Assets\Templates\ScrollBar.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MainWindow.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\ChatAndGameView.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\ChatAppView.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\ChatThreadView.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\GameView.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\LoginView.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\App.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1_MarkupCompile.cache
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1_MarkupCompile.lref
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\App.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MainWindow.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\ChatAndGameView.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\ChatAppView.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\ChatThreadView.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\GameView.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\MVVM\Views\LoginView.baml
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.g.resources
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.AssemblyInfoInputs.cache
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.AssemblyInfo.cs
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.csproj.CoreCompileInputs.cache
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.csproj.CopyComplete
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\ref\tWpfMashUp v0.0.1.dll
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.pdb
+C:\Users\Shoham\source\GitRepo\ChatApp\SemiFinalProj_Repo\tWpfMashUp v0.0.1\tWpfMashUp v0.0.1\obj\Debug\net5.0-windows\tWpfMashUp v0.0.1.genruntimeconfig.cache
