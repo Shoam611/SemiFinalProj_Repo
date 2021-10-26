@@ -2,11 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
-    class GameLogicService
+   public class GameLogicService
     {
+
+        void AddItem(object item)
+        {
+            Thread.Sleep(3000);
+        }
+        public async void AddItemAsync(object item)
+        {
+            Task.Run(() => { AddItem(item); });
+        }
+
+
     }
 }
