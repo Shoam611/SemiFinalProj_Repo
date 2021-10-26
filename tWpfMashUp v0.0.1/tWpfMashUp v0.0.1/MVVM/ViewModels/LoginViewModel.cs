@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
@@ -46,14 +46,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             {
                 try
                 {
-                    var values = new Dictionary<string, string> { {"UserName",UserName },  {"Password",Password }};
-                    var content = new FormUrlEncodedContent(values);
+                    var values = new Dictionary<string, string> { { "UserName", UserName }, { "Password", Password } };
+                    var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, content);
                     var responseString = await response.Content.ReadAsStringAsync();//for debug purposes
                     response.EnsureSuccessStatusCode();
                     LogInHandler();
                 }
-                catch(Exception ex) { MessageBox.Show(ex.Message,"Failed to call server"); }
+                catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
             }
         }
         private async void LogInHandler()
