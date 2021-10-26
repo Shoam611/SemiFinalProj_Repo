@@ -11,28 +11,21 @@ namespace signalRChatApiServer.Repositories
     public interface IRepository
     {
         #region Create
-        Task AddUser(User user);
-        Task AddMessage(Message message);
-        Task AddChat(Chat chat);
+        void AddUser(User user);
+        void AddMessage(Message message);
+        void AddChat(Chat chat);
         #endregion
 
         #region Read
-        Task<List<User>> GetUsers(int id);
-        Task<Message> GetMessage(Message message);
-        Task<List<Message>> GetMessagesFromUser(User user);
-        Task<List<Chat>> GetChat(User userA, User userB);
+        User GetUser(int id);
+        List<Message> GetMessages(Chat chat);
+        Chat GetChat(User userA, User userB);
+
         #endregion
 
         #region Update
-        Task<User> UpdateUser(User user);
-        Task<Message> UpdateMessage(Message message);
-        Task<Chat> UpdateChat(Chat chat);
-        #endregion
-
-        #region Delete
-        Task DeleteUser(int id);
-        Task DeleteMessage(int id);
-        Task DeleteChat(int id);
+        void UpdateUser(User user);
+        void UpdateChat(Chat chat);
         #endregion
     }
 }

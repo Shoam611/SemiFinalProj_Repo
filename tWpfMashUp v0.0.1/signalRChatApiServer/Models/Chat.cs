@@ -8,12 +8,12 @@ namespace signalRChatApiServer.Models
     {
         [Key]
         public int ChatId { get; set; }
-        public virtual List<Message> Messages { get; set; }
 
         [ForeignKey("UserA")]
         public virtual User UserA { get; set; }
 
         [ForeignKey("UserB")]
         public virtual User UserB { get; set; }
+        public virtual List<Message> Messages { get; set; }
     }
 }

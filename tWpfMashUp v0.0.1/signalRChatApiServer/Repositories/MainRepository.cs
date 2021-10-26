@@ -2,6 +2,7 @@
 using signalRChatApiServer.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,78 +12,70 @@ namespace signalRChatApiServer.Repositories
     public class MainRepository : IRepository
     {
         private readonly TalkBackChatContext context;
-        private List<User> users;
-        private List<Message> messages;
-        private List<Chat> chats;
+        private readonly List<User> users;
+        private readonly List<Message> messages;
+        private readonly List<Chat> chats;
 
         public MainRepository(TalkBackChatContext context)
         {
             this.context = context;
             users = context.Users.ToList();
-        }
-        public Task AddChat(Chat chat)
-        {
-            throw new NotImplementedException();
+            messages = context.Messages.ToList();
+            chats = context.Chats.ToList();
+
+            Debug.WriteLine("Repository loading!");
         }
 
-        public Task AddMessage(Message message)
+        #region Add
+        public void AddChat(Chat chat)
         {
-            throw new NotImplementedException();
+            context.Chats.Add(chat);
+            context.SaveChanges();
         }
 
-        public Task AddUser(User user)
+        public void AddMessage(Message message)
         {
-            throw new NotImplementedException();
+            context.Messages.Add(message);
+            context.SaveChanges();
         }
 
-        public Task DeleteChat(int id)
+        public void AddUser(User user)
         {
-            throw new NotImplementedException();
+            context.Users.Add(user);
+            context.SaveChanges();
+        }
+        #endregion
+
+        #region Read
+        public Chat GetChat(User userA, User userB) => context.Chats.Where(c => (c.UserA == userA && c.UserB == userB)).First();
+        
+        public Chat GetChatByID(int id) => context.Chats.Find(id);
+
+        public List<Message> GetMessages(Chat chat) => context.Messages.Where(m => m.ChatId.Equals(chat.ChatId)).ToList();
+
+        public User GetUser(int id) => context.Users.Find(id);
+
+        #endregion
+
+        #region Update
+        public void UpdateChat(Chat chat)
+        {
+            var tempChat = context.Chats.Where(c => c.ChatId == chat.ChatId).First();
+            tempChat.Messages = chat.Messages;
+            tempChat.UserA = chat.UserA;
+            tempChat.UserB = chat.UserB;
+            context.SaveChanges();
         }
 
-        public Task DeleteMessage(int id)
+        public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            var tempUser = context.Users.Where(c => c.UserId == user.UserId).First();
+            tempUser.Chats= user.Chats;
+            tempUser.UserName= user.UserName;
+            tempUser.Friends = user.Friends;
+            tempUser.Password= user.Password;
+            context.SaveChanges();
         }
-
-        public Task DeleteUser(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Chat>> GetChat(User userA, User userB)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Message> GetMessage(Message message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Message>> GetMessagesFromUser(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<User>> GetUsers(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Chat> UpdateChat(Chat chat)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Message> UpdateMessage(Message message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> UpdateUser(User user)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
