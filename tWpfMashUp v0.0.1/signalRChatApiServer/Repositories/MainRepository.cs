@@ -47,7 +47,7 @@ namespace signalRChatApiServer.Repositories
         #endregion
 
         #region Read
-        public Chat GetChat(User userA, User userB) => context.Chats.Where(c => (c.UserA == userA && c.UserB == userB)).First();
+        public Chat GetChat(int userA, int userB) => context.Chats.Where(c => c.UserAId == userA && c.UserBId == userB).First();
         
         public Chat GetChatByID(int id) => context.Chats.Find(id);
 
@@ -62,8 +62,8 @@ namespace signalRChatApiServer.Repositories
         {
             var tempChat = context.Chats.Where(c => c.ChatId == chat.ChatId).First();
             tempChat.Messages = chat.Messages;
-            tempChat.UserA = chat.UserA;
-            tempChat.UserB = chat.UserB;
+            tempChat.UserAId = chat.UserAId;
+            tempChat.UserBId = chat.UserBId;
             context.SaveChanges();
         }
 
