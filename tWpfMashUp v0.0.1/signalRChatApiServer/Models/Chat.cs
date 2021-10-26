@@ -6,7 +6,7 @@ namespace signalRChatApiServer.Models
 {
     public class Chat
     {
-        [Key]
+        
         public int ChatId { get; set; }
 
         //[ForeignKey("UserA")]

@@ -45,13 +45,18 @@ namespace signalRChatApiServer.Data
              new { MessageId = 10, Content = "dummy-content", ChatId = 5, Date = DateTime.Now, UserId = 4 }
               );
 
-            modelBuilder.Entity<Chat>().HasOne(c => c.UserA).WithMany(u=>u.Chats);
-            modelBuilder.Entity<Chat>().HasOne(c => c.UserB).WithMany(u => u.Chats);
+            //modelBuilder.Entity<User>().HasMany(c => c.Friends).WithMany(c=>c.Friends);
+
+            modelBuilder.Entity<Chat>().HasOne(c => c.UserA).WithMany(u=>u.ChatsA);
+            modelBuilder.Entity<Chat>().HasOne(c => c.UserB).WithMany(u => u.ChatsB);
+            
+                       
+            //modelBuilder.Entity<User>().HasMany(u => u.Chats);
            
             //.WithMany(b => b.Posts);
             //base.OnModelCreating(modelBuilder);
         }
     }
-
+    //Cannot create a relationship between 'User.Chats' and 'Chat.UserB' because a relationship already exists between 'User.Chats' and 'Chat.UserA'. 
 
 }
