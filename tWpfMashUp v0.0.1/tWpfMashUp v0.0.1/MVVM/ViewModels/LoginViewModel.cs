@@ -30,6 +30,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         }
 
         public RelayCommand LoginCommand { get; set; }
+        public RelayCommand AuthenticateCommand { get; set; }
         public RelayCommand SighUpCommand { get; set; }
         public RelayCommand PasswordChangedCommand { get; set; }
         public LoginViewModel()
@@ -37,6 +38,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             UserName = "Usename";
             SighUpCommand = new RelayCommand((o) => SighnUpHandler());
             PasswordChangedCommand = new RelayCommand((o) => HandlePasswordChanged(o as RoutedEventArgs));
+            AuthenticateCommand = new RelayCommand(o => LogInHandler());
         }
 
         private async void SighnUpHandler()
@@ -67,8 +69,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 var data = JsonConvert.DeserializeObject<UserModel>(rawData);
                 if (data != null)
                 {
-                    //add user to store
+                    //add user  to store
                     LoginCommand?.Execute(null);
+                }
+                else
+                {
+                    MessageBox.Show("User not found");
                 }
             }
         }
