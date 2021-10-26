@@ -12,16 +12,10 @@ namespace signalRChatApiServer.Repositories
     public class MainRepository : IRepository
     {
         private readonly TalkBackChatContext context;
-        private readonly List<User> users;
-        private readonly List<Message> messages;
-        private readonly List<Chat> chats;
 
         public MainRepository(TalkBackChatContext context)
         {
             this.context = context;
-            users = context.Users.ToList();
-            messages = context.Messages.ToList();
-            chats = context.Chats.ToList();
 
             Debug.WriteLine("Repository loading!");
         }
@@ -51,7 +45,9 @@ namespace signalRChatApiServer.Repositories
         
         public Chat GetChatByID(int id) => context.Chats.Find(id);
 
-        public List<Message> GetMessages(Chat chat) => context.Messages.Where(m => m.ChatId.Equals(chat.ChatId)).ToList();
+        public List<Message> GetMessages(int chatId) => context.Messages.Where(m => m.ChatId == chatId).ToList();
+
+        public List<Message> GetAllMessages() => context.Messages.ToList();
 
         public User GetUser(int id) => context.Users.Find(id);
 

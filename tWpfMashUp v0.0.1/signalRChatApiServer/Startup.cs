@@ -27,7 +27,7 @@ namespace signalRChatApiServer
             services.AddControllers();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TalkBackChatContext ctx)
+        public void Configure(IApplicationBuilder app, TalkBackChatContext ctx)
         {
             ctx.Database.EnsureDeleted();
             ctx.Database.EnsureCreated();
