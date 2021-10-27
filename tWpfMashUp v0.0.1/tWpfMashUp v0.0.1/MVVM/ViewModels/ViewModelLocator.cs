@@ -12,7 +12,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public ViewModelLocator()
         {
-            Authenticat.LoginCommand = new Core.RelayCommand(o => Main.SetViewTransition("Chat"));
+            Authenticat.LoginCommand = new Core.RelayCommand(o => { Main.SetViewTransition("Chat");Chat.FetchUserCommand?.Execute(null); });
             Chat.GoToGameCommand = new Core.RelayCommand(o => Main.SetViewTransition("Game"));
             Game.GoToChatCommand = new Core.RelayCommand(o => Main.SetViewTransition("Chat"));
         }

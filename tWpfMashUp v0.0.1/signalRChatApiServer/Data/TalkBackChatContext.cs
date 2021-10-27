@@ -43,8 +43,8 @@ namespace signalRChatApiServer.Data
               new { MessageId = 7, Content = "dummy-content", ChatId = 4, Date = DateTime.Now, UserId = 2 },
               new { MessageId = 8, Content = "dummy-content", ChatId = 4, Date = DateTime.Now.AddDays(1), UserId = 2 },
               new { MessageId = 9, Content = "dummy-content", ChatId = 5, Date = DateTime.Now, UserId = 3 },
-             new { MessageId = 10, Content = "dummy-content", ChatId = 5, Date = DateTime.Now.AddDays(1), UserId = 3 },
-                new { MessageId = 11, Content = "Fuck  you, alrighty?", ChatId = 1, Date = DateTime.Now.AddDays(2), UserId = 1 },
+              new { MessageId = 10, Content = "dummy-content", ChatId = 5, Date = DateTime.Now.AddDays(1), UserId = 3 },
+             new { MessageId = 11, Content = "Fuck  you, alrighty?", ChatId = 1, Date = DateTime.Now.AddDays(2), UserId = 1 },
                 new { MessageId = 12, Content = "fuck you for ignoring me", ChatId = 1, Date = DateTime.Now.AddDays(3), UserId = 1 }
               );
         }

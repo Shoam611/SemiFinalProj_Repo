@@ -1,19 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Core;
+using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
-    public class ChatAppViewModel
+    public class ChatAppViewModel :ObservableObject
     {
+        StoreService storeService;
+
         public RelayCommand GoToGameCommand { get; set; }
+        public RelayCommand FetchUserCommand { get; set; }
+        UserModel loggedUser;
+        public UserModel LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
         public List<string> OnlineContacts  { get; set; }
         public List<string> OfflineContacts { get; set; }        
         public string SelectedContact { get; set; }
-        public ChatAppViewModel()
+        public ChatAppViewModel(StoreService storeService)
         {
-            OnlineContacts = new List<string> {"Samual","Yehuda","Rafael" };
-            OfflineContacts = new List<string> { "Samual", "Yehuda", "Rafael" }; ;
-            //GoToGameCommand 
-        }   
+            this.storeService = storeService;
+            FetchUserCommand = new RelayCommand(o => FetchUserHandler());
+        }
+
+        private void FetchUserHandler()
+        {
+            LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString());
+        }
     }
 }

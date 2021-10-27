@@ -7,12 +7,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
     {
         public Dictionary<string, dynamic> storeDictionary { get; set; }
 
-        //public dynamic this[string key]
-        //{
-        //    get { return storeDictionary[key]; }
-        //    set { storeDictionary[key] = value; }
-        //}
-
+        public StoreService()
+        {
+            storeDictionary = new Dictionary<string, dynamic>();
+        }
         public void Add(string key, dynamic obj)
         {
             if(obj!=null)
@@ -20,7 +18,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
         }
 
         public dynamic Get(string key) => storeDictionary[key] ?? null;
-
 
         public List<string> GetAllKeys()
             => privateGetAllKeys().ToList() ?? new List<string>();
@@ -33,3 +30,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
         }
     }
 }
+
+        //public dynamic this[string key]
+        //{
+        //    get { return storeDictionary[key]; }
+        //    set { storeDictionary[key] = value; }
+        //}

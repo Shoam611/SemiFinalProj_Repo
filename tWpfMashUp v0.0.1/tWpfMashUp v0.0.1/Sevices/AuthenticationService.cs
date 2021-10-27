@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
@@ -50,7 +50,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var data = JsonConvert.DeserializeObject<UserModel>(rawData);
                     if (data != null)
                     {
-                        storeService.Add("LoggedUser", data); return true;
+                        storeService.Add(CommonKeys.LoggedUser.ToString(), data); return true;
                     }
                 }
                 catch { MessageBox.Show("Failed To Call Server"); }
