@@ -55,7 +55,13 @@ namespace signalRChatApiServer.Repositories
 
         public List<Message> GetAllMessages() => context.Messages.ToList();
 
-        public User GetUser(int id) => context.Users.Find(id);
+        public User GetUser(int id)
+        {
+            var newUser = context.Users.Find(id);
+            var chatsIntoUser = chats.Where(c => c.UserAId == id || c.UserAId == id).ToList();
+            newUser.Chats = chatsIntoUser;
+            return newUser;
+        }
 
         #endregion
 
@@ -74,7 +80,7 @@ namespace signalRChatApiServer.Repositories
         {
             var tempUser = context.Users.Where(c => c.UserId == user.UserId).First();
             if (tempUser == null) return;
-            tempUser.ChatsA = user.ChatsA;
+            tempUser.Chats = user.Chats;
             tempUser.UserName = user.UserName;
             tempUser.Password = user.Password;
             context.SaveChanges();
@@ -83,26 +89,6 @@ namespace signalRChatApiServer.Repositories
 
         public User Authenticate(string username, string password) => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
 
-        public IEnumerable<Chat> GetUserChatsById(int UserId)
-        {
-            //var chats = (from chat in context.Chats 
-            //            where chat.UserAId == UserId || chat.UserBId == UserId                        
-            //            select chat ).ToList();
-
-            //var messeges = from msg in context.Messages
-            //               where chats.Any(c => c.ChatId == msg.ChatId) == true
-            //               select msg;
-
-            var chating = chats.Where(c => c.UserAId == UserId || c.UserBId == UserId).ToList();
-
-            return chating;
-
-            ///testing the option to fetch all single user chats.
-            ///currently fetching all chats with empty messeges list.
-            ///fix requierd: adding to query a fetch of all messeges related to the chats
-            ///             as in the second query. 
-            ///             second query throws inner exception
-
-        }
+        public IEnumerable<Chat> GetUserChatsById(int UserId) => chats.Where(c => c.UserAId == UserId || c.UserBId == UserId).ToList();
     }
 }
