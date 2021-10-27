@@ -11,7 +11,7 @@ namespace signalRChatApiServer.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
-        IRepository repository;
+        readonly IRepository repository;
         public UsersController(IRepository repository)
         {
             this.repository = repository;
@@ -25,8 +25,9 @@ namespace signalRChatApiServer.Controllers
         {
             try
             {
-                var newuser = new User {UserName = user["UserName"],Password=user["Password"] };
-                repository.AddUser(newuser);return true;
+                var newuser = new User { UserName = user["UserName"], Password = user["Password"] };
+                repository.AddUser(newuser);
+                return true;
             }
             catch { return false; }
         }
