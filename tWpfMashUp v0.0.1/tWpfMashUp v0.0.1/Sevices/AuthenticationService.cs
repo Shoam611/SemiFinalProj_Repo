@@ -12,6 +12,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class AuthenticationService
     {
+        StoreService storeService;
+        public AuthenticationService(StoreService storeService)
+        {
+            this.storeService = storeService;
+        }
 
         public async Task<bool> CallServerToSighnUp(string username, string password)
         {
@@ -45,8 +50,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var data = JsonConvert.DeserializeObject<UserModel>(rawData);
                     if (data != null)
                     {
-                        //add user  to store  
-                        return true;
+                        storeService.Add("LoggedUser", data); return true;
                     }
                 }
                 catch { MessageBox.Show("Failed To Call Server"); }
