@@ -1,15 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-
-using tWpfMashUp_v0._0._1.MVVM.ViewModels;
 using tWpfMashUp_v0._0._1.Sevices;
+using Microsoft.Extensions.Hosting;
+using tWpfMashUp_v0._0._1.MVVM.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace tWpfMashUp_v0._0._1
 {
@@ -39,6 +33,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<GameViewModel>();
             
             services.AddTransient<NavigationService>();
+            services.AddTransient<AuthenticationService>();
         }
         private void Start(IServiceProvider services)
         {
