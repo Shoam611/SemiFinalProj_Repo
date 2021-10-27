@@ -12,10 +12,16 @@ namespace signalRChatApiServer.Repositories
     public class MainRepository : IRepository
     {
         private readonly TalkBackChatContext context;
+        private readonly IEnumerable<Chat> chats;
+        private readonly IEnumerable<Message> messages;
+        private readonly IEnumerable<User> users;
 
         public MainRepository(TalkBackChatContext context)
         {
             this.context = context;
+            chats = context.Chats.ToList();
+            messages = context.Messages.ToList();
+            users = context.Users.ToList();
 
             Debug.WriteLine("Repository loading!");
         }
@@ -75,19 +81,22 @@ namespace signalRChatApiServer.Repositories
         }
         #endregion
 
-        public User Authenticate(string username, string password)
-            => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
+        public User Authenticate(string username, string password) => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
 
         public IEnumerable<Chat> GetUserChatsById(int UserId)
         {
-            var chats = (from chat in context.Chats 
-                        where chat.UserAId == UserId || chat.UserBId == UserId                        
-                        select chat ).ToList();
-            var messeges = from msg in context.Messages
-                           where chats.Any(c => c.ChatId==msg.ChatId)==true
-                           select msg;
-            
-            return chats;
+            //var chats = (from chat in context.Chats 
+            //            where chat.UserAId == UserId || chat.UserBId == UserId                        
+            //            select chat ).ToList();
+
+            //var messeges = from msg in context.Messages
+            //               where chats.Any(c => c.ChatId == msg.ChatId) == true
+            //               select msg;
+
+            var chating = chats.Where(c => c.UserAId == UserId || c.UserBId == UserId).ToList();
+
+            return chating;
+
             ///testing the option to fetch all single user chats.
             ///currently fetching all chats with empty messeges list.
             ///fix requierd: adding to query a fetch of all messeges related to the chats

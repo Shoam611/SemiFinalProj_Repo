@@ -9,7 +9,6 @@ namespace signalRChatApiServer.Models
         public int ChatId { get; set; }
         public int UserAId { get; set; }
         public int UserBId { get; set; }
-
-        public virtual List<Message> Messages { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

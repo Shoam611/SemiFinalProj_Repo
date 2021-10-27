@@ -10,6 +10,7 @@ namespace signalRChatApiServer.Controllers
     {
         IRepository repository;
         public ChatsController(IRepository repository) => this.repository = repository;
+
         [HttpGet]
         public void Get(int id)
         {

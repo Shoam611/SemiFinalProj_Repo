@@ -34,18 +34,18 @@ namespace signalRChatApiServer.Data
               );
 
             modelBuilder.Entity<Message>().HasData(
-              new { MessageId = 1, Content = "dummy-content", ChatId = 1, Date = DateTime.Now, UserId = 1 },
-              new { MessageId = 2, Content = "dummy-content", ChatId = 1, Date = DateTime.Now.AddDays(1), UserId = 2 },
+              new { MessageId = 1, Content = "why are you ghosting me?", ChatId = 1, Date = DateTime.Now, UserId = 1 },
+              new { MessageId = 2, Content = "Hey, how are you?", ChatId = 1, Date = DateTime.Now.AddDays(1), UserId = 1 },
               new { MessageId = 3, Content = "dummy-content", ChatId = 2, Date = DateTime.Now, UserId = 1 },
-              new { MessageId = 4, Content = "dummy-content", ChatId = 2, Date = DateTime.Now.AddDays(1), UserId = 3 },
+              new { MessageId = 4, Content = "dummy-content", ChatId = 2, Date = DateTime.Now.AddDays(1), UserId = 1 },
               new { MessageId = 5, Content = "dummy-content", ChatId = 3, Date = DateTime.Now, UserId = 2 },
-              new { MessageId = 6, Content = "dummy-content", ChatId = 3, Date = DateTime.Now.AddDays(1), UserId = 3 },
+              new { MessageId = 6, Content = "dummy-content", ChatId = 3, Date = DateTime.Now.AddDays(1), UserId = 2 },
               new { MessageId = 7, Content = "dummy-content", ChatId = 4, Date = DateTime.Now, UserId = 2 },
-              new { MessageId = 8, Content = "dummy-content", ChatId = 4, Date = DateTime.Now.AddDays(1), UserId = 4 },
+              new { MessageId = 8, Content = "dummy-content", ChatId = 4, Date = DateTime.Now.AddDays(1), UserId = 2 },
               new { MessageId = 9, Content = "dummy-content", ChatId = 5, Date = DateTime.Now, UserId = 3 },
-             new { MessageId = 10, Content = "dummy-content", ChatId = 5, Date = DateTime.Now.AddDays(1), UserId = 4 },
-                new { MessageId = 11, Content = "dummy-content", ChatId = 1, Date = DateTime.Now, UserId = 1 },
-                new { MessageId = 12, Content = "fuck you for ignoring me", ChatId = 1, Date = DateTime.Now, UserId = 2 }
+             new { MessageId = 10, Content = "dummy-content", ChatId = 5, Date = DateTime.Now.AddDays(1), UserId = 3 },
+                new { MessageId = 11, Content = "Fuck  you, alrighty?", ChatId = 1, Date = DateTime.Now.AddDays(2), UserId = 1 },
+                new { MessageId = 12, Content = "fuck you for ignoring me", ChatId = 1, Date = DateTime.Now.AddDays(3), UserId = 1 }
               );
         }
     }
