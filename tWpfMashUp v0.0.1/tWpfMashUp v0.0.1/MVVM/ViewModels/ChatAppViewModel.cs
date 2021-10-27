@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.Core;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Sevices;
@@ -14,8 +15,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public RelayCommand FetchUserCommand { get; set; }
         UserModel loggedUser;
         public UserModel LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
-        public List<string> OnlineContacts  { get; set; }
-        public List<string> OfflineContacts { get; set; }        
+        public ObservableCollection<Chat> OnlineContacts  { get; set; }
+        public ObservableCollection<Chat> OfflineContacts { get; set; }        
         public string SelectedContact { get; set; }
         public ChatAppViewModel(StoreService storeService)
         {
@@ -26,6 +27,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private void FetchUserHandler()
         {
             LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString());
+            OfflineContacts = (ObservableCollection<Chat>)LoggedUser.ChatsA;
         }
     }
 }
