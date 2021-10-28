@@ -2,6 +2,7 @@
 {
     public enum  CommonKeys
     {
-        LoggedUser
+        LoggedUser,
+        InChatWith
     }
 }

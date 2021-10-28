@@ -49,7 +49,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     response.EnsureSuccessStatusCode();
                     var rawData = await response.Content.ReadAsStringAsync();
                     var loggedUser = JsonConvert.DeserializeObject<UserModel>(rawData);
-                    
                     if (loggedUser != null)
                     {
                         storeService.Add(CommonKeys.LoggedUser.ToString(), loggedUser); return true;
