@@ -1,5 +1,6 @@
 ﻿using signalRChatApiServer.Data;
 using signalRChatApiServer.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -77,6 +78,23 @@ namespace signalRChatApiServer.Repositories
             tempUser.UserName = user.UserName;
             tempUser.Password = user.Password;
             context.SaveChanges();
+        }
+
+        public Chat CreateChatWithRandomUser(int userId)
+        {
+            var userA = GetUser(userId);
+            if (context.Users.ToArray().Length < 2) return null;
+            var userBId = 1;
+            while (userBId == userId) userBId = new Random().Next(1, context.Users.ToList().Count);
+            var userB = GetUser(userBId);
+            var isExist = context.Chats
+                        .Where(c => c.Users.Where(u => u.Id == userId).ToList().Count > 0 &&
+                                    c.Users.Where(u => u.Id == userBId).ToList().Count > 0)
+                        .FirstOrDefault() != null;
+            if(isExist) return null;
+            Chat newChat = new Chat { Users = new List<User> { userA, userB } };
+            AddChat(newChat);
+            return newChat;
         }
         #endregion
     }

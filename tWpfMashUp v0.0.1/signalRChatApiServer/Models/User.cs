@@ -7,7 +7,8 @@ namespace signalRChatApiServer.Models
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public ICollection<Chat> Chats { get; set; }
+        public Status IsConnected { get; set; }
 
+       // public virtual ICollection<Chat> Chats { get; set; }
     }
 }

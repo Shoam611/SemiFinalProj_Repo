@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using tWpfMashUp_v0._0._1.Core;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Sevices;
@@ -26,13 +27,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             this.chatsService = chatsService;
             this.storeService = storeService;
+            OfflineContacts = new ObservableCollection<Chat>();
+            OnlineContacts = new ObservableCollection<Chat>();
+
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
             GetRandomChatCommand = new RelayCommand(o => GetRandomChat());
         }
 
-        private void GetRandomChat()
+        private async void GetRandomChat()
         {
-            OnlineContacts.Add(chatsService.GetRandomChatAsync());
+            var rndChat=await chatsService.GetRandomChatAsync();
+            if(rndChat!=null && ! (OfflineContacts.Where(c=>c.Id==rndChat.Id).ToList().Count > 0))
+            OfflineContacts.Add(rndChat);
         }
 
         private void FetchUserHandler()
