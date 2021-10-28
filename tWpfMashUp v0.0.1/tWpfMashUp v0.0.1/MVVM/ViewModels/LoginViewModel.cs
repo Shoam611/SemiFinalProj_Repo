@@ -39,13 +39,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.authService = authService;
             UserName = "Usename";
             SighUpCommand = new RelayCommand((o) => SighnUpHandler());
-            PasswordChangedCommand = new RelayCommand((o) => HandlePasswordChanged(o as RoutedEventArgs));
             AuthenticateCommand = new RelayCommand(o => LogInHandler());
+            PasswordChangedCommand = new RelayCommand((o) => HandlePasswordChanged(o as RoutedEventArgs));
         }
 
         private async void SighnUpHandler()
         {
-            var isSighnedUp =await authService.CallServerToSighnUp(UserName, password);
+            var isSighnedUp = await authService.CallServerToSignUp(UserName, password);
             if (isSighnedUp) LogInHandler();
             else MessageBox.Show("Unexpected Error while sighning up");
         }

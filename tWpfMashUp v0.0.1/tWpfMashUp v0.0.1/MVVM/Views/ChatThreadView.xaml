@@ -52,15 +52,19 @@
             <TextBox Height="50"
                          Text="Messege @UserName"
                          Style="{StaticResource MessegeTextBox}"
-                         Grid.ColumnSpan="2"/>
+                         Grid.ColumnSpan="2" />
             <StackPanel Orientation="Horizontal"
                             Grid.Column="1"
                             HorizontalAlignment="Center">
                 <Image Source="/Assets/Icons/add.png" Width="20" Height="20"
                            RenderOptions.BitmapScalingMode="Fant"   Margin="5,5,5,0"/>
-                <Image Source="/Assets/Icons/send.png" Width="20" Height="20"
-                           RenderOptions.BitmapScalingMode="Fant"   Margin="5,5,5,0"/>
 
+                <Image Source="/Assets/Icons/send.png" Width="20" Height="20" Margin="5,5,5,0"
+                       Cursor="Hand"  RenderOptions.BitmapScalingMode="Fant">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick" Command="{Binding AddMessageCommand, Mode=OneTime}" />
+                    </Image.InputBindings>
+                </Image>
             </StackPanel>
         </Grid>
     </Grid>
