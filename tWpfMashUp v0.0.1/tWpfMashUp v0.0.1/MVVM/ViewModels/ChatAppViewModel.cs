@@ -31,6 +31,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private void FetchUserHandler()
         {
             LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString());
+           
           //  OfflineContacts = (ObservableCollection<Chat>)LoggedUser.ChatsA??new ObservableCollection<Chat>(new List<Chat> {new Chat(),new Chat() });
             
         }

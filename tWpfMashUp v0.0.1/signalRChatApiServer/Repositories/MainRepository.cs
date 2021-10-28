@@ -89,6 +89,10 @@ namespace signalRChatApiServer.Repositories
 
         public User Authenticate(string username, string password) => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
 
-        public IEnumerable<Chat> GetUserChatsById(int UserId) => chats.Where(c => c.UserAId == UserId || c.UserBId == UserId).ToList();
+        public IEnumerable<Chat> GetUserChatsById(int UserId)
+        {
+           var rerurnVal = chats.Where(c => c.UserAId == UserId || c.UserBId == UserId).ToList();
+            return rerurnVal;
+        }
     }
 }

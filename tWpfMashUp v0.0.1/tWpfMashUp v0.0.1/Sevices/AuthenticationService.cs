@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using System.Diagnostics;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -47,14 +48,43 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var response = await client.GetAsync(url);
                     response.EnsureSuccessStatusCode();
                     var rawData = await response.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<UserModel>(rawData);
-                    if (data != null)
+                    var loggedUser = JsonConvert.DeserializeObject<UserModel>(rawData);
+                    
+                    if (loggedUser != null)
                     {
-                        storeService.Add(CommonKeys.LoggedUser.ToString(), data); return true;
+                        await GetUsersChatsAsync(loggedUser.UserId);
+                        storeService.Add(CommonKeys.LoggedUser.ToString(), loggedUser); return true;
                     }
                 }
                 catch { MessageBox.Show("Failed To Call Server"); }
                 return false;
+            }
+        }
+
+
+
+
+
+        public async Task<IEnumerable<Chat>> GetUsersChatsAsync(int userId)
+        {
+            var url = @$"http://localhost:14795/Chat?userId={userId}";
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    var rawData = await response.Content.ReadAsStringAsync();
+                    var chats = JsonConvert.DeserializeObject<IEnumerable<Chat>>(rawData);
+                    //fetch user's chats List
+                    if (chats != null)
+                    {
+                        Debug.WriteLine(chats);                        
+                        return chats;
+                    }
+                }
+                catch { MessageBox.Show("Failed To Call Server"); }
+                return null;
             }
         }
 
