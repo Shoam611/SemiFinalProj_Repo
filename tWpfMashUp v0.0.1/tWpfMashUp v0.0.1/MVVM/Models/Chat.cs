@@ -9,6 +9,5 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
 
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<UserModel> Users { get; set; }
-        public string MyProperty { get=> Users.Last().UserName}
     }
 }

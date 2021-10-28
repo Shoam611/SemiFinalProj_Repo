@@ -16,10 +16,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public ChatsService(StoreService store) => this.store = store;
 
 
-        public async Task<Chat> GetRandomChatAsync()
+        public async Task<Chat> GetRandomChatAsync(int userToId=1)
         {
             var id = ((UserModel)store.Get(CommonKeys.LoggedUser.ToString())).Id;
-            var url = @$"http://localhost:14795/Chat?userId={2} ";
+            var url = @$"http://localhost:14795/Chat?userId={id}&toUser={userToId} ";
             using (HttpClient client = new HttpClient())
             {
                 try

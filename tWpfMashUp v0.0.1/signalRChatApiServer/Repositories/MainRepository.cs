@@ -80,11 +80,13 @@ namespace signalRChatApiServer.Repositories
             context.SaveChanges();
         }
 
-        public Chat CreateChatWithRandomUser(int userId)
+        public Chat CreateChatWithRandomUser(int userId,int toUser=1)
         {
             var userA = GetUser(userId);
             if (context.Users.ToArray().Length < 2) return null;
-            var userBId = 1;
+
+            var userBId = toUser;
+            if (false) { }
             while (userBId == userId) userBId = new Random().Next(1, context.Users.ToList().Count);
             var userB = GetUser(userBId);
             var isExist = context.Chats
