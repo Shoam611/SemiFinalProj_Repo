@@ -22,12 +22,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             this.storeService = storeService;
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
+            OfflineContacts = new ObservableCollection<Chat>();
+            OfflineContacts.Add(new Chat());
+            OfflineContacts.Add(new Chat());
+            OfflineContacts.Add(new Chat());
         }
 
         private void FetchUserHandler()
         {
             LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString());
-            OfflineContacts = (ObservableCollection<Chat>)LoggedUser.ChatsA;
+          //  OfflineContacts = (ObservableCollection<Chat>)LoggedUser.ChatsA??new ObservableCollection<Chat>(new List<Chat> {new Chat(),new Chat() });
+            
         }
     }
 }
