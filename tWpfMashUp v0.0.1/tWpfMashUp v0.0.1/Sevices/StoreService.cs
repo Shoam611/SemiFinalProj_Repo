@@ -13,8 +13,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
         }
         public void Add(string key, dynamic obj)
         {
-            if(obj!=null)
-            storeDictionary.Add(key, obj);
+            if (obj == null) return;
+            if (!storeDictionary.TryGetValue(key,out var val))
+                storeDictionary.Add(key, obj);
+            else storeDictionary[key] = obj;
         }
 
         public dynamic Get(string key) => storeDictionary[key] ?? null;

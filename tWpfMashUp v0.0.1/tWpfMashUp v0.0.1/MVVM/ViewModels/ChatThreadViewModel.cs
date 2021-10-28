@@ -10,7 +10,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         MessagesService messagesService;
         public List<Message> Messages { get; set; }
         public RelayCommand AddMessageCommand { get; set; }
-        public string Message { get; set; }
+        string message;
+        public string Message { get => message; set { message = value; onProppertyChange(); } }
         public ChatThreadViewModel(MessagesService messagesService) //
         {
             this.messagesService = messagesService;
@@ -19,7 +20,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void AddMessageHandler()
         {
-            await messagesService.CallServerToAddMessage(Message);
+            Message = "";
+            _ = await messagesService.CallServerToAddMessage(Message);
         }
     }
 }

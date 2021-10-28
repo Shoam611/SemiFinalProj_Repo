@@ -40,7 +40,10 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
 >
             <Button Height="20" Width="60" Content="Add Chat" Command="{Binding GetRandomChatCommand}"/>
-                <TextBox Style="{StaticResource MessegeTextBox}" Text="{Binding ToUser,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="60" Height="20" HorizontalAlignment="Center" />
+                <TextBox Height="30" Width="50"
+                         Text="{Binding BindingTest,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource MessegeTextBox}"
+                         Grid.ColumnSpan="2" />
             </StackPanel>
                 <Border VerticalAlignment="Bottom" CornerRadius="5" BorderBrush="#292b2f" BorderThickness="5" Margin="4"/>
 
@@ -87,10 +90,12 @@
                 <Border CornerRadius="25" Width="30" Height="30" 
                         Background="#3bff6f"  Margin="18,0,0,0"/>
                 <StackPanel VerticalAlignment="Center">
-                    <Label Content="{Binding LoggedUser.UserName}" 
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding DisplayedUser}" 
                            Foreground="White" 
                            FontWeight="SemiBold"
-                           Margin="0,-5,0,-5"/>
+                           Margin="2,-5,2,-5"/>
+                    </StackPanel>
                     <Label Content="Online" 
                            Foreground="Gray" 
                            FontWeight="SemiBold"

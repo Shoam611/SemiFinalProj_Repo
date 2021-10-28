@@ -13,7 +13,7 @@ namespace signalRChatApiServer.Repositories
         User GetUser(int id);
         IEnumerable<Chat> GetUserChats(User user);
         IEnumerable<Chat> GetUserChatsById(int UserId);
-        Chat CreateChatWithRandomUser(int userId, int toUser);
+        Chat CreateChatWithUser(int userId, int toUser);
         void UpdateChat(Chat chat);
         void UpdateUser(User user);
     }

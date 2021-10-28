@@ -16,7 +16,11 @@
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
                             <Border Width="30" Height="30" Background="CornflowerBlue" CornerRadius="25" />
                             <StackPanel >
-                                <Label Content="{Binding UserName}" Foreground="White" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding UserBNAme}" Foreground="White" />
+                                    <TextBlock Text=" -> " Foreground="White" />
+                                    <TextBlock Text="{Binding UserBNAme}" Foreground="White" />
+                                </StackPanel>
                                 <Label Content="{Binding LastMessage}" Foreground="Gray" FontSize="10"/>
                             </StackPanel>
                         </StackPanel>

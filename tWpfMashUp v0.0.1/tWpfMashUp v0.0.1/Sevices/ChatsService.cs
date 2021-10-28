@@ -16,10 +16,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public ChatsService(StoreService store) => this.store = store;
 
 
-        public async Task<Chat> GetRandomChatAsync(int userToId=1)
+        public async Task<Chat> GetChatAsync(int userToId = 1)
         {
             var id = ((UserModel)store.Get(CommonKeys.LoggedUser.ToString())).Id;
-            var url = @$"http://localhost:14795/Chat?userId={id}&toUser={userToId} ";
+            var url = @$"http://localhost:14795/Chat?userId={id}&toUserId={userToId} ";
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -28,6 +28,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     response.EnsureSuccessStatusCode();
                     var resString = await response.Content.ReadAsStringAsync();
                     var chat = JsonConvert.DeserializeObject<Chat>(resString);
+                    if (chat.Messages == null) chat.Messages = new List<Message>();
                     return chat;
                 }
                 catch { MessageBox.Show("Failed To Call Server"); }

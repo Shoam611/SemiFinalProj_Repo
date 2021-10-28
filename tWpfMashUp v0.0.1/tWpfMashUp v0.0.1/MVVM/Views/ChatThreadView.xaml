@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views"
              mc:Ignorable="d" 
              DataContext="{Binding Source={StaticResource Locator},Path=ChatThread}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="500">
     <Grid Grid.Column="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -50,7 +50,7 @@
                 <ColumnDefinition Width="90"/>
             </Grid.ColumnDefinitions>
             <TextBox Height="50"
-                         Text="{Binding Message}"
+                         Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          Style="{StaticResource MessegeTextBox}"
                          Grid.ColumnSpan="2" />
             <StackPanel Orientation="Horizontal"
@@ -62,7 +62,7 @@
                 <Image Source="/Assets/Icons/send.png" Width="20" Height="20" Margin="5,5,5,0"
                        Cursor="Hand"  RenderOptions.BitmapScalingMode="Fant">
                     <Image.InputBindings>
-                        <MouseBinding Gesture="LeftClick" Command="{Binding AddMessageCommand, Mode=OneTime}" />
+                        <MouseBinding Gesture="LeftClick" Command="{Binding AddMessageCommand}" />
                     </Image.InputBindings>
                 </Image>
             </StackPanel>
