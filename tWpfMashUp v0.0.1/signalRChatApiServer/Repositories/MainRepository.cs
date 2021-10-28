@@ -1,98 +1,83 @@
 ﻿using signalRChatApiServer.Data;
 using signalRChatApiServer.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Repositories
 {
     public class MainRepository : IRepository
+    //: IRepository
     {
         private readonly TalkBackChatContext context;
-        private readonly IEnumerable<Chat> chats;
-        private readonly IEnumerable<Message> messages;
-        private readonly IEnumerable<User> users;
+        //private readonly IEnumerable<Chat> chats;
+        //private readonly IEnumerable<Message> messages;
+        //private readonly IEnumerable<User> users;
 
         public MainRepository(TalkBackChatContext context)
         {
             this.context = context;
-            chats = context.Chats.ToList();
-            messages = context.Messages.ToList();
-            users = context.Users.ToList();
+            //chats = context.Chats.ToList();
+            //messages = context.Messages.ToList();
+            //users = context.Users.ToList();
 
             Debug.WriteLine("Repository loading!");
         }
 
-        #region Add
-        public void AddChat(Chat chat)
+        #region Create
+        public void AddChat(Chat chat) //when openning a room
         {
             context.Chats.Add(chat);
             context.SaveChanges();
         }
 
-        public void AddMessage(Message message)
+        public void AddMessage(Message message)//when sending a masssage
         {
             context.Messages.Add(message);
             context.SaveChanges();
         }
 
-        public void AddUser(User user)
+        public void AddUser(User user)//when sighning up
         {
             context.Users.Add(user);
             context.SaveChanges();
         }
         #endregion
 
-        #region Read
-        public Chat GetChat(int userA, int userB) => context.Chats.Where(c => c.UserAId == userA && c.UserBId == userB).FirstOrDefault();
+        #region Get
+        public IEnumerable<Chat> GetUserChats(User user)//when sighning in
+            => context.Chats.Where(c => c.Users.Contains(user));
 
-        public Chat GetChatByID(int id) => context.Chats.Find(id);
+        public IEnumerable<Chat> GetUserChatsById(int UserId) => context.Chats.Where(c => c.Users.Contains(GetUser(UserId)));
 
-        public List<Message> GetMessages(int chatId) => context.Messages.Where(m => m.ChatId == chatId).ToList();
+        public IEnumerable<Message> GetMessages(int chatId) //when loading a chat
+            => context.Chats.Find(chatId).Messages;
 
-        public List<Message> GetAllMessages() => context.Messages.ToList();
+        public User GetUser(int id) => context.Users.Find(id);// when sighning in / authenticating
 
-        public User GetUser(int id)
-        {
-            var newUser = context.Users.Find(id);
-            var chatsIntoUser = chats.Where(c => c.UserAId == id || c.UserAId == id).ToList();
-            newUser.Chats = chatsIntoUser;
-            return newUser;
-        }
+        public User Authenticate(string username, string password)
+            => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
 
         #endregion
 
         #region Update
         public void UpdateChat(Chat chat)
         {
-            var tempChat = context.Chats.Where(c => c.ChatId == chat.ChatId).FirstOrDefault();
+            var tempChat = context.Chats.Where(c => c.Id == chat.Id).FirstOrDefault();
             if (tempChat == null) return;
             tempChat.Messages = chat.Messages;
-            tempChat.UserAId = chat.UserAId;
-            tempChat.UserBId = chat.UserBId;
             context.SaveChanges();
         }
 
         public void UpdateUser(User user)
         {
-            var tempUser = context.Users.Where(c => c.UserId == user.UserId).First();
+            var tempUser = context.Users.Where(c => c.Id == user.Id).First();
             if (tempUser == null) return;
-            tempUser.Chats = user.Chats;
+            tempUser.Id = user.Id;
             tempUser.UserName = user.UserName;
             tempUser.Password = user.Password;
             context.SaveChanges();
         }
         #endregion
-
-        public User Authenticate(string username, string password) => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
-
-        public IEnumerable<Chat> GetUserChatsById(int UserId)
-        {
-           var rerurnVal = chats.Where(c => c.UserAId == UserId || c.UserBId == UserId).ToList();
-            return rerurnVal;
-        }
     }
 }

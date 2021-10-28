@@ -68,8 +68,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Width="100" Height="30" Content="Login" Command="{Binding AuthenticateCommand}" Grid.Column="0" HorizontalAlignment="Center"/>
-                <Button Width="100" Height="30" Content="Sign Up" Command="{Binding SighUpCommand}" Grid.Column="1" HorizontalAlignment="Center"/>
+                <Button Style="{StaticResource RoundButton}" Width="100" Height="30" Content="Login" Command="{Binding AuthenticateCommand}" Grid.Column="0" HorizontalAlignment="Center"/>
+                <Button Style="{StaticResource RoundButton}" Width="100" Height="30" Content="Sign Up" Command="{Binding SighUpCommand}" Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
         </StackPanel>
     </Grid>

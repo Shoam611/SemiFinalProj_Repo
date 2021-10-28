@@ -9,10 +9,8 @@ namespace signalRChatApiServer.Controllers
     public class UsersController : Controller
     {
         IRepository repository;
-        public UsersController(IRepository repository)
-        {
-            this.repository = repository;
-        }
+
+        public UsersController(IRepository repository) => this.repository = repository;
 
         [HttpGet]
         public User Get(string username, string password) => repository.Authenticate(username, password) ?? null;

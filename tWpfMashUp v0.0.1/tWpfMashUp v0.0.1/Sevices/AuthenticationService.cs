@@ -52,7 +52,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     
                     if (loggedUser != null)
                     {
-                        await GetUsersChatsAsync(loggedUser.UserId);
                         storeService.Add(CommonKeys.LoggedUser.ToString(), loggedUser); return true;
                     }
                 }
@@ -60,10 +59,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 return false;
             }
         }
-
-
-
-
 
         public async Task<IEnumerable<Chat>> GetUsersChatsAsync(int userId)
         {

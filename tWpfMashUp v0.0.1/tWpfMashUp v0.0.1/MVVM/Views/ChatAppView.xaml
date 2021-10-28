@@ -37,7 +37,7 @@
                    FontWeight="Medium"
                    Foreground="Gray"
                    Margin="8,0,0,0"/>
-            <Button Height="20" Width="60" HorizontalAlignment="Right" Content="GoToGame" Command="{Binding GoToGameCommand}"/>
+            <Button Height="20" Width="60" HorizontalAlignment="Right" Content="Add Chat" Command="{Binding GetRandomChatCommand}"/>
             <Border VerticalAlignment="Bottom" CornerRadius="5" BorderBrush="#292b2f" BorderThickness="5" Margin="4"/>
 
             <Grid Grid.Row="1" >

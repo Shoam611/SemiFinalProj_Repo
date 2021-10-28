@@ -22,7 +22,7 @@ namespace signalRChatApiServer.Controllers
         // public List<Message> Get() => repository.GetAllMessages();
 
         [HttpGet]
-        public List<Message> Get(int chatId) => repository.GetMessages(chatId) ?? new List<Message>();
+        public List<Message> Get(int chatId) => repository.GetMessages(chatId).ToList() ?? new List<Message>();
 
         //Post
         [HttpPost]

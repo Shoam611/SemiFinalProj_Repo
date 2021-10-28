@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace signalRChatApiServer.Models
 {
-    public class User
+    public class User //:IdentityUser
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public ICollection<Chat> Chats { get; set; }
 
-       // public virtual ICollection<Chat> Chats { get; set; }
     }
 }
