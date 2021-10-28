@@ -21,5 +21,8 @@ namespace signalRChatApiServer.Controllers
 
         [HttpPost]
         public void Post(Chat chat) => repository.AddChat(chat);
+
+        [HttpPut]
+        public void Put(Chat chat) => repository.UpdateChat(chat);
     }
 }

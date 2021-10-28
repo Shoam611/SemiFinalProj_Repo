@@ -50,7 +50,7 @@
                 <ColumnDefinition Width="90"/>
             </Grid.ColumnDefinitions>
             <TextBox Height="50"
-                         Text="Messege @UserName"
+                         Text="{Binding Message}"
                          Style="{StaticResource MessegeTextBox}"
                          Grid.ColumnSpan="2" />
             <StackPanel Orientation="Horizontal"

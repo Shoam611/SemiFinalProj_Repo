@@ -32,9 +32,10 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<ChatThreadViewModel>();
             services.AddScoped<GameViewModel>();
             
-            services.AddScoped<StoreService>();
+            services.AddSingleton<StoreService>();
 
             services.AddTransient<NavigationService>();
+            services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
             services.AddTransient<AuthenticationService>();
         }

@@ -13,7 +13,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         StoreService storeService;
         ChatsService chatsService;
         UserModel loggedUser;
+        Chat selectedChat;
         public UserModel LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
+        public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); UpdateChatInStore(); } }
 
         public RelayCommand GoToGameCommand { get; set; }
         public RelayCommand FetchUserCommand { get; set; }
@@ -38,12 +40,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             var rndChat=await chatsService.GetRandomChatAsync();
             if(rndChat!=null && ! (OfflineContacts.Where(c=>c.Id==rndChat.Id).ToList().Count > 0))
-            OfflineContacts.Add(rndChat);
+            OnlineContacts.Add(rndChat);
         }
 
         private void FetchUserHandler()
         {
             LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString());
+        }
+
+        private void UpdateChatInStore()
+        {
+            storeService.Add(CommonKeys.CurrentChat.ToString(), SelectedChat);
         }
     }
 }
