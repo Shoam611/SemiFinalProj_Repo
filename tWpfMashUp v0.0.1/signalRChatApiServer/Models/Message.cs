@@ -6,13 +6,12 @@ namespace signalRChatApiServer.Models
 {
     public class Message
     {
-  
         public int MessageId { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
 
         [ForeignKey("UserId")]
-        public  int UserId { get; set; }
+        public int UserId { get; set; }
         public virtual User User { get; set; }
 
         [ForeignKey("ChatId")]

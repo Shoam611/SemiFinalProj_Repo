@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
 
 namespace signalRChatApiServer.Controllers
@@ -11,10 +12,18 @@ namespace signalRChatApiServer.Controllers
         IRepository repository;
         public ChatsController(IRepository repository) => this.repository = repository;
 
+        //[HttpGet]
+        //public void Get(int id)
+        //{
+        //    var testobj = repository.GetUserChatsById(id);
+        //}
         [HttpGet]
-        public void Get(int id)
+        public void Get(int userA, int userB)
         {
-            var testobj = repository.GetUserChatsById(id);
+            var testobj = repository.GetChat(userA, userB);
         }
+
+        [HttpPost]
+        public void Post(Chat chat) => repository.AddChat(chat);
     }
 }
