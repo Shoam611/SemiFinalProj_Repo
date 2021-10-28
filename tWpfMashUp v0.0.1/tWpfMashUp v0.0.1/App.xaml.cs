@@ -35,6 +35,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<StoreService>();
 
             services.AddTransient<NavigationService>();
+            services.AddTransient<MessagesService>();
             services.AddTransient<AuthenticationService>();
         }
         private void Start(IServiceProvider services)
