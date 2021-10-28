@@ -12,12 +12,15 @@ namespace signalRChatApiServer.Models
         public DateTime Date { get; set; }
 
         // Navigation properties
-        [ForeignKey("UserId")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public string Name { get; set; }
 
-        [ForeignKey("ChatId")]
-        public int ChatId { get; set; }
-        public virtual Chat Chat { get; set; }
+
+        //[ForeignKey("UserId")]
+        //public int UserId { get; set; }
+        //public virtual User User { get; set; }
+
+        //[ForeignKey("ChatId")]
+        //public int ChatId { get; set; }
+        //public virtual Chat Chat { get; set; }
     }
 }
