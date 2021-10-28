@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Icons\add.png" />
+    <None Remove="Assets\Icons\camera.png" />
+    <None Remove="Assets\Icons\phone.png" />
+    <None Remove="Assets\Icons\send.png" />
+    <None Remove="Assets\Icons\video-camera.png" />
     <None Remove="Assets\Images\HomeLogo.png" />
     <None Remove="MVVM\Models\NewFile1.txt" />
   </ItemGroup>
@@ -29,6 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Icons\add.png" />
+    <Resource Include="Assets\Icons\camera.png" />
+    <Resource Include="Assets\Icons\phone.png" />
+    <Resource Include="Assets\Icons\send.png" />
+    <Resource Include="Assets\Icons\video-camera.png" />
     <Resource Include="Assets\Images\HomeLogo.png" />
   </ItemGroup>
 

@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Collections.Generic;
-using tWpfMashUp_v0._0._1.MVVM.Models;
-using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Windows;
+using System.Text;
+using System;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -19,7 +17,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             this.storeService = storeService;
         }
 
-        public async Task<bool> CallServerToSighnUp(string username, string password)
+        public async Task<bool> CallServerToSignUp(string username, string password)
         {
             var url = @"http://localhost:14795/Users";
             using (HttpClient client = new HttpClient())
@@ -29,7 +27,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var values = new Dictionary<string, string> { { "UserName", username }, { "Password", password } };
                     var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, content);
-                    /*for debug purposes*/ var responseString = await response.Content.ReadAsStringAsync();
+                    /*for debug purposes*/
+                    var responseString = await response.Content.ReadAsStringAsync();
                     response.EnsureSuccessStatusCode();
                     return true;
                 }
@@ -48,39 +47,15 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var response = await client.GetAsync(url);
                     response.EnsureSuccessStatusCode();
                     var rawData = await response.Content.ReadAsStringAsync();
-                    var loggedUser = JsonConvert.DeserializeObject<UserModel>(rawData);
-                    if (loggedUser != null)
+                    var data = JsonConvert.DeserializeObject<UserModel>(rawData);
+                    if (data != null)
                     {
-                        storeService.Add(CommonKeys.LoggedUser.ToString(), loggedUser); return true;
+                        storeService.Add(CommonKeys.LoggedUser.ToString(), data); return true;
                     }
                 }
                 catch { MessageBox.Show("Failed To Call Server"); }
                 return false;
             }
         }
-
-        public async Task<IEnumerable<Chat>> GetUsersChatsAsync(int userId)
-        {
-            var url = @$"http://localhost:14795/Chat?userId={userId}";
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    var response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    var rawData = await response.Content.ReadAsStringAsync();
-                    var chats = JsonConvert.DeserializeObject<IEnumerable<Chat>>(rawData);
-                    //fetch user's chats List
-                    if (chats != null)
-                    {
-                        Debug.WriteLine(chats);                        
-                        return chats;
-                    }
-                }
-                catch { MessageBox.Show("Failed To Call Server"); }
-                return null;
-            }
-        }
-
     }
 }

@@ -3,7 +3,7 @@
     public enum  CommonKeys
     {
         LoggedUser,
-        InChatWith,
+        WithUser,
         CurrentChat
     }
 }

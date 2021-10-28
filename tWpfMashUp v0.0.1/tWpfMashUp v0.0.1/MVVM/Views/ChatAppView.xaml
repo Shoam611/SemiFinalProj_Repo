@@ -57,7 +57,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Online:" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
                     <ListView Grid.Row="1" ItemsSource="{Binding OnlineContacts}"
-                      SelectedItem="{Binding SelectedContact}"
+                      SelectedItem="{Binding SelectedChat}"
                       Background="Transparent"
                       BorderThickness="0"
                      ItemContainerStyle="{StaticResource ContactListItem}" />
