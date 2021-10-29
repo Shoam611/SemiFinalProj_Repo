@@ -18,7 +18,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             this.storeService = storeService;
         }
 
-        public async Task<bool> CallServerToAddMessage(string message)
+        public async Task<Message> CallServerToAddMessage(string message)
         {
             var url = @"http://localhost:14795/Chat";
             using HttpClient client = new();
@@ -36,10 +36,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 //For Debug
                 var responseString = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
-                return true;
+                return msg;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
-            return false;
+            return null;
         }
     }
 }

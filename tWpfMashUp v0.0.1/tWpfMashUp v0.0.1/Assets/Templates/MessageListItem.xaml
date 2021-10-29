@@ -5,30 +5,35 @@
             <Setter.Value>
                 <ControlTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Ellipse Width="30" Height="30" Margin="10,0,0,-5">
+                        <!--Icon-->
+                            <Ellipse Width="30" Height="30" Margin="10,0,0,-5">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{Binding ImageSource}"
                                             RenderOptions.BitmapScalingMode="Fant"/>
                             </Ellipse.Fill>
                         </Ellipse>
+                        
+                        <!--Surround Info-->
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Content="{Binding UserName}"
-                                          Foreground="{Binding USerNameColor}"
+                                <Label Content="{Binding Name}"
+                                          Foreground="{Binding UserNameColor}"
                                           FontWeight="SemiBold"
                                           VerticalAlignment="Center"
                                           Margin="0,0,-5,0"/>
-                                <Label Content="{Binding Time}"
-                                          Foreground="#44474d"
+                                <Label Content="{Binding Date}"
+                                          Foreground="White"
                                           FontWeight="SemiBold"
                                           FontSize="8"
                                           VerticalAlignment="Center"
                                           Margin="0,0,-5,0"/>
                             </StackPanel>
-                            <Label Content="{Binding Message}"
-                                          Foreground="White"
-                                          FontWeight="SemiBold"
-                                          VerticalAlignment="Center"/>
+                            
+                            <!--Message-->                            
+                            <Border VerticalAlignment="Center" CornerRadius="10 15 15 0" Margin="2 2 88 3" Background="LightSlateGray">
+                                <TextBlock Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="SemiBold" Text="{Binding Content}"/>
+                            </Border>
+                            
                         </StackPanel>
                     </StackPanel>
                 </ControlTemplate>
@@ -49,9 +54,5 @@
                 <Setter Property="Template" Value="{StaticResource CustomRow}" />
             </DataTrigger>
         </Style.Triggers>
-
-
-
-
     </Style>
 </ResourceDictionary>

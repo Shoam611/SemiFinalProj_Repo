@@ -5,8 +5,7 @@ namespace signalRChatApiServer.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task MessageAll(string sender, string message)
-            => await Clients.All.SendAsync("NewMessage", sender, message);
+        public async Task MessageAll(string sender, string message) => await Clients.All.SendAsync("NewMessage", sender, message);
 
         //public override 
 

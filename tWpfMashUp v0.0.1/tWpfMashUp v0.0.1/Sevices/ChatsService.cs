@@ -30,7 +30,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 if (chat == null)
                 {
                     MessageBox.Show("Cannot create Chat, Chat already exist ");
-                    return;
+                    return null;
                 }
                 if (chat.Messages == null) chat.Messages = new List<Message>();
                 return chat;
