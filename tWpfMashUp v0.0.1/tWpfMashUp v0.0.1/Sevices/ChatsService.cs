@@ -12,7 +12,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class ChatsService
     {
-        StoreService store;
+        readonly StoreService store;
         public ChatsService(StoreService store) => this.store = store;
 
 
@@ -20,20 +20,18 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             var id = ((UserModel)store.Get(CommonKeys.LoggedUser.ToString())).Id;
             var url = @$"http://localhost:14795/Chat?userId={id}&toUserId={userToId} ";
-            using (HttpClient client = new HttpClient())
+            using HttpClient client = new();
+            try
             {
-                try
-                {
-                    var response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    var resString = await response.Content.ReadAsStringAsync();
-                    var chat = JsonConvert.DeserializeObject<Chat>(resString);
-                    if (chat.Messages == null) chat.Messages = new List<Message>();
-                    return chat;
-                }
-                catch { MessageBox.Show("Failed To Call Server"); }
-                return null;
+                var response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var resString = await response.Content.ReadAsStringAsync();
+                var chat = JsonConvert.DeserializeObject<Chat>(resString);
+                if (chat.Messages == null) chat.Messages = new List<Message>();
+                return chat;
             }
+            catch { MessageBox.Show("Failed To Call Server"); }
+            return null;
         }
     }
 }

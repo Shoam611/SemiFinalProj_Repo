@@ -14,9 +14,9 @@ namespace signalRChatApiServer.Controllers
         public ChatController(IRepository repository) => this.repository = repository;
        
         [HttpGet]
-        public Chat Get(int userId,int toUserId)
+        public Chat Get(int userId, int toUserId)
         {
-            return repository.CreateChatWithUser(userId,toUserId);
+            return repository.CreateChatWithUser(userId, toUserId);
         }
 
         [HttpPost]

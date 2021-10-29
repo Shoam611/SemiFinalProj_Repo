@@ -5,36 +5,35 @@ namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class StoreService
     {
-        public Dictionary<string, dynamic> storeDictionary { get; set; }
+        public Dictionary<string, dynamic> StoreDictionary { get; set; }
 
         public StoreService()
         {
-            storeDictionary = new Dictionary<string, dynamic>();
+            StoreDictionary = new Dictionary<string, dynamic>();
         }
         public void Add(string key, dynamic obj)
         {
             if (obj == null) return;
-            if (!storeDictionary.TryGetValue(key,out var val))
-                storeDictionary.Add(key, obj);
-            else storeDictionary[key] = obj;
+            if (!StoreDictionary.TryGetValue(key, out _))
+                StoreDictionary.Add(key, obj);
+            else StoreDictionary[key] = obj;
         }
 
-        public dynamic Get(string key) => storeDictionary[key] ?? null;
+        public dynamic Get(string key) => StoreDictionary[key] ?? null;
 
-        public List<string> GetAllKeys()
-            => privateGetAllKeys().ToList() ?? new List<string>();
+        public List<string> GetAllKeys() => PrivateGetAllKeys().ToList() ?? new List<string>();
 
-        public void Remove(string key) => storeDictionary.Remove(key);
+        public void Remove(string key) => StoreDictionary.Remove(key);
 
-        IEnumerable<string> privateGetAllKeys()
+        IEnumerable<string> PrivateGetAllKeys()
         {
-            foreach (var item in storeDictionary)   yield return item.Key;            
+            foreach (var item in StoreDictionary) yield return item.Key;
         }
     }
 }
 
-        //public dynamic this[string key]
-        //{
-        //    get { return storeDictionary[key]; }
-        //    set { storeDictionary[key] = value; }
-        //}
+//public dynamic this[string key]
+//{
+//    get { return storeDictionary[key]; }
+//    set { storeDictionary[key] = value; }
+//}

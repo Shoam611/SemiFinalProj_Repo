@@ -7,7 +7,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ChatThreadViewModel : ObservableObject
     {
-        MessagesService messagesService;
+        readonly MessagesService messagesService;
         public List<Message> Messages { get; set; }
         public RelayCommand AddMessageCommand { get; set; }
         string message;
@@ -20,8 +20,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void AddMessageHandler()
         {
-            Message = "";
             _ = await messagesService.CallServerToAddMessage(Message);
+            Message = "";
         }
     }
 }

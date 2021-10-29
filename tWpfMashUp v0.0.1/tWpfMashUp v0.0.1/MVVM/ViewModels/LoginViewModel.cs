@@ -21,18 +21,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public RelayCommand PasswordChangedCommand { get; set; }
 
         private string userName;
-        public string UserName
-        {
-            get { return userName; }
-            set { userName = value; onProppertyChange(); }
-        }
+        public string UserName { get { return userName; } set { userName = value; onProppertyChange(); } }
 
         private string password;
-        public string Password
-        {
-            get { return password; }
-            set { password = value; onProppertyChange(); }
-        }
+        public string Password { get { return password; } set { password = value; onProppertyChange(); } }
 
         public LoginViewModel(AuthenticationService authService)
         {
@@ -45,7 +37,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void SighnUpHandler()
         {
-            var isSighnedUp = await authService.CallServerToSignUp(UserName, password);
+            var isSighnedUp = await authService.CallServerToSignUp(UserName, Password);
             if (isSighnedUp) LogInHandler();
             else MessageBox.Show("Unexpected Error while sighning up");
         }

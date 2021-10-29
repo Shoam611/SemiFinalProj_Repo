@@ -8,8 +8,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class SinalRListinerService
     {
-        private StoreService store;
-        private HubConnection connection;
+        private readonly StoreService store;
+        private readonly HubConnection connection;
 
         public SinalRListinerService(StoreService store)
         {
