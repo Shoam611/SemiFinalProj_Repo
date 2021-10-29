@@ -4,6 +4,8 @@
     {
         LoggedUser,
         WithUser,
-        CurrentChat
+        CurrentChat,
+        ConnectionString,
+        Contacts
     }
 }

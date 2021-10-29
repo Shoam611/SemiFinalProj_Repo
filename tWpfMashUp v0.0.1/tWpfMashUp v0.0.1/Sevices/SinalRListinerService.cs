@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
-    class SinalRListinerService
+    public class SinalRListinerService
     {
+        private StoreService store;
         private HubConnection connection;
 
-        public SinalRListinerService()
+        public SinalRListinerService(StoreService store)
         {
+            this.store = store;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();
             connection.Closed += async (err) => { await Task.Delay(3000); await connection.StartAsync(); };
             StartConnectionAsync();
@@ -31,7 +33,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnNewMessege(object arg1, string arg2)
+        private void OnNewMessege(object Message, string arg2)
         {
             
         }
@@ -43,7 +45,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnConnected(string obj)
         {
-            throw new NotImplementedException();
         }
     }
 }
