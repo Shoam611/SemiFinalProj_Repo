@@ -27,6 +27,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 response.EnsureSuccessStatusCode();
                 var resString = await response.Content.ReadAsStringAsync();
                 var chat = JsonConvert.DeserializeObject<Chat>(resString);
+                if (chat == null)
+                {
+                    MessageBox.Show("Cannot create Chat, Chat already exist ");
+                    return;
+                }
                 if (chat.Messages == null) chat.Messages = new List<Message>();
                 return chat;
             }
