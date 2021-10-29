@@ -26,6 +26,23 @@ namespace signalRChatApiServer.Repositories
         }
 
         #region Create
+        public Chat CreateChatWithUser(int userId, int toUser)
+        {
+            if (context.Users.ToArray().Length < 2 || userId == toUser) return null;
+            var isChatExist = context.Chats
+                        .Where(c => c.Users.Where(u => u.Id == userId).ToList().Count > 0 &&
+                                    c.Users.Where(u => u.Id == toUser).ToList().Count > 0)
+                        .FirstOrDefault() != null;
+            if (isChatExist) return null;
+            
+            //while (toUser == userId) toUser = new Random().Next(1, context.Users.ToList().Count);            
+            var userA = GetUser(userId);
+            var userB = GetUser(toUser);
+
+            var newChat = new Chat { Users = new List<User> { userA, userB } };
+            AddChat(newChat);
+            return newChat;
+        }
         public void AddChat(Chat chat) //when openning a room
         {
             context.Chats.Add(chat);
@@ -82,23 +99,6 @@ namespace signalRChatApiServer.Repositories
             context.SaveChanges();
         }
 
-        public Chat CreateChatWithUser(int userId, int toUser)
-        {
-            if (context.Users.ToArray().Length < 2 || userId == toUser) return null;
-            var isChatExist = context.Chats
-                        .Where(c => c.Users.Where(u => u.Id == userId).ToList().Count > 0 &&
-                                    c.Users.Where(u => u.Id == toUser).ToList().Count > 0)
-                        .FirstOrDefault() != null;
-            if (isChatExist) return null;
-            
-            //while (toUser == userId) toUser = new Random().Next(1, context.Users.ToList().Count);            
-            var userA = GetUser(userId);
-            var userB = GetUser(toUser);
-
-            var newChat = new Chat { Users = new List<User> { userA, userB } };
-            AddChat(newChat);
-            return newChat;
-        }
         #endregion
     }
 }

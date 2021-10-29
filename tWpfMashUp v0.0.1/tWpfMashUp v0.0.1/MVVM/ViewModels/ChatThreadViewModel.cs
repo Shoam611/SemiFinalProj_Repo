@@ -20,8 +20,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void AddMessageHandler()
         {
-            Message = "";
             _ = await messagesService.CallServerToAddMessage(Message);
+            Message = "";
         }
     }
 }

@@ -2,10 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views"
-             mc:Ignorable="d" 
-             xmlns:vm="clr-namespace:tWpfMashUp_v0._0._1.MVVM.ViewModels" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              xmlns:v="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views" 
              d:DesignHeight="450" d:DesignWidth="600"
              Background="#36393f"             
@@ -39,13 +37,10 @@
                    Margin="8,0,0,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
 >
-            <Button Height="20" Width="60" Content="Add Chat" Command="{Binding GetRandomChatCommand}"/>
-                <TextBox Height="30" Width="50"
-                         Text="{Binding BindingTest,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource MessegeTextBox}"
-                         Grid.ColumnSpan="2" />
+                <Button Height="20" Width="60" Content="Add User" Command="{Binding GetRandomChatCommand}"/>
+                <TextBox Height="30" Width="50" Text="{Binding ChatInput}" Style="{StaticResource MessegeTextBox}" Grid.ColumnSpan="2" />
             </StackPanel>
-                <Border VerticalAlignment="Bottom" CornerRadius="5" BorderBrush="#292b2f" BorderThickness="5" Margin="4"/>
+            <Border VerticalAlignment="Bottom" CornerRadius="5" BorderBrush="#292b2f" BorderThickness="5" Margin="4"/>
 
             <Grid Grid.Row="1" >
                 <Grid.RowDefinitions>
@@ -105,6 +100,6 @@
         </Grid>
 
         <v:ChatThreadView Grid.Column="1" />
-    
+
     </Grid>
 </UserControl>

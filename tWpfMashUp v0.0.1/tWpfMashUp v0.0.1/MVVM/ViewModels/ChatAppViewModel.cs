@@ -23,6 +23,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         string message;
         public string Message { get => message; set { message = value; onProppertyChange(); } }
+
         //props
         public RelayCommand GoToGameCommand { get; set; }
         public RelayCommand FetchUserCommand { get; set; }
