@@ -7,7 +7,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ChatThreadViewModel : ObservableObject
     {
-        MessagesService messagesService;
+        readonly MessagesService messagesService;
         public List<Message> Messages { get; set; }
         public RelayCommand AddMessageCommand { get; set; }
         string message;

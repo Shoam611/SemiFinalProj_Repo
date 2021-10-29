@@ -12,7 +12,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class MessagesService
     {
-        StoreService storeService;
+        readonly StoreService storeService;
         public MessagesService(StoreService storeService)
         {
             this.storeService = storeService;
@@ -21,27 +21,25 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public async Task<bool> CallServerToAddMessage(string message)
         {
             var url = @"http://localhost:14795/Chat";
-            using (HttpClient client = new HttpClient())
+            using HttpClient client = new();
+            try
             {
-                try
-                {
-                    var msg = new Message { Content = message, Date = DateTime.Now, Name = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
-                    var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
-                    if (chat.Messages == null)
-                        chat.Messages = new List<Message>();
-                    chat.Messages.Add(msg);
-                    var content = new StringContent(JsonConvert.SerializeObject(chat), Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync(url, content);
-                    //Update ChatThread
+                var msg = new Message { Content = message, Date = DateTime.Now, Name = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
+                var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
+                if (chat.Messages == null)
+                    chat.Messages = new List<Message>();
+                chat.Messages.Add(msg);
+                var content = new StringContent(JsonConvert.SerializeObject(chat), Encoding.UTF8, "application/json");
+                var response = await client.PutAsync(url, content);
+                //Update ChatThread
 
-                    //For Debug
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    response.EnsureSuccessStatusCode();
-                    return true;
-                }
-                catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
-                return false;
+                //For Debug
+                var responseString = await response.Content.ReadAsStringAsync();
+                response.EnsureSuccessStatusCode();
+                return true;
             }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
+            return false;
         }
     }
 }
