@@ -41,7 +41,7 @@
 >
             <Button Height="20" Width="60" Content="Add Chat" Command="{Binding GetRandomChatCommand}"/>
                 <TextBox Height="30" Width="50"
-                         Text="{Binding BindingTest,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding BindingTest}"
                          Style="{StaticResource MessegeTextBox}"
                          Grid.ColumnSpan="2" />
             </StackPanel>

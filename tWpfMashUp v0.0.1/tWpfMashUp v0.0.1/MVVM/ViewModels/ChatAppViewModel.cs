@@ -22,7 +22,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value;onProppertyChange();} }
 
         string message;
-        public string Message { get => message; set { message = value; onProppertyChange(); } }
+        public string BindingTest { get => message; set { message = value; onProppertyChange(); } }
         //props
         public RelayCommand GoToGameCommand { get; set; }
         public RelayCommand FetchUserCommand { get; set; }
@@ -43,11 +43,21 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void GetRandomChat()
         {
-            var isParsed = int.TryParse(Message, out int res);
-            if (!isParsed) MessageBox.Show("NaN");
+            var isParsed = int.TryParse(BindingTest, out int res);
+            if (!isParsed) { MessageBox.Show("NaN");return; }
             var rndChat = await chatsService.GetChatAsync(res);
             if (rndChat != null && !(OfflineContacts.Where(c => c.Id == rndChat.Id).ToList().Count > 0))
+            {
+                var me = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).Id;
+                var contact = rndChat.Users.Where(u => u.Id != me).First();
+                rndChat.Contact = contact.UserName;
                 OnlineContacts.Add(rndChat);
+            }
+            else
+            {
+                MessageBox.Show("Couldnt find user");
+            }
+
         }
 
         private void FetchUserHandler()
