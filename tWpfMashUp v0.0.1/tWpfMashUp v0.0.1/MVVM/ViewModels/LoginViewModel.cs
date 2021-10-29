@@ -29,7 +29,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public LoginViewModel(AuthenticationService authService)
         {
             this.authService = authService;
-            UserName = "Usename";
+            UserName = "Username";
             SighUpCommand = new RelayCommand((o) => SighnUpHandler());
             AuthenticateCommand = new RelayCommand(o => LogInHandler());
             PasswordChangedCommand = new RelayCommand((o) => HandlePasswordChanged(o as RoutedEventArgs));

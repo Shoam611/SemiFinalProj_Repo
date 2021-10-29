@@ -58,7 +58,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Online:" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Text="Online:" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="5 0 0 0"/>
                     <ListView Grid.Row="1" ItemsSource="{Binding OnlineContacts}"
                       SelectedItem="{Binding SelectedChat}"
                       Background="Transparent"
@@ -73,7 +73,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Offline:" Foreground="Gray" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Text="Offline:" Foreground="Gray" FontSize="16" FontWeight="SemiBold" Margin="5 0 0 0"/>
                     <ListView Grid.Row="1" ItemsSource="{Binding OfflineContacts}"                  
                       Background="Transparent"
                       BorderThickness="0" >
