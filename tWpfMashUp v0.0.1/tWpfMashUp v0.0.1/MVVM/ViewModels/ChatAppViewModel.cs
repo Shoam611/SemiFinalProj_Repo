@@ -44,11 +44,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
            // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
         }
 
-        public void HandleSelectionChanged(SelectionChangedEventArgs routedEventArgs)
+        public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            var newCurrentChat = (Chat)routedEventArgs.AddedItems[0];
+            var newCurrentChat = (Chat)selectionChangedEventArgs.AddedItems[0];
             storeService.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
-            //UpdateThread
         }
 
         private async void GetRandomChat()
@@ -59,7 +58,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             if (rndChat != null && !(OfflineContacts.Where(c => c.Id == rndChat.Id).ToList().Count > 0))
             {
                 var me = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).Id;
-                var contact = rndChat.Users.Where(u => u.Id != me).First();
+                var contact = rndChat.Users.Where(u => u.Id != me).First();//accesing  .Id prop throws null reference exception when index out of range
                 rndChat.Contact = contact.UserName;
                 OnlineContacts.Add(rndChat);
             }

@@ -7,10 +7,9 @@
              mc:Ignorable="d" 
              xmlns:vm="clr-namespace:tWpfMashUp_v0._0._1.MVVM.ViewModels" 
              xmlns:v="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views" 
-                xmlns:i="http://schemas.microsoft.com/xaml/behaviors"         
+              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"         
              d:DesignHeight="450" d:DesignWidth="600"
-             Background="#36393f"     
-             
+             Background="#36393f"                  
              DataContext="{Binding Source={StaticResource Locator},Path=Chat}">
     <!--dark
     #292b2f

@@ -1,25 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class StoreService
     {
-        public Dictionary<string, dynamic> StoreDictionary { get; set; }
+        Dictionary<string, dynamic> StoreDictionary;
+        Dictionary<string, Type> typeDictionary;
 
         public StoreService()
         {
             StoreDictionary = new Dictionary<string, dynamic>();
+            typeDictionary = new Dictionary<string, Type>();
         }
         public void Add(string key, dynamic obj)
         {
             if (obj == null) return;
             if (!StoreDictionary.TryGetValue(key, out _))
+            {
                 StoreDictionary.Add(key, obj);
-            else StoreDictionary[key] = obj;
+                typeDictionary.Add(key, obj.GetType());
+            }
+            else { StoreDictionary[key] = obj; typeDictionary[key] = obj.GetType(); }
         }
 
         public dynamic Get(string key) => StoreDictionary[key] ?? null;
+
+        public Type GetTypeOF(string key) => typeDictionary[key] ?? null;
 
         public List<string> GetAllKeys() => PrivateGetAllKeys().ToList() ?? new List<string>();
 
