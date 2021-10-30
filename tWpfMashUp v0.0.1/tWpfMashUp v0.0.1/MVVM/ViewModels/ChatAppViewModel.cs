@@ -4,6 +4,7 @@ using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -27,6 +28,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public RelayCommand GoToGameCommand { get; set; }
         public RelayCommand FetchUserCommand { get; set; }
         public RelayCommand GetRandomChatCommand { get; set; }
+        public RelayCommand OnSelectionChangedCommand { get; set; }
 
         public ObservableCollection<Chat> OnlineContacts { get; set; }
         public ObservableCollection<Chat> OfflineContacts { get; set; }
@@ -39,6 +41,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnlineContacts = new ObservableCollection<Chat>();
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
             GetRandomChatCommand = new RelayCommand(o => GetRandomChat());
+           // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
+        }
+
+        public void HandleSelectionChanged(SelectionChangedEventArgs routedEventArgs)
+        {
+            var newCurrentChat = (Chat)routedEventArgs.AddedItems[0];
+            storeService.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+            //UpdateThread
         }
 
         private async void GetRandomChat()

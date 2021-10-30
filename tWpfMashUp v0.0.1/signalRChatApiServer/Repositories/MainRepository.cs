@@ -45,6 +45,7 @@ namespace signalRChatApiServer.Repositories
         }
         public void AddChat(Chat chat) //when openning a room
         {
+            if (chat == null) return;
             context.Chats.Add(chat);
             context.SaveChanges();
         }

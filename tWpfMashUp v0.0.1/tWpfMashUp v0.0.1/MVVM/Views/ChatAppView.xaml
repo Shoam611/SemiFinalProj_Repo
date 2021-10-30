@@ -7,8 +7,10 @@
              mc:Ignorable="d" 
              xmlns:vm="clr-namespace:tWpfMashUp_v0._0._1.MVVM.ViewModels" 
              xmlns:v="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views" 
+                xmlns:i="http://schemas.microsoft.com/xaml/behaviors"         
              d:DesignHeight="450" d:DesignWidth="600"
-             Background="#36393f"             
+             Background="#36393f"     
+             
              DataContext="{Binding Source={StaticResource Locator},Path=Chat}">
     <!--dark
     #292b2f
@@ -59,11 +61,17 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Online:" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="5 0 0 0"/>
-                    <ListView Grid.Row="1" ItemsSource="{Binding OnlineContacts}"
+                    <ListView Grid.Row="1" ItemsSource="{Binding OnlineContacts}"                              
                       SelectedItem="{Binding SelectedChat}"
                       Background="Transparent"
                       BorderThickness="0"
-                     ItemContainerStyle="{StaticResource ContactListItem}" />
+                     ItemContainerStyle="{StaticResource ContactListItem}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding OnSelectionChangedCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListView>
 
                     <!---->
                 </Grid>
