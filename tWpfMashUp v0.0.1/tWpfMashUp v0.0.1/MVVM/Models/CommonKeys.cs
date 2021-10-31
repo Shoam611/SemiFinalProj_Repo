@@ -5,7 +5,9 @@
         LoggedUser,
         WithUser,
         CurrentChat,
-        ConnectionString,
-        Contacts
+        HubConnectionString,
+        Contacts,
+        Chats
+
     }
 }

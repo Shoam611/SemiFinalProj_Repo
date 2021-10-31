@@ -45,7 +45,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnConnected(string obj)
         {
-            store.Add(CommonKeys.ConnectionString.ToString(), obj);
+            store.Add(CommonKeys.HubConnectionString.ToString(), obj);
         }
     }
 }
