@@ -18,7 +18,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             this.storeService = storeService;
         }
 
-        public async Task<Message> CallServerToAddMessage(string message)
+        public async Task CallServerToAddMessage(string message)
         {
             var url = @"http://localhost:14795/Chat";
             using HttpClient client = new();
@@ -26,7 +26,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
             {
                 var msg = new Message { Content = message, Date = DateTime.Now, Name = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
                 var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
-                if (chat == null && chat.Messages == null)
+                if(chat == null)
+                {
+                    MessageBox.Show("No Chat Selected for messages"); return;
+                }
+                if (chat.Messages == null)
                     chat.Messages = new List<Message>();
                 chat.Messages.Add(msg);
                 var content = new StringContent(JsonConvert.SerializeObject(chat), Encoding.UTF8, "application/json");
@@ -36,10 +40,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 //For Debug
                 var responseString = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
-                return msg;
+                return;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
-            return null;
+            return ;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace signalRChatApiServer.Repositories
 
         public MainRepository(TalkBackChatContext context)
         {
-            this.context = context;           
+            this.context = context;
             Debug.WriteLine("Repository loading!");
         }
         void PullData()
@@ -31,12 +31,16 @@ namespace signalRChatApiServer.Repositories
         {
             if (context.Users.ToArray().Length < 2 || userId == toUser) return null;
             PullData();
-            var isChatExist = chats  //in debug shows tables as null
-                        .Where(c => c.Users.Where(u => u.Id == userId).ToList().Count > 0 &&
-                                    c.Users.Where(u => u.Id == toUser).ToList().Count > 0)
-                        .FirstOrDefault() != null;
-            if (isChatExist) return null;
-            
+            var queried = chats  //in debug shows tables as null
+                        .Where(c => c.Users.Where(u => u != null && u.Id == userId).ToList().Any() &&
+                                    c.Users.Where(u => u != null && u.Id == toUser).ToList().Any());
+
+            if (queried.FirstOrDefault() != null)
+            {
+                var isChatExist = queried.FirstOrDefault() != null;
+                if (isChatExist) return null;
+            }
+
             //while (toUser == userId) toUser = new Random().Next(1, context.Users.ToList().Count);            
             var userA = GetUser(userId);
             var userB = GetUser(toUser);

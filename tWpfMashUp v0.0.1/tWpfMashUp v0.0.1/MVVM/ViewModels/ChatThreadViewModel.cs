@@ -29,19 +29,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         }
         private async void AddMessageHandler()
         {
-            var msg = await messagesService.CallServerToAddMessage(Message);
-            AddMessageToUI(msg);
+            await messagesService.CallServerToAddMessage(Message);
             Message = "";
         }
 
         public void ChatChangedHandler(RoutedEventArgs routedEventArgs)
         {
             Messages = new ObservableCollection<Message>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
-        }
-
-        private void AddMessageToUI(Message msg)
-        {
-            Messages.Add(msg);
-        }
+        }      
     }
 }

@@ -51,7 +51,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (chats == null) chats = new List<Chat>();
             chats.Add(chat);
             store.Add(CommonKeys.Chats.ToString(), chat);
-            return null;
+            return chat;
         }
 
     }

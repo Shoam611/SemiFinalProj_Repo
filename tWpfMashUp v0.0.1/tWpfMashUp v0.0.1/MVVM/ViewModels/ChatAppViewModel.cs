@@ -54,19 +54,15 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             var isParsed = int.TryParse(BindingTest, out int res);
             if (!isParsed) { MessageBox.Show("NaN");return; }
-            var rndChat = await chatsService.GetChatAsync(res);
-            if (rndChat != null && !(OfflineContacts.Where(c => c.Id == rndChat.Id).ToList().Count > 0))
+            var newChat = await chatsService.GetChatAsync(res);
+            if (newChat != null && !(OnlineContacts.Where(c => c.Id == newChat.Id).ToList().Count > 0))
             {
                 var me = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).Id;
-                var contact = rndChat.Users.Where(u => u.Id != me).First();//accesing  .Id prop throws null reference exception when index out of range
-                rndChat.Contact = contact.UserName;
-                OnlineContacts.Add(rndChat);
+                var contact = newChat.Users.Where(u => u.Id != me).First();//accesing  .Id prop throws null reference exception when index out of range
+                newChat.Contact = contact.UserName;
+                OnlineContacts.Add(newChat);
             }
-            else
-            {
-                MessageBox.Show("Couldnt find user");
-            }
-
+            //else { MessageBox.Show("Couldnt find user"); }
         }
 
         private void FetchUserHandler()
