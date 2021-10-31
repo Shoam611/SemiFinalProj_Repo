@@ -29,22 +29,23 @@ namespace signalRChatApiServer.Repositories
         #region Create
         public Chat CreateChatWithUser(int userId, int toUser)
         {
-            if (context.Users.ToArray().Length < 2 || userId == toUser) return null;
-            PullData();
-            var queried = chats  //in debug shows tables as null
-                        .Where(c => c.Users.Where(u => u != null && u.Id == userId).ToList().Any() &&
-                                    c.Users.Where(u => u != null && u.Id == toUser).ToList().Any());
+            //PullData();
+            if (context.Users.ToArray().Length < 2 || userId == toUser || context.Users.Find(userId)==null || context.Users.Find(toUser) == null) return null;
 
-            if (queried.FirstOrDefault() != null)
-            {
-                var isChatExist = queried.FirstOrDefault() != null;
-                if (isChatExist) return null;
-            }
-
-            //while (toUser == userId) toUser = new Random().Next(1, context.Users.ToList().Count);            
+            //var queried = chats  //in debug shows tables as null
+            //            .Where(c => c.Users != null && c.Users.Where(u => u != null && u.Id == userId).ToList().Any() &&
+            //                        c.Users.Where(u => u != null && u.Id == toUser).ToList().Any());
+            //if (queried.FirstOrDefault() != null)
+            //{
+            //    var isChatExist = queried.FirstOrDefault() != null;
+            //    if (isChatExist) return null;
+            //}
+            var isExist = from chat in context.Chats
+                          where chat.Users.Where(u=>u.Id==userId).Any() && chat.Users.Where(u => u.Id == userId).Any()
+                           select chat;
+            if (isExist.Any()) return isExist.FirstOrDefault();
             var userA = GetUser(userId);
             var userB = GetUser(toUser);
-
             var newChat = new Chat { Users = new List<User> { userA, userB } };
             AddChat(newChat);
             return newChat;
@@ -109,3 +110,4 @@ namespace signalRChatApiServer.Repositories
         #endregion
     }
 }
+//☻
