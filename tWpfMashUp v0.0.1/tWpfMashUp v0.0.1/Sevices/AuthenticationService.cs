@@ -12,6 +12,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class AuthenticationService
     {
         readonly StoreService storeService;
+        public event EventHandler LoggingIn;
         public AuthenticationService(StoreService storeService)
         {
             this.storeService = storeService;
@@ -46,7 +47,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var data = JsonConvert.DeserializeObject<User>(rawData);
                 if (data != null)
                 {
-                    storeService.Add(CommonKeys.LoggedUser.ToString(), data); return true;
+                    storeService.Add(CommonKeys.LoggedUser.ToString(), data);
+                    LoggingIn?.Invoke(this, new EventArgs());
+                    return true;
                 }
             }
             catch { MessageBox.Show("Failed To Call Server"); }

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -12,6 +13,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     {
         //fields
         StoreService storeService;
+        private SignalRListinerService signalRListinerService;
+        private AuthenticationService authenticationService;
         ChatsService chatsService;
 
         //full props
@@ -33,15 +36,28 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ObservableCollection<Chat> OnlineContacts { get; set; }
         public ObservableCollection<Chat> OfflineContacts { get; set; }
 
-        public ChatAppViewModel(StoreService storeService, ChatsService chatsService)
+        public ChatAppViewModel(StoreService storeService, ChatsService chatsService,AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
         {
+            this.signalRListinerService = signalRListinerService;
+            this.authenticationService = authenticationService;
             this.chatsService = chatsService;
             this.storeService = storeService;
             OfflineContacts = new ObservableCollection<Chat>();
             OnlineContacts = new ObservableCollection<Chat>();
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
             GetRandomChatCommand = new RelayCommand(o => GetChat());
+            authenticationService.LoggingIn += (s,e) => FetchUserHandler();
+            signalRListinerService.ContactLogged += OnContactLogged;
            // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
+        }
+
+        private void OnContactLogged(object sender, System.EventArgs e)
+        {
+            var args = e as ContactLoggedEventArgs;
+            if (args.IsLoggedIn)
+            {
+                OnlineContacts.Add(new Chat { Contact = args.User.UserName, Messages = new List<Massage>(),ContactId=args.User.Id,Users =new List<User> {args.User,storeService.Get(CommonKeys.LoggedUser.ToString())}});
+            }
         }
 
         public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)

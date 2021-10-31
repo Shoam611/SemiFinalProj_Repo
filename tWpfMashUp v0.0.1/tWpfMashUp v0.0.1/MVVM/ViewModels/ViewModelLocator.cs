@@ -13,7 +13,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public ViewModelLocator()
         {
-            Authenticat.LoginCommand = new Core.RelayCommand(o => { Main.SetViewTransition("Chat"); Chat.FetchUserCommand?.Execute(null); });
             Chat.OnSelectionChangedCommand = new Core.RelayCommand(o => { Chat.HandleSelectionChanged(o as SelectionChangedEventArgs); ChatThread.ChatChangedHandler(o as SelectionChangedEventArgs);});
             //Game.GoToChatCommand = new Core.RelayCommand(o => Main.SetViewTransition("Chat"));
             //Chat.GoToGameCommand = new Core.RelayCommand(o => Main.SetViewTransition("Game"));

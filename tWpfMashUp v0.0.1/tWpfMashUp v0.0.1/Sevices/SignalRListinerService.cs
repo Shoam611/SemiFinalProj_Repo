@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
-    public class SinalRListinerService
+    public class SignalRListinerService
     {
         private readonly StoreService store;
         private readonly HubConnection connection;
@@ -15,7 +15,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event EventHandler MassageRecived;
         public event EventHandler ContactLogged;
 
-        public SinalRListinerService(StoreService store)
+        public SignalRListinerService(StoreService store)
         {
             this.store = store;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();
@@ -37,7 +37,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnConnected(string hubConnectionString) => store.Add(CommonKeys.HubConnectionString.ToString() , hubConnectionString);
+        private void OnConnected(string hubConnectionString)
+        {
+            store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
+        }
 
         private void OnMassageRecived(Massage msg, int chatId) => MassageRecived?.Invoke(this, new MessageRecivedEventArgs { Massage = msg, ChatID = chatId });
 

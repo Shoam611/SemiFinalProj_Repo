@@ -8,7 +8,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
    public class MainViewModel : ObservableObject
     {
         private object view;
-        private SinalRListinerService signalRListener;
+        private AuthenticationService authenticationService;
+        private SignalRListinerService signalRListener;
 
         public object View
         {
@@ -16,10 +17,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             set { view = value; onProppertyChange(); }
         }
 
-        public MainViewModel(SinalRListinerService signalRListiner)
+        public MainViewModel(SignalRListinerService signalRListiner,AuthenticationService authenticationService)
         {
+            this.authenticationService = authenticationService;
             this.signalRListener = signalRListiner;
             View = new LoginView();
+            authenticationService.LoggingIn +=(s,e)=> SetViewTransition("Chat");
         }
 
         public void SetViewTransition(string option)

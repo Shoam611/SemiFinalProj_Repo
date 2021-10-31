@@ -32,13 +32,13 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<ChatThreadViewModel>();
             services.AddScoped<GameViewModel>();
             
-            services.AddScoped<SinalRListinerService>();
+            services.AddScoped<SignalRListinerService>();
             services.AddSingleton<StoreService>();
 
+            services.AddScoped<AuthenticationService>();
             services.AddTransient<NavigationService>();
             services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
-            services.AddTransient<AuthenticationService>();
         }
         private void Start(IServiceProvider services)
         {
@@ -53,3 +53,7 @@ namespace tWpfMashUp_v0._0._1
         }
     }
 }
+
+//add on exit logOutCallToServer
+//add On Logging in Fetching all currently connected users
+//add status changes in store and db when user logging in and out
