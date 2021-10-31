@@ -16,27 +16,44 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public ChatsService(StoreService store) => this.store = store;
 
 
-        public async Task<Chat> GetChatAsync(int userToId = 1)
+        public async Task<Chat> GetChatAsync(int userToId)
         {
+            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<UserModel>;
+            if (contacts != null && contacts.Where(u => u.Id == userToId).Any()) return null;
+
             var id = ((UserModel)store.Get(CommonKeys.LoggedUser.ToString())).Id;
             var url = @$"http://localhost:14795/Chat?userId={id}&toUserId={userToId} ";
-            using HttpClient client = new();
-            try
+            Chat chat;
+            using (HttpClient client = new())
             {
-                var response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                var resString = await response.Content.ReadAsStringAsync();
-                var chat = JsonConvert.DeserializeObject<Chat>(resString);
-                if (chat == null)
+                try
                 {
-                    MessageBox.Show("Cannot create Chat, Chat already exist ");
-                    return null;
+                    var response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    var resString = await response.Content.ReadAsStringAsync();
+                    chat = JsonConvert.DeserializeObject<Chat>(resString);
                 }
-                if (chat.Messages == null) chat.Messages = new List<Message>();
-                return chat;
+                catch { MessageBox.Show("Failed To Get Chat"); return null; }
             }
-            catch { MessageBox.Show("Failed To Call Server"); }
-            return null;
+            if (chat == null)
+            {
+                MessageBox.Show("Cannot create Chat, Chat already exist ");
+                return null;
+            }
+            if (chat.Messages == null)
+            {
+                chat.Messages = new List<Message>();
+            }
+            var contact = chat.Users.Where(u => u.Id != id).First();
+            chat.Contact = contact.UserName;
+            if (contacts == null) contacts = new List<UserModel>();
+            contacts.Add(contact);
+            store.Add(CommonKeys.Contacts.ToString(), contacts);
+            return chat;
         }
+
+    }
+
+}
     }
 }
