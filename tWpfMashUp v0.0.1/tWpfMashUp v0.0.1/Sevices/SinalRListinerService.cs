@@ -21,7 +21,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private async void StartConnectionAsync()
         {
-
             connection.On<string>("Connected", OnConnected);
             connection.On<Chat>("OnChatAdd", ChatAddHandler);
             connection.On<Message, string>("MassageSent", OnNewMessege);
