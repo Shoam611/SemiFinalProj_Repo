@@ -47,8 +47,8 @@ namespace tWpfMashUp_v0._0._1
         }
         protected async override void OnExit(ExitEventArgs e)
         {
-            //delete user
             using (host) await host.StopAsync(TimeSpan.FromSeconds(2));
+            //LogOut
             base.OnExit(e);
         }
     }

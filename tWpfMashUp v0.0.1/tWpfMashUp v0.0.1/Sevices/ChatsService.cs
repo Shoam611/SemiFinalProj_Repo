@@ -18,10 +18,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task<Chat> GetChatAsync(int userToId)
         {
-            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<UserModel>;
+            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
             if (contacts != null && contacts.Where(u => u.Id == userToId).Any()) return null;
 
-            var id = ((UserModel)store.Get(CommonKeys.LoggedUser.ToString())).Id;
+            var id = ((User)store.Get(CommonKeys.LoggedUser.ToString())).Id;
             var url = @$"http://localhost:14795/Chat?userId={id}&toUserId={userToId} ";
             Chat chat;            
             using (HttpClient client = new())
@@ -44,7 +44,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
             var contact = chat.Users.Where(u => u.Id != id).First();
             chat.Contact = contact.UserName;
-            if (contacts == null) contacts = new List<UserModel>();
+            if (contacts == null) contacts = new List<User>();
             contacts.Add(contact);
             store.Add(CommonKeys.Contacts.ToString(), contacts);
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;

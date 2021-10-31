@@ -23,10 +23,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var values = new Dictionary<string, string> { { "UserName", username }, { "Password", password } };
+                var values = new User {UserName = username,Password=password,HubConnectionString=storeService.Get(CommonKeys.HubConnectionString.ToString())};
                 var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(url, content);
-                /*for debug purposes*/
+                var response = await client.PostAsync(url, content);               
                 var responseString = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
                 return true;
@@ -44,7 +43,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var response = await client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
                 var rawData = await response.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<UserModel>(rawData);
+                var data = JsonConvert.DeserializeObject<User>(rawData);
                 if (data != null)
                 {
                     storeService.Add(CommonKeys.LoggedUser.ToString(), data); return true;

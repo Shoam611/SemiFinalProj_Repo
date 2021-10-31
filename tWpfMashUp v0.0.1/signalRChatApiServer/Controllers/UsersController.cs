@@ -16,12 +16,11 @@ namespace signalRChatApiServer.Controllers
         public User Get(string username, string password) => repository.Authenticate(username, password) ?? null;
 
         [HttpPost]
-        public bool Post(Dictionary<string, string> user)
+        public bool Post(User newUser)
         {
             try
-            {
-                var newuser = new User {UserName = user["UserName"],Password=user["Password"] };
-                repository.AddUser(newuser);return true;
+            {                
+                repository.AddUser(newUser);return true;
             }
             catch { return false; }
         }

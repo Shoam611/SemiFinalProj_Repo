@@ -11,7 +11,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
     {
         private readonly StoreService store;
         private readonly HubConnection connection;
+       
         public event EventHandler MassageRecived;
+        public event EventHandler ContactLogged;
 
         public SinalRListinerService(StoreService store)
         {
@@ -24,8 +26,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             connection.On<string>("Connected", OnConnected);
             connection.On<Massage, int>("MassageRecived", OnMassageRecived);
-            connection.On<UserModel>("ContactLoggedIn", OnContactLogged);
-            connection.On<UserModel>("ContactLoggedOut", OnContactLoggedOut);
+            connection.On<User>("ContactLoggedIn", OnContactLogged);
+            connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
 
             try
             {
@@ -37,22 +39,25 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnConnected(string hubConnectionString) => store.Add(CommonKeys.HubConnectionString.ToString() , hubConnectionString);
 
-        private void OnContactLogged(UserModel newOnlineUser)
+        private void OnMassageRecived(Massage msg, int chatId) => MassageRecived?.Invoke(this, new MessageRecivedEventArgs { Massage = msg, ChatID = chatId });
+
+        private void OnContactLogged(User newOnlineUser)
         {
-            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<UserModel>;
-            if (contacts == null) contacts = new List<UserModel>();
+            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+            if (contacts == null) contacts = new List<User>();
             contacts.Add(newOnlineUser);
             store.Add(CommonKeys.Contacts.ToString(), contacts);
+            ContactLogged?.Invoke(this, new ContactLoggedEventArgs {User=newOnlineUser,IsLoggedIn=true});
         }
 
-        private void OnContactLoggedOut(UserModel obj)
+        private void OnContactLoggedOut(User disconnectedUser)
         {
-            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<UserModel>;
-            if (contacts == null) contacts = new List<UserModel>();
-            contacts.Remove(obj);
-            store.Add(CommonKeys.Contacts.ToString(), contacts);            
+            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+            if (contacts == null) contacts = new List<User>();
+            contacts.Remove(disconnectedUser);
+            store.Add(CommonKeys.Contacts.ToString(), contacts);
+            ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = true });
         }
 
-        private void OnMassageRecived(Massage msg, int chatId) => MassageRecived?.Invoke(this, new MessageRecivedEventArgs { Massage = msg, ChatID = chatId });
     }
 }

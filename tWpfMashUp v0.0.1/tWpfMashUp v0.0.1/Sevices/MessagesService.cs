@@ -24,7 +24,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
+                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
                 var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
                 if(chat == null)
                 {

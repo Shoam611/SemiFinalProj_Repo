@@ -15,8 +15,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         ChatsService chatsService;
 
         //full props
-        UserModel loggedUser;
-        public UserModel LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
+        User loggedUser;
+        public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
         Chat selectedChat;
         public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); UpdateChatInStore(); } }
         private string displayedUser;
@@ -57,7 +57,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var newChat = await chatsService.GetChatAsync(res);
             if (newChat != null && !(OnlineContacts.Where(c => c.Id == newChat.Id).ToList().Count > 0))
             {
-                var me = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).Id;
+                var me = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).Id;
                 var contact = newChat.Users.Where(u => u.Id != me).First();//accesing  .Id prop throws null reference exception when index out of range
                 newChat.Contact = contact.UserName;
                 OnlineContacts.Add(newChat);
