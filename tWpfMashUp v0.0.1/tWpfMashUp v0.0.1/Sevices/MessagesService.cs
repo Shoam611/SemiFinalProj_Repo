@@ -24,14 +24,14 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var msg = new Message { Content = message, Date = DateTime.Now, Name = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
+                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
                 var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
                 if(chat == null)
                 {
                     MessageBox.Show("No Chat Selected for messages"); return false;
                 }
                 if (chat.Messages == null)
-                    chat.Messages = new List<Message>();
+                    chat.Messages = new List<Massage>();
                 chat.Messages.Add(msg);
                 var content = new StringContent(JsonConvert.SerializeObject(chat), Encoding.UTF8, "application/json");
                 var response = await client.PutAsync(url, content);

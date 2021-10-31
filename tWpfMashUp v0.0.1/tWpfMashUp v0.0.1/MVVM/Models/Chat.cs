@@ -8,7 +8,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
     {
         public int Id { get; set; }
 
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Massage> Messages { get; set; }
         public virtual ICollection<UserModel> Users { get; set; }      
         public string Contact { get; set; }
         public int ContactId { get; set; }

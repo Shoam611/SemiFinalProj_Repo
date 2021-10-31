@@ -40,7 +40,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 MessageBox.Show("Cannot create Chat, Chat already exist ");
                 return null;
             }
-            if (chat.Messages == null) { chat.Messages = new List<Message>(); }
+            if (chat.Messages == null) { chat.Messages = new List<Massage>(); }
 
             var contact = chat.Users.Where(u => u.Id != id).First();
             chat.Contact = contact.UserName;

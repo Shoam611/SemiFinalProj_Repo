@@ -14,8 +14,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         readonly StoreService storeService;
         public RelayCommand AddMessageCommand { get; set; }
 
-        private ObservableCollection<Message> messages;
-        public ObservableCollection<Message> Messages { get => messages; set { messages = value; onProppertyChange(); } }
+        private ObservableCollection<Massage> messages;
+        public ObservableCollection<Massage> Messages { get => messages; set { messages = value; onProppertyChange(); } }
 
         private string message;
         public string Message { get => message; set { message = value; onProppertyChange(); } }
@@ -24,7 +24,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             this.storeService = storeService;
             this.messagesService = messagesService;
-            Messages = new ObservableCollection<Message>();
+            Messages = new ObservableCollection<Massage>();
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
         }
         private async void AddMessageHandler()
@@ -32,13 +32,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             
            var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
             if(isSuccesfull)
-            Messages.Add(new Message { Content = Message,Date=DateTime.Now,Name=storeService.Get(CommonKeys.LoggedUser.ToString()).UserName });
+            Messages.Add(new Massage { Content = Message,Date=DateTime.Now,Name=storeService.Get(CommonKeys.LoggedUser.ToString()).UserName });
             Message = "";
         }
 
         public void ChatChangedHandler(RoutedEventArgs routedEventArgs)
         {
-            Messages = new ObservableCollection<Message>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
+            Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
         }      
     }
 }
