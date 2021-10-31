@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {

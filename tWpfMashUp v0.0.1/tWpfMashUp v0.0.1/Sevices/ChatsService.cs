@@ -23,7 +23,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
             var id = ((UserModel)store.Get(CommonKeys.LoggedUser.ToString())).Id;
             var url = @$"http://localhost:14795/Chat?userId={id}&toUserId={userToId} ";
-            Chat chat;
+            Chat chat;            
             using (HttpClient client = new())
             {
                 try

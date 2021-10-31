@@ -29,7 +29,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         }
         private async void AddMessageHandler()
         {
-            await messagesService.CallServerToAddMessage(Message);
+            
+           var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
+            if(isSuccesfull)
+            Messages.Add(new Message { Content = Message,Date=DateTime.Now,Name=storeService.Get(CommonKeys.LoggedUser.ToString()).UserName });
             Message = "";
         }
 
