@@ -10,26 +10,28 @@ namespace signalRChatApiServer.Repositories
     public class MainRepository : IRepository
     //: IRepository
     {
-        private readonly TalkBackChatContext context;
-        //private readonly IEnumerable<Chat> chats;
-        //private readonly IEnumerable<Message> messages;
-        //private readonly IEnumerable<User> users;
+        private TalkBackChatContext context;
+        private IEnumerable<Chat> chats;
+        private IEnumerable<Message> messages;
+        private IEnumerable<User> users;
 
         public MainRepository(TalkBackChatContext context)
         {
-            this.context = context;
-            //chats = context.Chats.ToList();
-            //messages = context.Messages.ToList();
-            //users = context.Users.ToList();
-
+            this.context = context;           
             Debug.WriteLine("Repository loading!");
         }
-
+        void PullData()
+        {
+            chats = context.Chats.ToList();
+            users = context.Users.ToList();
+            messages = context.Messages.ToList();
+        }
         #region Create
         public Chat CreateChatWithUser(int userId, int toUser)
         {
             if (context.Users.ToArray().Length < 2 || userId == toUser) return null;
-            var isChatExist = context.Chats
+            PullData();
+            var isChatExist = chats  //in debug shows tables as null
                         .Where(c => c.Users.Where(u => u.Id == userId).ToList().Count > 0 &&
                                     c.Users.Where(u => u.Id == toUser).ToList().Count > 0)
                         .FirstOrDefault() != null;
