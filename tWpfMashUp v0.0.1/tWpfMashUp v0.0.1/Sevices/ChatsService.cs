@@ -16,10 +16,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public ChatsService(StoreService store) => this.store = store;
 
 
-        public async Task<bool> GetChatAsync(int userToId)
+        public async Task<Chat> GetChatAsync(int userToId)
         {
             var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<UserModel>;
-            if (contacts != null && contacts.Where(u => u.Id == userToId).Any()) return false;
+            if (contacts != null && contacts.Where(u => u.Id == userToId).Any()) return null;
 
             var id = ((UserModel)store.Get(CommonKeys.LoggedUser.ToString())).Id;
             var url = @$"http://localhost:14795/Chat?userId={id}&toUserId={userToId} ";
@@ -33,12 +33,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var resString = await response.Content.ReadAsStringAsync();
                     chat = JsonConvert.DeserializeObject<Chat>(resString);
                 }
-                catch { MessageBox.Show("Failed To Get Chat"); return false; }
+                catch { MessageBox.Show("Failed To Get Chat"); return null; }
             }
             if (chat == null)
             {
                 MessageBox.Show("Cannot create Chat, Chat already exist ");
-                return false;
+                return null;
             }
             if (chat.Messages == null) { chat.Messages = new List<Message>(); }
 
@@ -51,7 +51,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (chats == null) chats = new List<Chat>();
             chats.Add(chat);
             store.Add(CommonKeys.Chats.ToString(), chat);
-            return true;
+            return null;
         }
 
     }

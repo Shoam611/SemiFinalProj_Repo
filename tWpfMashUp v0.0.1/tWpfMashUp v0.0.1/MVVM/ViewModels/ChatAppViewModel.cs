@@ -40,7 +40,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OfflineContacts = new ObservableCollection<Chat>();
             OnlineContacts = new ObservableCollection<Chat>();
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
-            GetRandomChatCommand = new RelayCommand(o => GetRandomChat());
+            GetRandomChatCommand = new RelayCommand(o => GetChat());
            // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
         }
 
@@ -50,7 +50,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             storeService.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
         }
 
-        private async void GetRandomChat()
+        private async void GetChat()
         {
             var isParsed = int.TryParse(BindingTest, out int res);
             if (!isParsed) { MessageBox.Show("NaN");return; }

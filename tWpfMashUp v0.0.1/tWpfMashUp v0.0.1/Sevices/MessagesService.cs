@@ -26,7 +26,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             {
                 var msg = new Message { Content = message, Date = DateTime.Now, Name = ((UserModel)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
                 var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
-                if (chat.Messages == null)
+                if (chat == null && chat.Messages == null)
                     chat.Messages = new List<Message>();
                 chat.Messages.Add(msg);
                 var content = new StringContent(JsonConvert.SerializeObject(chat), Encoding.UTF8, "application/json");

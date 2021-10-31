@@ -25,7 +25,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             else { StoreDictionary[key] = obj; typeDictionary[key] = obj.GetType(); }
         }
 
-        public dynamic Get(string key) => StoreDictionary[key] ?? null;
+        public dynamic Get(string key) => StoreDictionary.TryGetValue(key,out var val) ? val :null;
 
         public Type GetTypeOF(string key) => typeDictionary[key] ?? null;
 
