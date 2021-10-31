@@ -18,7 +18,6 @@ namespace signalRChatApiServer.Repositories
         public MainRepository(TalkBackChatContext context)
         {
             this.context = context;
-            Debug.WriteLine("Repository loading!");
         }
         void PullData()
         {
@@ -33,16 +32,7 @@ namespace signalRChatApiServer.Repositories
                 userId == toUser ||
                 context.Users.Find(userId) == null ||
                 context.Users.Find(toUser) == null)
-                return null;
-            //PullData();
-            //var queried = chats  //in debug shows tables as null
-            //            .Where(c => c.Users != null && c.Users.Where(u => u != null && u.Id == userId).ToList().Any() &&
-            //                        c.Users.Where(u => u != null && u.Id == toUser).ToList().Any());
-            //if (queried.FirstOrDefault() != null)
-            //{
-            //    var isChatExist = queried.FirstOrDefault() != null;
-            //    if (isChatExist) return null;
-            //}
+                return null;           
             var isExist = from chat in context.Chats
                           where chat.Users.Where(u => u.Id == userId).Any() 
                              && chat.Users.Where(u => u.Id == userId).Any()
@@ -63,6 +53,7 @@ namespace signalRChatApiServer.Repositories
 
         public void AddMessage(Message message)//when sending a masssage
         {
+            //var s = "☻";
             context.Messages.Add(message);
             context.SaveChanges();
         }
@@ -114,4 +105,4 @@ namespace signalRChatApiServer.Repositories
         #endregion
     }
 }
-//☻
+//c

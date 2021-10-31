@@ -44,7 +44,7 @@ namespace tWpfMashUp_v0._0._1
         {
             ServiceProvider = services;
             ServiceProvider.GetService<MainWindow>().Show();
-        }
+        }        
         protected async override void OnExit(ExitEventArgs e)
         {
             using (host) await host.StopAsync(TimeSpan.FromSeconds(2));
@@ -54,6 +54,12 @@ namespace tWpfMashUp_v0._0._1
     }
 }
 
-//add on exit logOutCallToServer
-//add On Logging in Fetching all currently connected users
-//add status changes in store and db when user logging in and out
+//TODO: add onExit logOutCallToServer.
+//TODO: add On Logging in Fetching all currently connected users.
+//TODO: add status changes in store and db when user logging in and out.
+//TODO: when user is logged in ,user.remove? from oflline & vice versa.
+//TODO: when user log off with no chat remove complitly.
+//TODO: on MessageSent Inform User -> \/
+////    if not on current chat, make circle green
+////     else push thread update
+//TODO: LogOut functionality

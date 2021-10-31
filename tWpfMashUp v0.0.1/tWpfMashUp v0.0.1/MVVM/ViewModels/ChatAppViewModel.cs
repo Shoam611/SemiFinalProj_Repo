@@ -53,10 +53,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void OnContactLogged(object sender, System.EventArgs e)
         {
+
             var args = e as ContactLoggedEventArgs;
             if (args.IsLoggedIn)
             {
-                OnlineContacts.Add(new Chat { Contact = args.User.UserName, Messages = new List<Massage>(),ContactId=args.User.Id,Users =new List<User> {args.User,storeService.Get(CommonKeys.LoggedUser.ToString())}});
+              var newChat =  new Chat
+                {
+                    Contact = args.User.UserName,
+                    Messages = new List<Massage>(),
+                    ContactId = args.User.Id,
+                    Users = new List<User> { args.User, storeService.Get(CommonKeys.LoggedUser.ToString()) }
+                };
+                OnlineContacts.Add(newChat);
             }
         }
 
