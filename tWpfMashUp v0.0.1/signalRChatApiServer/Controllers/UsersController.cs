@@ -42,6 +42,11 @@ namespace signalRChatApiServer.Controllers
         }
 
         [HttpPut]
-        public void Put(User user) => repository.UpdateUser(user);
+        public void Put(User user)
+        {
+            if (user.IsConnected == Status.Offline)
+                chathub.Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedOut", user);
+            repository.UpdateUser(user);
+        }
     }
 }

@@ -32,9 +32,9 @@ namespace signalRChatApiServer.Repositories
                 userId == toUser ||
                 context.Users.Find(userId) == null ||
                 context.Users.Find(toUser) == null)
-                return null;           
+                return null;
             var isExist = from chat in context.Chats
-                          where chat.Users.Where(u => u.Id == userId).Any() 
+                          where chat.Users.Where(u => u.Id == userId).Any()
                              && chat.Users.Where(u => u.Id == userId).Any()
                           select chat;
             if (isExist.Any()) return isExist.FirstOrDefault();
@@ -105,4 +105,4 @@ namespace signalRChatApiServer.Repositories
         #endregion
     }
 }
-//c
+//☻

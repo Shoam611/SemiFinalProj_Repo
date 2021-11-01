@@ -47,6 +47,7 @@ namespace tWpfMashUp_v0._0._1
         }        
         protected async override void OnExit(ExitEventArgs e)
         {
+            // service.OnLogOutHandler();
             using (host) await host.StopAsync(TimeSpan.FromSeconds(2));
             //LogOut
             base.OnExit(e);
@@ -63,3 +64,5 @@ namespace tWpfMashUp_v0._0._1
 ////    if not on current chat, make circle green
 ////     else push thread update
 //TODO: LogOut functionality
+//TODO: Export on server: hub and repo logic to services;☻
+//TODO: update Hubconnectionstring on new logging in
