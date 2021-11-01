@@ -9,7 +9,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
         public int Id { get; set; }
 
         public virtual ICollection<Massage> Messages { get; set; }
-        public virtual ICollection<User> Users { get; set; }      
+        public virtual ICollection<User> Users { get; set; }
         public string Contact { get; set; }
         public int ContactId { get; set; }
         string lastMessage = "";
@@ -21,7 +21,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
                 catch { return " "; }
             }
             set { lastMessage = value; onProppertyChange(); }
-
         }
     }
 }

@@ -6,16 +6,17 @@ using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ChatAppViewModel : ObservableObject
     {
         //fields
-        StoreService store;
-        private SignalRListinerService signalRListinerService;
-        private AuthenticationService authenticationService;
-        ChatsService chatsService;
+        private readonly StoreService store;
+        private readonly SignalRListinerService signalRListinerService;
+        private readonly AuthenticationService authenticationService;
+        private readonly ChatsService chatsService;
 
         //full props
         User loggedUser;
@@ -36,6 +37,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ObservableCollection<Chat> OnlineContacts { get; set; }
         public ObservableCollection<Chat> OfflineContacts { get; set; }
 
+
         public ChatAppViewModel(StoreService storeService, ChatsService chatsService, AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
         {
             this.signalRListinerService = signalRListinerService;
@@ -48,10 +50,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             GetRandomChatCommand = new RelayCommand(o => GetChat());
             authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             signalRListinerService.ContactLogged += OnContactLogged;
+
             // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
         }
 
-        private void OnContactLogged(object sender, System.EventArgs e)
+        private void OnContactLogged(object sender, EventArgs e)
         {
             var args = e as ContactLoggedEventArgs;
             if (args.IsLoggedIn) OnContactLoggedIn(args.User);
