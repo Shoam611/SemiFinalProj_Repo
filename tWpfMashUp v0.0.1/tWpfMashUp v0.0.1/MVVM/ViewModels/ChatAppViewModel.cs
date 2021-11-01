@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
-using System.Windows;
-using System.Windows.Controls;
-using System.Collections.Generic;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -46,9 +47,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnlineContacts = new ObservableCollection<Chat>();
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
             GetRandomChatCommand = new RelayCommand(o => GetChat());
-            authenticationService.LoggingIn += (s, e) => FetchUserHandler();
+            authenticationService.LoggingIn += (s,e) => FetchUserHandler();
             signalRListinerService.ContactLogged += OnContactLogged;
-            // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
+            OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
         }
 
         private void OnContactLogged(object sender, System.EventArgs e)
@@ -75,6 +76,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         }
         private void OnContactLoggedOut(User user)
         {
+            //if (user.UserName == SelectedChat.Contact)
+            //{
+            //    //HandleSelectionChanged(null);
+            //    //handle contact name remove;
+            //}
+
             var chatToRemove = OnlineContacts.FirstOrDefault(c => c.ContactId == user.Id);
             if (chatToRemove != null)
             {
@@ -96,8 +103,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             try
             {
+                if (selectionChangedEventArgs.AddedItems!=null && selectionChangedEventArgs.AddedItems.Count > 0) 
+                {
                 var newCurrentChat = selectionChangedEventArgs.AddedItems[0] as Chat;
                 store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+                }
+                //if(selectionChangedEventArgs.RemovedItems != null && selectionChangedEventArgs.RemovedItems.Count > 0){}
+                store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }catch { }
         }
 

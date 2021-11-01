@@ -24,7 +24,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (contacts != null && contacts.Where(u => u.Id == userToId).Any()) return null;
             var id = ((User)store.Get(CommonKeys.LoggedUser.ToString())).Id;
             var url = @$"http://localhost:14795/Chat?userId={id}&toUserId={userToId} ";
-            Chat chat;            
+            Chat chat;
             using (HttpClient client = new())
             {
                 try
@@ -36,9 +36,17 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
                 catch { MessageBox.Show("Failed To Get Chat"); return null; }
             }
-            if (chat == null){MessageBox.Show("Cannot create Chat, Chat already exist ");
-                return null;}
+            if (chat == null)
+            {
+                MessageBox.Show("Cannot create Chat, Chat already exist ");
+                return null;
+            }
 
+            return HandleNewChatForStore(contacts, id, chat);
+        }
+
+        private Chat HandleNewChatForStore(List<User> contacts, int id, Chat chat)
+        {
             var contact = chat.Users.Where(u => u.Id != id).First();
             chat.Contact = contact.UserName;
             if (contacts == null) contacts = new List<User>();
@@ -50,7 +58,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
             store.Add(CommonKeys.Chats.ToString(), chat);
             return chat;
         }
-
 
 
     }

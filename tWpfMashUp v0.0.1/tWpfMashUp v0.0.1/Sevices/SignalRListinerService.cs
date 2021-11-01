@@ -49,7 +49,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
             if (contacts == null) contacts = new List<User>();
             contacts.Add(newOnlineUser);
-            store.Add(CommonKeys.Contacts.ToString(), contacts);
+            store.Add(CommonKeys.Contacts.ToString(), contacts);//sender => who called; args => all the arguments
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs {User=newOnlineUser,IsLoggedIn=true});
         }
 

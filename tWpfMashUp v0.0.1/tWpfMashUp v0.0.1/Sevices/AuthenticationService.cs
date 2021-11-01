@@ -1,5 +1,4 @@
 ﻿using tWpfMashUp_v0._0._1.MVVM.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;

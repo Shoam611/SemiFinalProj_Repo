@@ -8,7 +8,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
     {
         Dictionary<string, dynamic> StoreDictionary;
 
-        public StoreService()
+        public event EventHandler CurrentContactChanged;
+        
+            public StoreService()
         {
             StoreDictionary = new Dictionary<string, dynamic>();
         }
@@ -21,6 +23,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             else { StoreDictionary[key] = obj;}
         }
+
+        public void InformContactChanged(object source, System.Windows.Controls.SelectionChangedEventArgs selectionChangedEventArgs) 
+            => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
 
         public dynamic Get(string key) => StoreDictionary.TryGetValue(key,out var val) ? val :null;
 
