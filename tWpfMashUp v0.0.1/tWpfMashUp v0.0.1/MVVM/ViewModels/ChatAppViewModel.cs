@@ -23,7 +23,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         Chat selectedChat;
         public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); UpdateChatInStore(); } }
         private string displayedUser;
-        public string DisplayedUser { get { return displayedUser; } set { displayedUser = value;onProppertyChange();} }
+        public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
 
         private string message;
         public string BindingTest { get => message; set { message = value; onProppertyChange(); } }
@@ -36,7 +36,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ObservableCollection<Chat> OnlineContacts { get; set; }
         public ObservableCollection<Chat> OfflineContacts { get; set; }
 
-        public ChatAppViewModel(StoreService storeService, ChatsService chatsService,AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
+        public ChatAppViewModel(StoreService storeService, ChatsService chatsService, AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
         {
             this.signalRListinerService = signalRListinerService;
             this.authenticationService = authenticationService;
@@ -46,30 +46,38 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnlineContacts = new ObservableCollection<Chat>();
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
             GetRandomChatCommand = new RelayCommand(o => GetChat());
-            authenticationService.LoggingIn += (s,e) => FetchUserHandler();
+            authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             signalRListinerService.ContactLogged += OnContactLogged;
-           // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
+            // OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as RoutedEventArgs));
         }
 
         private void OnContactLogged(object sender, System.EventArgs e)
         {
-
             var args = e as ContactLoggedEventArgs;
             if (args.IsLoggedIn)
             {
-              var newChat =  new Chat
-                {
-                    Contact = args.User.UserName,
-                    Messages = new List<Massage>(),
-                    ContactId = args.User.Id,
-                    Users = new List<User> { args.User, storeService.Get(CommonKeys.LoggedUser.ToString()) }
-                };
-                OnlineContacts.Add(newChat);
+                var c = OfflineContacts.Where(c => c.ContactId == args.User.Id).FirstOrDefault();
+                if (c != null) OfflineContacts.Remove(c);
+                else
+                    c = new Chat
+                    {
+                        Contact = args.User.UserName,
+                        Messages = new List<Massage>(),
+                        ContactId = args.User.Id,
+                        Users = new List<User> { args.User, storeService.Get(CommonKeys.LoggedUser.ToString()) }
+                    };
+
+                OnlineContacts.Add(c);
             }
             else
             {
                 var chatToRemove = OnlineContacts.Where(c => c.ContactId == args.User.Id).FirstOrDefault();
-                if (chatToRemove != null) OnlineContacts.Remove(chatToRemove);
+                if (chatToRemove != null)
+                {
+                    if (chatToRemove.Messages != null && chatToRemove.Messages.Any())
+                        OfflineContacts.Add(chatToRemove);
+                    OnlineContacts.Remove(chatToRemove);
+                }
             }
         }
 
@@ -82,7 +90,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private async void GetChat()
         {
             var isParsed = int.TryParse(BindingTest, out int res);
-            if (!isParsed) { MessageBox.Show("NaN");return; }
+            if (!isParsed) { MessageBox.Show("NaN"); return; }
             var newChat = await chatsService.GetChatAsync(res);
             if (newChat != null && !(OnlineContacts.Where(c => c.Id == newChat.Id).ToList().Count > 0))
             {

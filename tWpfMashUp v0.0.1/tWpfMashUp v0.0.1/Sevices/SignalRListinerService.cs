@@ -55,10 +55,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnContactLoggedOut(User disconnectedUser)
         {
-            var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
-            if (contacts == null) contacts = new List<User>();
-            contacts.Remove(disconnectedUser);
-            store.Add(CommonKeys.Contacts.ToString(), contacts);
+            //var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+            //if (contacts == null) contacts = new List<User>();
+            //contacts.Remove(disconnectedUser);
+            //store.Add(CommonKeys.Contacts.ToString(), contacts);
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
         }
 
