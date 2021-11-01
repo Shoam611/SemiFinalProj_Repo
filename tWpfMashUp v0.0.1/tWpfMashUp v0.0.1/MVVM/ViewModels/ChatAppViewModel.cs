@@ -25,7 +25,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private string displayedUser;
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value;onProppertyChange();} }
 
-        string message;
+        private string message;
         public string BindingTest { get => message; set { message = value; onProppertyChange(); } }
         //props
         public RelayCommand GoToGameCommand { get; set; }
@@ -65,6 +65,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     Users = new List<User> { args.User, storeService.Get(CommonKeys.LoggedUser.ToString()) }
                 };
                 OnlineContacts.Add(newChat);
+            }
+            else
+            {
+                var chatToRemove = OnlineContacts.Where(c => c.ContactId == args.User.Id).FirstOrDefault();
+                if (chatToRemove != null) OnlineContacts.Remove(chatToRemove);
             }
         }
 

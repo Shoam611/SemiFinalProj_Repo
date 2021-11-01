@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using signalRChatApiServer.Repositories;
-using System.Collections.Generic;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Hubs;
 using Microsoft.AspNetCore.SignalR;
@@ -26,6 +25,8 @@ namespace signalRChatApiServer.Controllers
             var isauth = repository.Authenticate(username, password);
             if (isauth != null)
             {
+                isauth.IsConnected = Status.Online;
+                repository.UpdateUser(isauth);
                 chathub.Clients.AllExcept(isauth.HubConnectionString).SendAsync("ContactLoggedIn", isauth);
             }
             return isauth;
@@ -36,7 +37,8 @@ namespace signalRChatApiServer.Controllers
         {
             try
             {                
-                repository.AddUser(newUser);return true;
+                repository.AddUser(newUser);
+                return true;
             }
             catch { return false; }
         }

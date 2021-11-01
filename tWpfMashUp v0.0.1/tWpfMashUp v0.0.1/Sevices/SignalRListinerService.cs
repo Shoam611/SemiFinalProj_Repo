@@ -59,7 +59,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (contacts == null) contacts = new List<User>();
             contacts.Remove(disconnectedUser);
             store.Add(CommonKeys.Contacts.ToString(), contacts);
-            ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = true });
+            ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
         }
 
     }
