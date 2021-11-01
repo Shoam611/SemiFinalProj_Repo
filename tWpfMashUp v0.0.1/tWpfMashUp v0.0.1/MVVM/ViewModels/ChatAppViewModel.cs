@@ -12,7 +12,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     public class ChatAppViewModel : ObservableObject
     {
         //fields
-        StoreService storeService;
+        StoreService store;
         private SignalRListinerService signalRListinerService;
         private AuthenticationService authenticationService;
         ChatsService chatsService;
@@ -41,7 +41,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.signalRListinerService = signalRListinerService;
             this.authenticationService = authenticationService;
             this.chatsService = chatsService;
-            this.storeService = storeService;
+            this.store = storeService;
             OfflineContacts = new ObservableCollection<Chat>();
             OnlineContacts = new ObservableCollection<Chat>();
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
@@ -54,37 +54,47 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private void OnContactLogged(object sender, System.EventArgs e)
         {
             var args = e as ContactLoggedEventArgs;
-            if (args.IsLoggedIn)
-            {
-                var c = OfflineContacts.Where(c => c.ContactId == args.User.Id).FirstOrDefault();
-                if (c != null) OfflineContacts.Remove(c);
-                else
-                    c = new Chat
-                    {
-                        Contact = args.User.UserName,
-                        Messages = new List<Massage>(),
-                        ContactId = args.User.Id,
-                        Users = new List<User> { args.User, storeService.Get(CommonKeys.LoggedUser.ToString()) }
-                    };
+            if (args.IsLoggedIn) OnContactLoggedIn(args.User);
+            
+            else OnContactLoggedOut(args.User);
+        }
 
-                OnlineContacts.Add(c);
-            }
+        private void OnContactLoggedIn(User user)
+        {
+            var c = OfflineContacts.FirstOrDefault(c => c.ContactId == user.Id);
+            if (c != null) OfflineContacts.Remove(c);
             else
-            {
-                var chatToRemove = OnlineContacts.Where(c => c.ContactId == args.User.Id).FirstOrDefault();
-                if (chatToRemove != null)
+                c = new Chat
                 {
-                    if (chatToRemove.Messages != null && chatToRemove.Messages.Any())
-                        OfflineContacts.Add(chatToRemove);
-                    OnlineContacts.Remove(chatToRemove);
+                    Contact = user.UserName,
+                    Messages = new List<Massage>(),
+                    ContactId = user.Id,
+                    Users = new List<User> { user, store.Get(CommonKeys.LoggedUser.ToString()) }
+                };
+            OnlineContacts.Add(c);
+        }
+        private void OnContactLoggedOut(User user)
+        {
+            var chatToRemove = OnlineContacts.FirstOrDefault(c => c.ContactId == user.Id);
+            if (chatToRemove != null)
+            {
+                if (chatToRemove.Messages != null && chatToRemove.Messages.Any())
+                    OfflineContacts.Add(chatToRemove);
+                else
+                {
+                    var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+                    if (contacts == null) contacts = new List<User>();
+                    contacts.Remove(user);
+                    store.Add(CommonKeys.Contacts.ToString(), contacts);
                 }
+                OnlineContacts.Remove(chatToRemove);
             }
         }
 
         public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)
         {
             var newCurrentChat = (Chat)selectionChangedEventArgs.AddedItems[0];
-            storeService.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+            store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
         }
 
         private async void GetChat()
@@ -94,7 +104,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var newChat = await chatsService.GetChatAsync(res);
             if (newChat != null && !(OnlineContacts.Where(c => c.Id == newChat.Id).ToList().Count > 0))
             {
-                var me = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).Id;
+                var me = ((User)store.Get(CommonKeys.LoggedUser.ToString())).Id;
                 var contact = newChat.Users.Where(u => u.Id != me).First();//accesing  .Id prop throws null reference exception when index out of range
                 newChat.Contact = contact.UserName;
                 OnlineContacts.Add(newChat);
@@ -104,10 +114,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void FetchUserHandler()
         {
-            LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString());
+            LoggedUser = store.Get(CommonKeys.LoggedUser.ToString());
             DisplayedUser = $"{LoggedUser.UserName} (#{LoggedUser.Id})";
         }
 
-        private void UpdateChatInStore() => storeService.Add(CommonKeys.CurrentChat.ToString(), SelectedChat);
+        private void UpdateChatInStore() => store.Add(CommonKeys.CurrentChat.ToString(), SelectedChat);
     }
 }
