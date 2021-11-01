@@ -78,6 +78,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var chatToRemove = OnlineContacts.FirstOrDefault(c => c.ContactId == user.Id);
             if (chatToRemove != null)
             {
+                if (selectedChat == chatToRemove) selectedChat = null;
                 if (chatToRemove.Messages != null && chatToRemove.Messages.Any())
                     OfflineContacts.Add(chatToRemove);
                 else
@@ -93,8 +94,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            var newCurrentChat = (Chat)selectionChangedEventArgs.AddedItems[0];
-            store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+            try
+            {
+                var newCurrentChat = selectionChangedEventArgs.AddedItems[0] as Chat;
+                store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+            }catch { }
         }
 
         private async void GetChat()
@@ -105,11 +109,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             if (newChat != null && !(OnlineContacts.Where(c => c.Id == newChat.Id).ToList().Count > 0))
             {
                 var me = ((User)store.Get(CommonKeys.LoggedUser.ToString())).Id;
-                var contact = newChat.Users.Where(u => u.Id != me).First();//accesing  .Id prop throws null reference exception when index out of range
+                var contact = newChat.Users.Where(u => u.Id != me).First();//accesing .Id prop throws null reference exception when index out of range
                 newChat.Contact = contact.UserName;
                 OnlineContacts.Add(newChat);
             }
-            //else { MessageBox.Show("Couldnt find user"); }
         }
 
         private void FetchUserHandler()

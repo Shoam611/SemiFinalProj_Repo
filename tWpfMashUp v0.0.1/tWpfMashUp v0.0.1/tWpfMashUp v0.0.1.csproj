@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.11" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
