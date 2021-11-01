@@ -15,18 +15,9 @@ namespace signalRChatApiServer.Hubs
             return base.OnConnectedAsync();
         }
 
-        public void InformClientLoggedIn(User user)
-        {
-            Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedIn", user);
-        }
-        public void InformClientLoggedOut(User user)
-        {
-            Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedOut", user);
-        }
-        public void InformClientMassageRecived(Message message, int chatId, string hubConnectionString)
-        {
-            Clients.Client(hubConnectionString).SendAsync("MassageRecived", message);
-        }
+        public void InformClientLoggedIn(User user) => Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedIn", user);
+        public void InformClientLoggedOut(User user) => Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedOut", user);
+        public void InformClientMassageRecived(Message message, int chatId, string hubConnectionString) => Clients.Client(hubConnectionString).SendAsync("MassageRecived", message);
 
     }
 }
