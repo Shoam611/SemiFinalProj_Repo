@@ -11,8 +11,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ChatThreadViewModel : ObservableObject
     {
-        readonly MessagesService messagesService;
-        readonly StoreService storeService;
+        private readonly MessagesService messagesService;
+        private readonly StoreService storeService;
 
         private string currentUser;
 
@@ -66,9 +66,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             Message = "";
         }
 
-        public void ChatChangedHandler(RoutedEventArgs routedEventArgs)
-        {
-            Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
-        }
+        public void ChatChangedHandler(RoutedEventArgs routedEventArgs) => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
     }
 }

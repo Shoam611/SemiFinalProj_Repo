@@ -40,7 +40,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
         }
-        private void Start(IServiceProvider services)
+        private static void Start(IServiceProvider services)
         {
             ServiceProvider = services;
             ServiceProvider.GetService<MainWindow>().Show();

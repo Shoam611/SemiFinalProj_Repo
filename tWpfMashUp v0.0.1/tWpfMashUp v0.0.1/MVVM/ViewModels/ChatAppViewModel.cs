@@ -13,15 +13,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     public class ChatAppViewModel : ObservableObject
     {
         //fields
-        StoreService store;
-        private SignalRListinerService signalRListinerService;
-        private AuthenticationService authenticationService;
-        ChatsService chatsService;
+        private readonly StoreService store;
+        private readonly SignalRListinerService signalRListinerService;
+        private readonly AuthenticationService authenticationService;
+        private readonly ChatsService chatsService;
 
         //full props
-        User loggedUser;
+        private User loggedUser;
         public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
-        Chat selectedChat;
+
+        private Chat selectedChat;
         public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); UpdateChatInStore(); } }
         private string displayedUser;
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
@@ -90,8 +91,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     OfflineContacts.Add(chatToRemove);
                 else
                 {
-                    var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
-                    if (contacts == null) contacts = new List<User>();
+                    if (store.Get(CommonKeys.Contacts.ToString()) is not List<User> contacts) contacts = new List<User>();
                     contacts.Remove(user);
                     store.Add(CommonKeys.Contacts.ToString(), contacts);
                 }
