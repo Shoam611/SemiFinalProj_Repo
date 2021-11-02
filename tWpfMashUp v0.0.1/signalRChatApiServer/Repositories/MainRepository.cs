@@ -11,20 +11,20 @@ namespace signalRChatApiServer.Repositories
     //: IRepository
     {
         private TalkBackChatContext context;
-        private IEnumerable<Chat> chats;
-        private IEnumerable<Message> messages;
-        private IEnumerable<User> users;
+        //private IEnumerable<Chat> chats;
+        //private IEnumerable<Message> messages;
+        //private IEnumerable<User> users;
 
         public MainRepository(TalkBackChatContext context)
         {
             this.context = context;
         }
-        void PullData()
-        {
-            chats = context.Chats.ToList();
-            users = context.Users.ToList();
-            messages = context.Messages.ToList();
-        }
+        //void PullData()
+        //{
+        //    chats = context.Chats.ToList();
+        //    users = context.Users.ToList();
+        //    messages = context.Messages.ToList();
+        //}
         #region Create
         public Chat CreateChatWithUser(int userId, int toUser)
         {
@@ -72,7 +72,7 @@ namespace signalRChatApiServer.Repositories
         public IEnumerable<Chat> GetUserChatsById(int UserId) => context.Chats.Where(c => c.Users.Contains(GetUser(UserId)));
 
         public IEnumerable<Message> GetMessages(int chatId) //when loading a chat
-            => context.Chats.Find(chatId).Messages;
+            => context.Messages.Where(m=> m.ChatId==chatId);
 
         public User GetUser(int id) => context.Users.Find(id);// when sighning in / authenticating
 
@@ -100,6 +100,11 @@ namespace signalRChatApiServer.Repositories
             tempUser.UserName = user.UserName;
             tempUser.Password = user.Password;
             context.SaveChanges();
+        }
+
+        public Chat GetChat(int id)
+        {
+            return context.Chats.Find(id);            
         }
 
         #endregion

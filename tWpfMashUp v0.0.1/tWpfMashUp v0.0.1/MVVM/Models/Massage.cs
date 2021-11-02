@@ -8,6 +8,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
         public string Content { get; set; }
         public DateTime Date { get; set; }       
         public string Name { get; set; }
-
+        public int ChatId { get; set; }
+        //public int Origin { get; set; }(for usr id)
     }
 }

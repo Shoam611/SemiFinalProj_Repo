@@ -50,8 +50,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
-            <TextBox Height="50"
-                         Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Height="50" Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                          Style="{StaticResource MessegeTextBox}">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Return" Command="{Binding AddMessageCommand}" />

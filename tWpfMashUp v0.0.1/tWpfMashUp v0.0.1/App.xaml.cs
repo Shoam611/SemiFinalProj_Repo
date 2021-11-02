@@ -66,3 +66,4 @@ namespace tWpfMashUp_v0._0._1
 //TODO: LogOut functionality
 //TODO: Export on server: hub and repo logic to services;☻
 //TODO: update Hubconnectionstring on new logging in
+//TODO: start listening to hub only after logging in

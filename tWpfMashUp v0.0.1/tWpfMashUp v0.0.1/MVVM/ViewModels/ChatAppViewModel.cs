@@ -103,12 +103,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             try
             {
+                if (selectionChangedEventArgs.RemovedItems != null && selectionChangedEventArgs.RemovedItems.Count > 0)
+                    store.Remove(CommonKeys.CurrentChat.ToString());
                 if (selectionChangedEventArgs.AddedItems!=null && selectionChangedEventArgs.AddedItems.Count > 0) 
                 {
                 var newCurrentChat = selectionChangedEventArgs.AddedItems[0] as Chat;
                 store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
                 }
-                //if(selectionChangedEventArgs.RemovedItems != null && selectionChangedEventArgs.RemovedItems.Count > 0){}
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }catch { }
         }

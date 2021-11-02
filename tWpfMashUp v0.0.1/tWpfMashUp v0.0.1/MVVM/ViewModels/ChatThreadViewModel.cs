@@ -15,7 +15,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly StoreService storeService;
 
         private string currentUser;
-
         public string CurrentContact
         {
             get => currentUser;
@@ -45,9 +44,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             {
                 var args = e as SelectionChangedEventArgs;
                 if (args.RemovedItems != null && args.RemovedItems.Count > 0)
-                {
                     CurrentContact = " ";
-                }
                 if (args.AddedItems != null && args.AddedItems.Count > 0)
                 {
                     var newChat = args.AddedItems[0] as Chat;
@@ -59,11 +56,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void AddMessageHandler()
         {
-
-            var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
-            if (isSuccesfull)
-                Messages.Add(new Massage { Content = Message, Date = DateTime.Now, Name = storeService.Get(CommonKeys.LoggedUser.ToString()).UserName });
-            Message = "";
+            if (storeService.HasKey(CommonKeys.CurrentChat.ToString()))
+            {
+                var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
+                if (isSuccesfull)
+                    Message = "";
+            }
+            // Messages.Add(new Massage { Content = Message, Date = DateTime.Now, Name = storeService.Get(CommonKeys.LoggedUser.ToString()).UserName });
         }
 
         public void ChatChangedHandler(RoutedEventArgs routedEventArgs) => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);

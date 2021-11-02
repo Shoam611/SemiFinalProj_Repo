@@ -6,36 +6,37 @@ namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class StoreService
     {
-        private readonly Dictionary<string, dynamic> StoreDictionary;
+        private readonly Dictionary<string, dynamic> storeDictionary;
 
         public event EventHandler CurrentContactChanged;
-        
-            public StoreService()
+
+        public StoreService()
         {
-            StoreDictionary = new Dictionary<string, dynamic>();
+            storeDictionary = new Dictionary<string, dynamic>();
         }
         public void Add(string key, dynamic obj)
         {
             if (obj == null) return;
-            if (!StoreDictionary.TryGetValue(key, out _))
+            if (!storeDictionary.TryGetValue(key, out _))
             {
-                StoreDictionary.Add(key, obj);
+                storeDictionary.Add(key, obj);
             }
-            else { StoreDictionary[key] = obj;}
+            else { storeDictionary[key] = obj; }
         }
 
-        public void InformContactChanged(object source, System.Windows.Controls.SelectionChangedEventArgs selectionChangedEventArgs) 
+        public dynamic Get(string key) => storeDictionary.TryGetValue(key, out var val) ? val : null;
+       
+        public void InformContactChanged(object source, System.Windows.Controls.SelectionChangedEventArgs selectionChangedEventArgs)
             => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
-
-        public dynamic Get(string key) => StoreDictionary.TryGetValue(key,out var val) ? val :null;
+        public bool HasKey(string key) => storeDictionary.ContainsKey(key);
 
         public List<string> GetAllKeys() => PrivateGetAllKeys().ToList() ?? new List<string>();
 
-        public void Remove(string key) => StoreDictionary.Remove(key);
+        public void Remove(string key) => storeDictionary.Remove(key);
 
         IEnumerable<string> PrivateGetAllKeys()
         {
-            foreach (var item in StoreDictionary) yield return item.Key;
+            foreach (var item in storeDictionary) yield return item.Key;
         }
     }
 }

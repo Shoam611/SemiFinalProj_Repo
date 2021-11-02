@@ -20,25 +20,35 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task<bool> CallServerToAddMessage(string message)
         {
-            var url = @"http://localhost:14795/Chat";
+            var url = @"http://localhost:14795/Messages";
             using HttpClient client = new();
             try
             {
-                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
                 var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
-                if(chat == null)
-                {
-                    MessageBox.Show("No Chat Selected for messages"); return false;
-                }
-                if (chat.Messages == null)
-                    chat.Messages = new List<Massage>();
-                chat.Messages.Add(msg);
-                var content = new StringContent(JsonConvert.SerializeObject(chat), Encoding.UTF8, "application/json");
-                var response = await client.PutAsync(url, content);
-                //Update ChatThread
+                if (chat == null){ MessageBox.Show("No Chat Selected for messages"); return false; }
+                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName, ChatId = chat.Id };
+                if (chat.Messages == null) chat.Messages = new List<Massage>();
+                var content = new StringContent(JsonConvert.SerializeObject(msg), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(url, content);
+                response.EnsureSuccessStatusCode();
                 return true;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); return false; }
+        }
+
+        public async Task<List<Massage>> GetChatMassages(int chatId)
+        {
+            var url = @$"http://localhost:14795/Messages?chatId={chatId}";
+            using HttpClient client = new();
+            try
+            {
+                var response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var rawData = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<Massage>>(rawData);
+                return data;
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); return null; }
         }
     }
 }

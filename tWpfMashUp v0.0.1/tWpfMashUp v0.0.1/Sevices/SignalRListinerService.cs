@@ -10,39 +10,42 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class SignalRListinerService
     {
         private readonly StoreService store;
+        private readonly MessagesService messagesService;
         private readonly HubConnection connection;
-       
+
         public event EventHandler MassageRecived;
         public event EventHandler ContactLogged;
 
-        public SignalRListinerService(StoreService store)
+        public SignalRListinerService(StoreService store ,MessagesService messagesService)
         {
+            this.messagesService = messagesService;
             this.store = store;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();
             connection.Closed += async (err) => { await Task.Delay(3000); await connection.StartAsync(); };
             StartConnectionAsync();
         }
+     
         private async void StartConnectionAsync()
         {
             connection.On<string>("Connected", OnConnected);
-            connection.On<Massage, int>("MassageRecived", OnMassageRecived);
+            connection.On<int>("MassageRecived", OnMassageRecived);
             connection.On<User>("ContactLoggedIn", OnContactLogged);
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
-
             try
             {
-                if (connection.State != HubConnectionState.Connected)
-                    await connection.StartAsync();
+                if (connection.State != HubConnectionState.Connected) await connection.StartAsync();
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnConnected(string hubConnectionString)
-        {
-            store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
-        }
+        private void OnConnected(string hubConnectionString) => store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
 
-        private void OnMassageRecived(Massage msg, int chatId) => MassageRecived?.Invoke(this, new MessageRecivedEventArgs { Massage = msg, ChatID = chatId });
+        private async void OnMassageRecived(int chatId)
+        {
+            var newMsgs = await messagesService.GetChatMassages(chatId);
+            (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Messages = newMsgs;
+           // MassageRecived?.Invoke(this, new MessageRecivedEventArgs { Massages= newMsgs, ChatID = chatId });
+        }
 
         private void OnContactLogged(User newOnlineUser)
         {

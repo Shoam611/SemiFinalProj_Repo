@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using signalRChatApiServer.Repositories;
-using signalRChatApiServer.Models;
 using signalRChatApiServer.Hubs;
+using signalRChatApiServer.Models;
 using Microsoft.AspNetCore.SignalR;
+using signalRChatApiServer.Repositories;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -15,7 +15,7 @@ namespace signalRChatApiServer.Controllers
 
         public UsersController(IRepository repository, IHubContext<ChatHub> chatHub)
         {
-            this.chathub = chatHub;
+            chathub = chatHub;
             this.repository = repository;
         }
 

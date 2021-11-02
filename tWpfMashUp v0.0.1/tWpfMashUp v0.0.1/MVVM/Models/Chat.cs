@@ -7,11 +7,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
     public class Chat : ObservableObject
     {
         public int Id { get; set; }
+        public int ContactId { get; set; }
+        public string Contact { get; set; }
 
         public virtual ICollection<Massage> Messages { get; set; }
         public virtual ICollection<User> Users { get; set; }
-        public string Contact { get; set; }
-        public int ContactId { get; set; }
 
         private string lastMessage = "";
         public string LastMessage

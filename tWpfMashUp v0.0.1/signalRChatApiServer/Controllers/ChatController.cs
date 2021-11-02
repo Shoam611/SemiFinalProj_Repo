@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
-using System.Collections.Generic;
 
 namespace signalRChatApiServer.Controllers
 {
