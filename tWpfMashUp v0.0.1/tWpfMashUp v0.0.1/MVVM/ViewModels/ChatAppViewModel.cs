@@ -28,8 +28,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
 
         private User selectedUser;
-        public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); UpdateChatInStore(); } }       
-        private string bindingTest;       
+        public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); UpdateChatInStore(); } }
+        private string bindingTest;
         public string BindingTest { get => bindingTest; set { bindingTest = value; onProppertyChange(); } }
         //commands
         public RelayCommand OnSelectionChangedCommand { get; set; }
@@ -44,30 +44,30 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.store = store;
             this.signalRListinerService = signalRListinerService;
             OfflineContacts = new ObservableCollection<User>();
-            OnlineContacts = new ObservableCollection<User>();           
+            OnlineContacts = new ObservableCollection<User>();
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
-           // authenticationService.UserFetch
+            // authenticationService.UserFetch
         }
-        private  void FetchUserHandler()
+        private void FetchUserHandler()
         {
             LoggedUser = store.Get(CommonKeys.LoggedUser.ToString()) as User;
             DisplayedUser = $"{LoggedUser.UserName} (#{LoggedUser.Id})";
-           FetchAllOnlineContacts();
-                       
+            FetchAllOnlineContacts();
+
         }
         private async void FetchAllOnlineContacts()
         {
             await authenticationService.FetchAllLoggedUsers();
-            Dispatcher.CurrentDispatcher.Invoke(()=>UpdateUsersList());
+            Dispatcher.CurrentDispatcher.Invoke(() => UpdateUsersList());
         }
 
         private void UpdateUsersList()
         {
             var users = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
             if (!users.Any()) return;
-                                        
+
             foreach (var u in users)
             {
                 if (u.IsConnected == Status.Online) OnlineContacts.Add(u);
@@ -75,12 +75,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             }
             onProppertyChange();
         }
-       
+
         private void OnContactLogged(object sender, System.EventArgs e)
         {
             var args = e as ContactLoggedEventArgs;
-            if (args.IsLoggedIn) Dispatcher.CurrentDispatcher.Invoke(()=> OnContactLoggedIn(args.User));
-            else Dispatcher.CurrentDispatcher.Invoke(()=>OnContactLoggedOut(args.User));
+            if (args.IsLoggedIn) Dispatcher.CurrentDispatcher.Invoke(() => OnContactLoggedIn(args.User));
+            else Dispatcher.CurrentDispatcher.Invoke(() => OnContactLoggedOut(args.User));
         }
         private void OnContactLoggedIn(User user)
         {
@@ -88,29 +88,32 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OfflineContacts.Remove(user);
         }
         private void OnContactLoggedOut(User user)
-        {           
-                OfflineContacts.Add(user);
-                OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u => u.Id == user.Id));           
+        {
+            OfflineContacts.Add(user);
+            OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u => u.Id == user.Id));
         }
 
         public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            //go to service and create chat if not exist
-            //call chat thread update
             try
             {
                 if (selectionChangedEventArgs.RemovedItems != null && selectionChangedEventArgs.RemovedItems.Count > 0)
+                {
                     store.Remove(CommonKeys.CurrentChat.ToString());
+                    store.Remove(CommonKeys.WithUser.ToString());
+                }
                 if (selectionChangedEventArgs.AddedItems != null && selectionChangedEventArgs.AddedItems.Count > 0)
                 {
-                    var newCurrentChat = selectionChangedEventArgs.AddedItems[0] as Chat;
-                    store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+                    var newCurrentUser = selectionChangedEventArgs.AddedItems[0] as User;
+                    store.Add(CommonKeys.WithUser.ToString(), newCurrentUser);
+                    //create new chat
+                    chatsService.CreateChatIfNotExistAsync(newCurrentUser);
                 }
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }
             catch { }
         }
-       
+
         private void UpdateChatInStore() => store.Add(CommonKeys.WithUser.ToString(), SelectedUser);
     }
 }

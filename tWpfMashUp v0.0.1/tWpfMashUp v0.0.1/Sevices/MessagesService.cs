@@ -37,7 +37,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var content = new StringContent(JsonConvert.SerializeObject(msg), Encoding.UTF8, "application/json");
                 var userConnection = storeService.Get(CommonKeys.WithUser.ToString()).HubConnectionString;
                 var response = await client.PostAsync(url, content);
-
+                response.EnsureSuccessStatusCode();
                 //Update ChatThread
                 return true;
             }

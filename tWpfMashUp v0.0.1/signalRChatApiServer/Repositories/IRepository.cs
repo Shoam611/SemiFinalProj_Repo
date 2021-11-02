@@ -5,9 +5,9 @@ namespace signalRChatApiServer.Repositories
 {
     public interface IRepository
     {
-        void AddChat(Chat chat);
-        void AddMessage(Message message);
-        void AddUser(User user);
+        int AddChat(Chat chat);
+        int AddMessage(Message message);
+        int AddUser(User user);
         User Authenticate(string username, string password);
         IEnumerable<Message> GetMessages(int chatId);
         User GetUser(int id);
@@ -19,5 +19,7 @@ namespace signalRChatApiServer.Repositories
         void UpdateUser(User user);
         Chat GetChat(int id);
         List<User> GetAllUsers();
+        bool IsChatExist(int user1Id, int user2Id, out Chat c);
+        Chat CreateNewChat(int user1Id, int user2Id);
     }
 }

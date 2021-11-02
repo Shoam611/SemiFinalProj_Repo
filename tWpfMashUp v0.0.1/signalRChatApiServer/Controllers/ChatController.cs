@@ -20,9 +20,10 @@ namespace signalRChatApiServer.Controllers
         }
 
         [HttpGet]
-        public Chat Get(int userId, int toUserId)
-        { 
-            return repository.CreateChatWithUser(userId, toUserId);
+        public Chat Get(int user1Id, int user2Id)
+        {
+            repository.IsChatExist(user1Id, user2Id, out Chat c);
+            return c;
         }
 
         [HttpPost]

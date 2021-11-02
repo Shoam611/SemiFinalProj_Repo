@@ -43,8 +43,3 @@ namespace tWpfMashUp_v0._0._1.Sevices
     }
 }
 
-//public dynamic this[string key]
-//{
-//    get { return storeDictionary[key]; }
-//    set { storeDictionary[key] = value; }
-//}

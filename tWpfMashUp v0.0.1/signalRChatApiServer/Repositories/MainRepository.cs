@@ -1,9 +1,7 @@
-﻿using signalRChatApiServer.Data;
-using signalRChatApiServer.Models;
-using System;
+﻿using System.Linq;
+using signalRChatApiServer.Data;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using signalRChatApiServer.Models;
 
 namespace signalRChatApiServer.Repositories
 {
@@ -16,7 +14,7 @@ namespace signalRChatApiServer.Repositories
         {
             this.context = context;
         }
-       
+
         #region Create
         public Chat CreateChatWithUser(int userId, int toUser)
         {
@@ -36,24 +34,27 @@ namespace signalRChatApiServer.Repositories
             AddChat(newChat);
             return newChat;
         }
-        public void AddChat(Chat chat) //when openning a room
+        public int AddChat(Chat chat) //when openning a room
         {
-            if (chat == null || chat.Users.Contains(null)) return;
-            context.Chats.Add(chat);
+            if (chat == null || chat.Users.Contains(null)) return 0;
+            var e = context.Chats.Add(chat);
             context.SaveChanges();
+            return e.Entity.Id;
         }
 
-        public void AddMessage(Message message)//when sending a masssage
+        public int AddMessage(Message message)//when sending a masssage
         {
             //var s = "☻";
-            context.Messages.Add(message);
+            var id = context.Messages.Add(message).Entity.Id;
             context.SaveChanges();
+            return id;
         }
 
-        public void AddUser(User user)//when sighning up
+        public int AddUser(User user)//when sighning up
         {
-            context.Users.Add(user);
+            var id = context.Users.Add(user).Entity.Id;
             context.SaveChanges();
+            return id;
         }
         #endregion
 
@@ -64,12 +65,12 @@ namespace signalRChatApiServer.Repositories
         public IEnumerable<Chat> GetUserChatsById(int UserId) => context.Chats.Where(c => c.Users.Contains(GetUser(UserId)));
 
         public IEnumerable<Message> GetMessages(int chatId) //when loading a chat
-            => context.Messages.Where(m=> m.ChatId==chatId);
+            => context.Messages.Where(m => m.ChatId == chatId);
 
         public User GetUser(int id) => context.Users.Find(id);// when sighning in / authenticating
 
         public User Authenticate(string username, string password)
-            => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
+         => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
 
         #endregion
 
@@ -96,7 +97,7 @@ namespace signalRChatApiServer.Repositories
 
         public Chat GetChat(int id)
         {
-            return context.Chats.Find(id);            
+            return context.Chats.Find(id);
         }
 
         public List<User> GetAllUsers() => context.Users.ToList();
@@ -104,6 +105,30 @@ namespace signalRChatApiServer.Repositories
         public Chat GetChatByMessage(int messageId)
         {
             return context.Chats.Where(c => c.Messages.Any(m => m.Id == messageId)).FirstOrDefault();
+        }
+
+        public Chat CreateNewChat(int user1Id, int user2Id)
+        {
+            var chat = new Chat { Users = new List<User> { GetUser(user1Id), GetUser(user2Id) }, Messages = new List<Message>() };
+            var id = AddChat(chat);
+            chat.Id = id;
+            return chat;
+        }
+
+        public bool IsChatExist(int user1Id, int user2Id, out Chat c)
+        {
+            var qchat = (from chat in context.Chats
+                     where chat.Users.Contains(GetUser(user2Id)) &&
+                            chat.Users.Contains(GetUser(user1Id))
+                     select chat).Take(1);
+            if(qchat.Any())
+            {
+                c = qchat.First(); return true;
+            }
+            else
+            {
+                c = CreateNewChat(user1Id,user2Id);   return false;
+            }
         }
 
         #endregion

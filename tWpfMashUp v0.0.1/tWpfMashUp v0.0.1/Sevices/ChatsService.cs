@@ -13,10 +13,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class ChatsService
     {
         private readonly StoreService store;
-        public ChatsService(StoreService store,AuthenticationService authenticationService)
-        {
-            this.store = store;
-        }
+        public ChatsService(StoreService store) => this.store = store;
 
         public async Task<Chat> GetChatAsync(int userToId)
         {
@@ -59,7 +56,34 @@ namespace tWpfMashUp_v0._0._1.Sevices
             return chat;
         }
 
+        public async void CreateChatIfNotExistAsync(User newCurrentUser)
+        {
+            if (store.HasKey(CommonKeys.Chats.ToString()))
+            {
+                var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+                var chatToReturn = chats.Find(c => c.Users.Contains(newCurrentUser));
+                store.Add(CommonKeys.CurrentChat.ToString(), chatToReturn);
+                return;
+            }
+            var loggedUser = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            var url = @$"http://localhost:14795/Chat?user1Id={loggedUser.Id}&user2Id={newCurrentUser.Id}";
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var res = await client.GetAsync(url);
+                    res.EnsureSuccessStatusCode();
+                    var resString = await res.Content.ReadAsStringAsync();
+                    var chatRecived = JsonConvert.DeserializeObject<Chat>(resString);
+                    if (chatRecived != null)
+                    {
+                        store.Add(CommonKeys.CurrentChat.ToString(), chatRecived );
+                    }
+                }
+            }
+            catch { }
 
+        }
     }
 
 }
