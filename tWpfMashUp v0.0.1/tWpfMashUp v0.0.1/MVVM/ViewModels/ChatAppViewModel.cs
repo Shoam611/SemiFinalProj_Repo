@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Linq;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
-using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -55,7 +53,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private async void FetchAllOnlineContacts()
         {
             await authenticationService.FetchAllLoggedUsers();
-            UpdateUsersList();
+            Dispatcher.CurrentDispatcher.Invoke(()=>UpdateUsersList());
         }
 
         private void UpdateUsersList()
@@ -74,23 +72,24 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private void OnContactLogged(object sender, System.EventArgs e)
         {
             var args = e as ContactLoggedEventArgs;
-            if (args.IsLoggedIn) OnContactLoggedIn(args.User);
-            else OnContactLoggedOut(args.User);
+            if (args.IsLoggedIn) Dispatcher.CurrentDispatcher.Invoke(()=> OnContactLoggedIn(args.User));
+            else Dispatcher.CurrentDispatcher.Invoke(()=>OnContactLoggedOut(args.User));
         }
         private void OnContactLoggedIn(User user)
         {
-            //var me = (store.Get(CommonKeys.LoggedUser.ToString())) as User;
             OnlineContacts.Add(user);
             OfflineContacts.Remove(user);
         }
         private void OnContactLoggedOut(User user)
-        {
-            OfflineContacts.Add(user);
-            OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u=>u.Id==user.Id));
+        {           
+                OfflineContacts.Add(user);
+                OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u => u.Id == user.Id));           
         }
 
         public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)
         {
+            //go to service and create chat if not exist
+            //call chat thread update
             try
             {
                 if (selectionChangedEventArgs.RemovedItems != null && selectionChangedEventArgs.RemovedItems.Count > 0)

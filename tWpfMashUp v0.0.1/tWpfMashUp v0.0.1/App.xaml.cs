@@ -47,23 +47,27 @@ namespace tWpfMashUp_v0._0._1
         }        
         protected async override void OnExit(ExitEventArgs e)
         {
-            // service.OnLogOutHandler();
             using (host) await host.StopAsync(TimeSpan.FromSeconds(2));
-            //LogOut
             base.OnExit(e);
         }
     }
 }
+//later
+//TODO: Export on server: hub and repo logic to services; ☻ -> later
 
-//TODO: add onExit logOutCallToServer. Done
-//TODO: add On Logging in Fetching all currently connected users.
-//TODO: add status changes in store and db when user logging in and out.
-//TODO: when user is logged in ,user.remove? from oflline & vice versa.
-//TODO: when user log off with no chat remove complitly.
+//not complited:
+//TODO: when user is logged in ,user.remove? from oflline & vice versa. Halfy done
 //TODO: on MessageSent Inform User -> \/
-////    if not on current chat, make circle green
-////     else push thread update
-//TODO: LogOut functionality
-//TODO: Export on server: hub and repo logic to services;☻
-//TODO: update Hubconnectionstring on new logging in
-//TODO: start listening to hub only after logging in
+////    if not on current chat, make circle green 
+////     else push thread update -> Done
+
+//active tasks
+//TODO: LogOut functionality.
+//TODO: Chats:When user is Selected
+    //chat will be created if not exist.
+    //fetched chat will be added to the store
+    //chatthread viewModel will be notified and update Ui
+//TODO: Add Validation to registraion.
+        //no empty strings
+        //no duplicate usernames
+        //add matching error massage to user

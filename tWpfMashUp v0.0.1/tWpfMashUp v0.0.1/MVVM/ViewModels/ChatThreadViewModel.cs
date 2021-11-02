@@ -14,11 +14,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly MessagesService messagesService;
         private readonly StoreService storeService;
 
-        private string currentUser;
+        private string currentContact;
         public string CurrentContact
         {
-            get => currentUser;
-            set { currentUser = value; onProppertyChange(); }
+            get => currentContact;
+            set { currentContact = value; onProppertyChange(); }
         }
 
         public RelayCommand AddMessageCommand { get; set; }

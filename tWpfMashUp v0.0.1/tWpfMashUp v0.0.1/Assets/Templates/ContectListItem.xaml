@@ -19,7 +19,6 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding UserName}" Foreground="White" />
                                 </StackPanel>
-                                <!--<Label Content="{Binding LastMessage}" Foreground="Gray" FontSize="10"/>-->
                             </StackPanel>
                         </StackPanel>
                     </Border>
