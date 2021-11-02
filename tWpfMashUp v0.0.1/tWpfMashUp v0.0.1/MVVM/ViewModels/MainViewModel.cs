@@ -9,7 +9,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     {
         private object view;
         private readonly AuthenticationService authenticationService;
-        private readonly SignalRListinerService signalRListener;
+        private readonly SignalRListenerService signalRListener;
 
         public object View
         {

@@ -15,8 +15,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly StoreService storeService;
         private readonly SignalRListenerService listenerService;
 
-        private string currentUser;
-
         private string currentContact;
         public string CurrentContact
         {

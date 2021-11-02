@@ -12,14 +12,13 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private readonly StoreService store;
         private readonly MessagesService messagesService;
         private readonly HubConnection connection;
-        private readonly MessagesService messagesService;
 
         public event EventHandler MassageRecived;
         public event EventHandler ContactLogged;
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
         {
-            this.messagesService = messagesService;
+            
             this.store = store;
             this.messagesService = messagesService;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();
@@ -46,9 +45,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private async void OnMassageRecived(int chatId)
         {
-            var newMsgs = await messagesService.GetChatMassages(chatId);
-            (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Messages = newMsgs;
-            //inform Massage Recived
+            var newMessages = await messagesService.GetChatMassages(chatId);
+            (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Messages = newMessages;
+            MassageRecived?.Invoke(this, new EventArgs());
         }
 
         private void OnContactLoggedIn(User newOnlineUser)
@@ -66,10 +65,5 @@ namespace tWpfMashUp_v0._0._1.Sevices
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
         }
 
-        private async void OnMassageRecived(int chatId)
-        {
-            var newMessages = await messagesService.GetChatMassages(chatId);
-            (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Messages = newMessages;
-        }
     }
 }

@@ -9,7 +9,7 @@ namespace signalRChatApiServer.Repositories
 {
     public class MainRepository : IRepository
     {
-        private TalkBackChatContext context;
+        private readonly TalkBackChatContext context;
 
 
         public MainRepository(TalkBackChatContext context)
@@ -100,6 +100,11 @@ namespace signalRChatApiServer.Repositories
         }
 
         public List<User> GetAllUsers() => context.Users.ToList();
+
+        public Chat GetChatByMessage(int messageId)
+        {
+            return context.Chats.Where(c => c.Messages.Any(m => m.Id == messageId)).FirstOrDefault();
+        }
 
         #endregion
     }

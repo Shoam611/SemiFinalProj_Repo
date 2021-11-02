@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using signalRChatApiServer.Hubs;
 using System.Collections.Generic;
-﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
-using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Repositories;
 
 namespace signalRChatApiServer.Controllers
@@ -15,14 +12,12 @@ namespace signalRChatApiServer.Controllers
     [Route("[controller]")]
     public class MessagesController : Controller
     {
-        private IHubContext<ChatHub> chathub;
-        readonly IRepository repository;
-        private IHubContext<ChatHub> chathub;
+        private readonly IHubContext<ChatHub> chathub;
+        readonly IRepository repository;     
         public MessagesController(IRepository repository, IHubContext<ChatHub> chathub)
         {
-            this.chathub = chatHub;
-            this.repository = repository;
             this.chathub = chathub;
+            this.repository = repository;        
         }
 
         [HttpGet]

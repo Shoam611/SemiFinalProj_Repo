@@ -6,6 +6,7 @@ using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -27,9 +28,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
 
         private User selectedUser;
-        public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); UpdateChatInStore(); } }
-        private string displayedUser;
-        public string DisplayedUser { get => displayedUser; set { displayedUser = value; onProppertyChange(); } }
+        public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); UpdateChatInStore(); } }       
         private string bindingTest;       
         public string BindingTest { get => bindingTest; set { bindingTest = value; onProppertyChange(); } }
         //commands
@@ -38,17 +37,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ObservableCollection<User> OnlineContacts { get; set; }
         public ObservableCollection<User> OfflineContacts { get; set; }
 
-        public ChatAppViewModel(StoreService store, ChatsService chatsService, AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
+        public ChatAppViewModel(StoreService store, ChatsService chatsService, AuthenticationService authenticationService, SignalRListenerService signalRListinerService)
         {
             this.authenticationService = authenticationService;
             this.chatsService = chatsService;
-            this.store = storeService;
+            this.store = store;
+            this.signalRListinerService = signalRListinerService;
             OfflineContacts = new ObservableCollection<User>();
-            OnlineContacts = new ObservableCollection<User>();
-            FetchUserCommand = new RelayCommand(o => FetchUserHandler());
-            GetRandomChatCommand = new RelayCommand(o => GetChat());
-            authenticationService.LoggingIn += (s, e) => FetchUserHandler();
-            signalRListinerService.ContactLogged += OnContactLogged;
+            OnlineContacts = new ObservableCollection<User>();           
+            this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
+            this.signalRListinerService.ContactLogged += OnContactLogged;
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
            // authenticationService.UserFetch
         }
@@ -109,21 +107,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
                 }
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
-            }
-            catch { }
-        }
-
-        private async void GetChat()
-        {
-            var isParsed = int.TryParse(BindingTest, out int res);
-            if (!isParsed) { MessageBox.Show("NaN"); return; }
-            var newChat = await chatsService.GetChatAsync(res);
-            if (newChat != null && !(OnlineContacts.Where(c => c.Id == newChat.Id).ToList().Count > 0))
-            {
-                var me = ((User)store.Get(CommonKeys.LoggedUser.ToString())).Id;
-                var contact = newChat.Users.Where(u => u.Id != me).First();//accesing .Id prop throws null reference exception when index out of range
-                newChat.Contact = contact.UserName;
-                OnlineContacts.Add(newChat);
             }
             catch { }
         }

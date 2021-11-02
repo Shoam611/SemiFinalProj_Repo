@@ -33,8 +33,9 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<GameViewModel>();
             
             services.AddSingleton<StoreService>();
-            services.AddScoped<SignalRListinerService>();
+            
             services.AddScoped<AuthenticationService>();
+            services.AddScoped<SignalRListenerService>();
 
             services.AddTransient<NavigationService>();
             services.AddTransient<MessagesService>();
