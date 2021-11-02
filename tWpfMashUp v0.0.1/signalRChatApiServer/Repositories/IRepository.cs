@@ -11,6 +11,7 @@ namespace signalRChatApiServer.Repositories
         User Authenticate(string username, string password);
         IEnumerable<Message> GetMessages(int chatId);
         User GetUser(int id);
+        Chat GetChatByMessage(int messageId);
         IEnumerable<Chat> GetUserChats(User user);
         IEnumerable<Chat> GetUserChatsById(int UserId);
         Chat CreateChatWithUser(int userId, int toUser);

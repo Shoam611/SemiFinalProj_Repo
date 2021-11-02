@@ -17,7 +17,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             set { view = value; onProppertyChange(); }
         }
 
-        public MainViewModel(SignalRListinerService signalRListiner,AuthenticationService authenticationService)
+        public MainViewModel(SignalRListenerService signalRListiner,AuthenticationService authenticationService)
         {
             this.authenticationService = authenticationService;
             this.signalRListener = signalRListiner;

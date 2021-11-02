@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using signalRChatApiServer.Hubs;
 using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Repositories;
@@ -14,10 +17,12 @@ namespace signalRChatApiServer.Controllers
     {
         private IHubContext<ChatHub> chathub;
         readonly IRepository repository;
-        public MessagesController(IRepository repository, IHubContext<ChatHub> chatHub)
+        private IHubContext<ChatHub> chathub;
+        public MessagesController(IRepository repository, IHubContext<ChatHub> chathub)
         {
             this.chathub = chatHub;
             this.repository = repository;
+            this.chathub = chathub;
         }
 
         [HttpGet]
@@ -26,16 +31,16 @@ namespace signalRChatApiServer.Controllers
             return repository.GetMessages(chatId).ToList() ?? new List<Message>();
         }
 
-        //Post
+        //Put
         [HttpPost]
         public void Post(Message message)
-        {            
+        {
             repository.AddMessage(message);
-            Chat c = repository.GetChat(message.ChatId);
-            foreach(var u in c.Users)
-            {
-                chathub.Clients.Client(u.HubConnectionString).SendAsync("MassageRecived", c.Id);
-            }
+
+            var chatId = repository.GetChatByMessage(message.Id).Id;
+            var userConnection = new List<User>(repository.GetChatByMessage(message.Id).Users).First().HubConnectionString;
+            chathub.Clients.Client(userConnection).SendAsync("MassageRecived", message, chatId);
         }
+
     }
 }

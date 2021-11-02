@@ -11,13 +11,20 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ChatAppViewModel : ObservableObject
     {
-        //fields-services
+        //fields
         private readonly StoreService store;
+        private readonly SignalRListenerService signalRListinerService;
         private readonly AuthenticationService authenticationService;
-        SignalRListinerService signalRListinerService;
+        private readonly ChatsService chatsService;
+
         //full props
         private User loggedUser;
         public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
+
+        private Chat selectedChat;
+        public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); UpdateChatInStore(); } }
+        private string displayedUser;
+        public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
 
         private User selectedUser;
         public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); UpdateChatInStore(); } }
@@ -34,12 +41,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ChatAppViewModel(StoreService store, ChatsService chatsService, AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
         {
             this.authenticationService = authenticationService;
-            this.signalRListinerService = signalRListinerService;
-            this.store = store;
-            this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
-            this.signalRListinerService.ContactLogged += OnContactLogged;
-            OnlineContacts = new ObservableCollection<User>();
+            this.chatsService = chatsService;
+            this.store = storeService;
             OfflineContacts = new ObservableCollection<User>();
+            OnlineContacts = new ObservableCollection<User>();
+            FetchUserCommand = new RelayCommand(o => FetchUserHandler());
+            GetRandomChatCommand = new RelayCommand(o => GetChat());
+            authenticationService.LoggingIn += (s, e) => FetchUserHandler();
+            signalRListinerService.ContactLogged += OnContactLogged;
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
            // authenticationService.UserFetch
         }
@@ -100,6 +109,21 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
                 }
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
+            }
+            catch { }
+        }
+
+        private async void GetChat()
+        {
+            var isParsed = int.TryParse(BindingTest, out int res);
+            if (!isParsed) { MessageBox.Show("NaN"); return; }
+            var newChat = await chatsService.GetChatAsync(res);
+            if (newChat != null && !(OnlineContacts.Where(c => c.Id == newChat.Id).ToList().Count > 0))
+            {
+                var me = ((User)store.Get(CommonKeys.LoggedUser.ToString())).Id;
+                var contact = newChat.Users.Where(u => u.Id != me).First();//accesing .Id prop throws null reference exception when index out of range
+                newChat.Contact = contact.UserName;
+                OnlineContacts.Add(newChat);
             }
             catch { }
         }

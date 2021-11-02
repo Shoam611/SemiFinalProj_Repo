@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -28,7 +29,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
        
         public void InformContactChanged(object source, System.Windows.Controls.SelectionChangedEventArgs selectionChangedEventArgs)
             => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
+        
         public bool HasKey(string key) => storeDictionary.ContainsKey(key);
+            else { StoreDictionary[key] = obj; }
+        }        
 
         public List<string> GetAllKeys() => PrivateGetAllKeys().ToList() ?? new List<string>();
 

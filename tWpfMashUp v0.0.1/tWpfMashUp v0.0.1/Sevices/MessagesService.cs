@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class MessagesService
     {
-        readonly StoreService storeService;
+        private readonly StoreService storeService;
         public MessagesService(StoreService storeService)
         {
             this.storeService = storeService;
@@ -24,13 +24,21 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var chat = ((Chat)storeService.Get(CommonKeys.CurrentChat.ToString()));
-                if (chat == null){ MessageBox.Show("No Chat Selected for messages"); return false; }
-                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName, ChatId = chat.Id };
-                if (chat.Messages == null) chat.Messages = new List<Massage>();
+                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
+                var chat = (Chat)storeService.Get(CommonKeys.CurrentChat.ToString());
+                if(chat == null)
+                {
+                    MessageBox.Show("No Chat Selected for messages"); return false;
+                }
+                if (chat.Messages == null)
+                    chat.Messages = new List<Massage>();
+                
+                var json = JsonConvert.SerializeObject(msg);
                 var content = new StringContent(JsonConvert.SerializeObject(msg), Encoding.UTF8, "application/json");
+                var userConnection = storeService.Get(CommonKeys.WithUser.ToString()).HubConnectionString;
                 var response = await client.PostAsync(url, content);
-                response.EnsureSuccessStatusCode();
+
+                //Update ChatThread
                 return true;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); return false; }
@@ -43,12 +51,15 @@ namespace tWpfMashUp_v0._0._1.Sevices
             try
             {
                 var response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                var rawData = await response.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<Massage>>(rawData);
+                var readData = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<Massage>>(readData);
                 return data;
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); return null; }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message, "Failed to call server"); 
+                return null; 
+            }
         }
     }
 }

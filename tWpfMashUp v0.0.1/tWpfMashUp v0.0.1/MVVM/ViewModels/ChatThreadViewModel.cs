@@ -13,6 +13,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     {
         private readonly MessagesService messagesService;
         private readonly StoreService storeService;
+        private readonly SignalRListenerService listenerService;
+
+        private string currentUser;
 
         private string currentContact;
         public string CurrentContact
@@ -28,10 +31,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private string message;
         public string Message { get => message; set { message = value; onProppertyChange(); } }
 
-        public ChatThreadViewModel(MessagesService messagesService, StoreService storeService)
+        public ChatThreadViewModel(MessagesService messagesService, StoreService storeService, SignalRListenerService listenerService)
         {
             CurrentContact = "";
             this.storeService = storeService;
+            this.listenerService = listenerService;
             this.messagesService = messagesService;
             Messages = new ObservableCollection<Massage>();
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
@@ -55,15 +59,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void AddMessageHandler()
         {
-            if (storeService.HasKey(CommonKeys.CurrentChat.ToString()))
-            {
-                var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
-                if (isSuccesfull)
-                    Message = "";
-            }
+            var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
+            if (isSuccesfull)
+                Messages.Add(new Massage { Content = Message, Date = DateTime.Now, Name = storeService.Get(CommonKeys.LoggedUser.ToString()).UserName });
+
+            Message = "";
         }
 
-        //public void ChatChangedHandler(RoutedEventArgs routedEventArgs) 
-        //    => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
+        public void ChatChangedHandler(RoutedEventArgs routedEventArgs) => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
     }
 }
