@@ -5,22 +5,26 @@ using Newtonsoft.Json;
 using System.Windows;
 using System.Text;
 using System;
+using System.Collections.Generic;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class AuthenticationService
     {
-        readonly StoreService storeService;
+        private readonly StoreService storeService;
         public event EventHandler LoggingIn;
         public AuthenticationService(StoreService storeService)
         {
-            App.Current.Exit += async (s,e) => await OnLogOutHandler();
+            App.Current.Exit += async (s, e) => await OnLogOutHandler();
             this.storeService = storeService;
+            
         }
+
+      
 
         public async Task<bool> CallServerToSignUp(string username, string password)
         {
-            var url = @"http://localhost:14795/Users";
+            var url = @"http://localhost:14795/Authentication";
             using HttpClient client = new();
             try
             {
@@ -36,7 +40,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task<bool> LoginAsync(string username, string password)
         {
-            var url = @$"http://localhost:14795/Users?username={username}&password={password}";
+            var hubstring = storeService.Get(CommonKeys.HubConnectionString.ToString()) as string;
+            var url = @$"http://localhost:14795/Authentication?username={username}&password={password}&hubstring={hubstring}";
             using HttpClient client = new();
             try
             {
@@ -46,7 +51,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var data = JsonConvert.DeserializeObject<User>(rawData);
                 if (data != null)
                 {
+
                     storeService.Add(CommonKeys.LoggedUser.ToString(), data);
+                    await FetchAllLoggedUsers();
                     LoggingIn?.Invoke(this, new EventArgs());
                     return true;
                 }
@@ -69,6 +76,27 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch { }
         }
+       
+        public async Task FetchAllLoggedUsers()
+        {
+            var url = @$"http://localhost:14795/Users";
+            using HttpClient client = new();
+            try
+            {
+                var response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var rawData = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<User>>(rawData);
+                if (data != null)
+                {
+                    var me = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
+                    data.Remove(data.Find(u => u.Id == me.Id));
+                    storeService.Add(CommonKeys.Contacts.ToString(), data);
+                    //UsersFetched?.Invoke(this, new EventArgs());
+                }
+            }
+            catch { MessageBox.Show("Failed To Call Server"); }
+        }        
     }
 
 }

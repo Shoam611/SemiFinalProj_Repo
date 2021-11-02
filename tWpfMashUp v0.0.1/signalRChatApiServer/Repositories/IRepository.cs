@@ -17,5 +17,6 @@ namespace signalRChatApiServer.Repositories
         void UpdateChat(Chat chat);
         void UpdateUser(User user);
         Chat GetChat(int id);
+        List<User> GetAllUsers();
     }
 }

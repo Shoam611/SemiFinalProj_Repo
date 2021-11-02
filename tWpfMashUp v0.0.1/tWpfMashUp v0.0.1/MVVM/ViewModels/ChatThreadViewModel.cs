@@ -47,8 +47,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     CurrentContact = " ";
                 if (args.AddedItems != null && args.AddedItems.Count > 0)
                 {
-                    var newChat = args.AddedItems[0] as Chat;
-                    CurrentContact = newChat.Contact;
+                    CurrentContact = (args.AddedItems[0] as User).UserName;
                 }
             }
             catch { }
@@ -62,9 +61,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 if (isSuccesfull)
                     Message = "";
             }
-            // Messages.Add(new Massage { Content = Message, Date = DateTime.Now, Name = storeService.Get(CommonKeys.LoggedUser.ToString()).UserName });
         }
 
-        public void ChatChangedHandler(RoutedEventArgs routedEventArgs) => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
+        //public void ChatChangedHandler(RoutedEventArgs routedEventArgs) 
+        //    => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
     }
 }

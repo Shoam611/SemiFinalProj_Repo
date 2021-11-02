@@ -12,10 +12,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class ChatsService
     {
-        readonly StoreService store;
+        private readonly StoreService store;
         public ChatsService(StoreService store,AuthenticationService authenticationService)
         {
-
+            this.store = store;
         }
 
         public async Task<Chat> GetChatAsync(int userToId)

@@ -14,7 +14,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     public class LoginViewModel : ObservableObject
     {
         private readonly AuthenticationService authService;
-        
+
         public RelayCommand LoginCommand { get; set; }
         public RelayCommand AuthenticateCommand { get; set; }
         public RelayCommand SighUpCommand { get; set; }
@@ -44,14 +44,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private async void LogInHandler()
         {
             var isAuthenticated = await authService.LoginAsync(UserName, Password);
-            if (isAuthenticated) 
+            if (!isAuthenticated)
             {
-                //raise event -> tell server about log in? and change status
-                                //go to main screen
-                                //get all currently logged users
-                LoginCommand?.Execute(null); 
+                MessageBox.Show("User not found");
             }
-            else MessageBox.Show("User not found");
         }
 
         void HandlePasswordChanged(RoutedEventArgs args) => Password = (args.Source as PasswordBox).Password;

@@ -32,10 +32,10 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<ChatThreadViewModel>();
             services.AddScoped<GameViewModel>();
             
-            services.AddScoped<SignalRListinerService>();
             services.AddSingleton<StoreService>();
-
+            services.AddScoped<SignalRListinerService>();
             services.AddScoped<AuthenticationService>();
+
             services.AddTransient<NavigationService>();
             services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
@@ -55,7 +55,7 @@ namespace tWpfMashUp_v0._0._1
     }
 }
 
-//TODO: add onExit logOutCallToServer.
+//TODO: add onExit logOutCallToServer. Done
 //TODO: add On Logging in Fetching all currently connected users.
 //TODO: add status changes in store and db when user logging in and out.
 //TODO: when user is logged in ,user.remove? from oflline & vice versa.
