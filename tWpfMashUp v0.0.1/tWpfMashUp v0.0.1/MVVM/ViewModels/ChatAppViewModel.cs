@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using System.Threading.Tasks;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -14,10 +15,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     {
         //fields-services
         private readonly StoreService store;
-        private readonly SignalRListinerService signalRListinerService;
         private readonly AuthenticationService authenticationService;
-        private readonly ChatsService chatsService;
-
+        SignalRListinerService signalRListinerService;
         //full props
         private User loggedUser;
         public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
@@ -25,52 +24,51 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private User selectedUser;
         public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); UpdateChatInStore(); } }
         private string displayedUser;
-        public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
-        private string message;
-        public string BindingTest { get => message; set { message = value; onProppertyChange(); } }
+        public string DisplayedUser { get => displayedUser; set { displayedUser = value; onProppertyChange(); } }
+        private string bindingTest;       
+        public string BindingTest { get => bindingTest; set { bindingTest = value; onProppertyChange(); } }
         //commands
         public RelayCommand OnSelectionChangedCommand { get; set; }
 
         public ObservableCollection<User> OnlineContacts { get; set; }
         public ObservableCollection<User> OfflineContacts { get; set; }
 
-        public ChatAppViewModel(StoreService storeService, ChatsService chatsService, AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
+        public ChatAppViewModel(StoreService store, ChatsService chatsService, AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
         {
-            this.signalRListinerService = signalRListinerService;
             this.authenticationService = authenticationService;
-            this.chatsService = chatsService;
-            this.store = storeService;
-            OfflineContacts = new ObservableCollection<User>();
+            this.signalRListinerService = signalRListinerService;
+            this.store = store;
+            this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
+            this.signalRListinerService.ContactLogged += OnContactLogged;
             OnlineContacts = new ObservableCollection<User>();
-            authenticationService.LoggingIn += (s, e) => FetchUserHandler();
-            signalRListinerService.ContactLogged += OnContactLogged;
+            OfflineContacts = new ObservableCollection<User>();
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
-            //authenticationService.UsersFetched += (s, e) => UpdateUsersList();
+           // authenticationService.UserFetch
         }
-        private void FetchUserHandler()
+        private  void FetchUserHandler()
         {
             LoggedUser = store.Get(CommonKeys.LoggedUser.ToString()) as User;
             DisplayedUser = $"{LoggedUser.UserName} (#{LoggedUser.Id})";
-            FetchAllOnlineContacts();
+           FetchAllOnlineContacts();
+                       
         }
         private async void FetchAllOnlineContacts()
         {
             await authenticationService.FetchAllLoggedUsers();
             UpdateUsersList();
         }
+
         private void UpdateUsersList()
         {
             var users = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
-            if (users.Any())
-            {
-                OnlineContacts = new ObservableCollection<User>();
-                OfflineContacts = new ObservableCollection<User>();
-            }
+            if (!users.Any()) return;
+                                        
             foreach (var u in users)
             {
                 if (u.IsConnected == Status.Online) OnlineContacts.Add(u);
                 else OfflineContacts.Add(u);
             }
+            onProppertyChange();
         }
        
         private void OnContactLogged(object sender, System.EventArgs e)
