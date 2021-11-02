@@ -86,7 +86,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private void OnContactLoggedOut(User user)
         {
             OfflineContacts.Add(user);
-            OnlineContacts.Remove(user);
+            OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u=>u.Id==user.Id));
         }
 
         public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)

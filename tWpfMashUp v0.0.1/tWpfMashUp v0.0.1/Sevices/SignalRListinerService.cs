@@ -39,13 +39,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void StartServerListening()
-        {
-            connection.On<int>("MassageRecived", OnMassageRecived);
-            connection.On<User>("ContactLoggedIn", OnContactLoggedIn);
-            connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
-        }
-
         private void OnConnected(string hubConnectionString) => store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
 
         private async void OnMassageRecived(int chatId)
@@ -65,11 +58,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         }
 
         private void OnContactLoggedOut(User disconnectedUser)
-        {
-            //var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
-            //if (contacts == null) contacts = new List<User>();
-            //contacts.Remove(disconnectedUser);
-            //store.Add(CommonKeys.Contacts.ToString(), contacts);
+        {           
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
         }
 
