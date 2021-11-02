@@ -16,13 +16,13 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event EventHandler MassageRecived;
         public event EventHandler ContactLogged;
 
-        public SignalRListinerService(StoreService store ,MessagesService messagesService)
+        public SignalRListinerService(StoreService store ,MessagesService messagesService,AuthenticationService authentication)
         {
             this.messagesService = messagesService;
             this.store = store;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();
             connection.Closed += async (err) => { await Task.Delay(3000); await connection.StartAsync(); };
-            StartConnectionAsync();
+            authentication.LoggingIn += (s,e) => StartConnectionAsync();
         }
      
         private async void StartConnectionAsync()
