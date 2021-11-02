@@ -13,15 +13,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     public class ChatAppViewModel : ObservableObject
     {
         //fields
-        StoreService store;
-        private SignalRListinerService signalRListinerService;
-        private AuthenticationService authenticationService;
-        ChatsService chatsService;
+        private readonly StoreService store;
+        private readonly SignalRListenerService signalRListinerService;
+        private readonly AuthenticationService authenticationService;
+        private readonly ChatsService chatsService;
 
         //full props
-        User loggedUser;
+        private User loggedUser;
         public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
-        Chat selectedChat;
+
+        private Chat selectedChat;
         public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); UpdateChatInStore(); } }
         private string displayedUser;
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
@@ -37,7 +38,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ObservableCollection<Chat> OnlineContacts { get; set; }
         public ObservableCollection<Chat> OfflineContacts { get; set; }
 
-        public ChatAppViewModel(StoreService storeService, ChatsService chatsService, AuthenticationService authenticationService, SignalRListinerService signalRListinerService)
+        public ChatAppViewModel(StoreService storeService, ChatsService chatsService, AuthenticationService authenticationService, SignalRListenerService signalRListinerService)
         {
             this.signalRListinerService = signalRListinerService;
             this.authenticationService = authenticationService;
@@ -47,16 +48,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnlineContacts = new ObservableCollection<Chat>();
             FetchUserCommand = new RelayCommand(o => FetchUserHandler());
             GetRandomChatCommand = new RelayCommand(o => GetChat());
-            authenticationService.LoggingIn += (s,e) => FetchUserHandler();
+            authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             signalRListinerService.ContactLogged += OnContactLogged;
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
         }
 
-        private void OnContactLogged(object sender, System.EventArgs e)
+        private void OnContactLogged(object sender, EventArgs e)
         {
             var args = e as ContactLoggedEventArgs;
             if (args.IsLoggedIn) OnContactLoggedIn(args.User);
-            
+
             else OnContactLoggedOut(args.User);
         }
 
@@ -90,8 +91,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     OfflineContacts.Add(chatToRemove);
                 else
                 {
-                    var contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
-                    if (contacts == null) contacts = new List<User>();
+                    if (store.Get(CommonKeys.Contacts.ToString()) is not List<User> contacts) contacts = new List<User>();
                     contacts.Remove(user);
                     store.Add(CommonKeys.Contacts.ToString(), contacts);
                 }
@@ -103,14 +103,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             try
             {
-                if (selectionChangedEventArgs.AddedItems!=null && selectionChangedEventArgs.AddedItems.Count > 0) 
+                if (selectionChangedEventArgs.AddedItems != null && selectionChangedEventArgs.AddedItems.Count > 0)
                 {
-                var newCurrentChat = selectionChangedEventArgs.AddedItems[0] as Chat;
-                store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+                    var newCurrentChat = selectionChangedEventArgs.AddedItems[0] as Chat;
+                    var currentChatUsers = new List<User>(newCurrentChat.Users);
+                    store.Add(CommonKeys.CurrentChat.ToString(), newCurrentChat);
+                    store.Add(CommonKeys.WithUser.ToString(), currentChatUsers.First());
                 }
                 //if(selectionChangedEventArgs.RemovedItems != null && selectionChangedEventArgs.RemovedItems.Count > 0){}
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
-            }catch { }
+            }
+            catch { }
         }
 
         private async void GetChat()

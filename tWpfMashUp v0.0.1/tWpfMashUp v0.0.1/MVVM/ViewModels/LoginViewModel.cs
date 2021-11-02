@@ -13,7 +13,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class LoginViewModel : ObservableObject
     {
-        AuthenticationService authService;
+        private readonly AuthenticationService authService;
         
         public RelayCommand LoginCommand { get; set; }
         public RelayCommand AuthenticateCommand { get; set; }

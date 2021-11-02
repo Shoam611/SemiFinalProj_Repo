@@ -19,7 +19,7 @@ namespace signalRChatApiServer.Repositories
         {
             this.context = context;
         }
-        void PullData()
+        public void PullData()
         {
             chats = context.Chats.ToList();
             users = context.Users.ToList();
@@ -78,6 +78,8 @@ namespace signalRChatApiServer.Repositories
 
         public User Authenticate(string username, string password)
             => context.Users.Where(u => u.UserName == username && password == u.Password).FirstOrDefault();
+
+        public Chat GetChatByMessage(int messageId) => context.Chats.Where(c => c.Messages.Any(m => m.Id == messageId)).FirstOrDefault();
 
         #endregion
 

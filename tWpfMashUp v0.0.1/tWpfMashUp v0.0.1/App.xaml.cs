@@ -32,7 +32,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<ChatThreadViewModel>();
             services.AddScoped<GameViewModel>();
             
-            services.AddScoped<SignalRListinerService>();
+            services.AddScoped<SignalRListenerService>();
             services.AddSingleton<StoreService>();
 
             services.AddScoped<AuthenticationService>();
@@ -40,7 +40,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
         }
-        private void Start(IServiceProvider services)
+        private static void Start(IServiceProvider services)
         {
             ServiceProvider = services;
             ServiceProvider.GetService<MainWindow>().Show();

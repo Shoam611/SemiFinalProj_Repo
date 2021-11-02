@@ -8,8 +8,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
    public class MainViewModel : ObservableObject
     {
         private object view;
-        private AuthenticationService authenticationService;
-        private SignalRListinerService signalRListener;
+        private readonly AuthenticationService authenticationService;
+        private readonly SignalRListenerService signalRListener;
 
         public object View
         {
@@ -17,7 +17,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             set { view = value; onProppertyChange(); }
         }
 
-        public MainViewModel(SignalRListinerService signalRListiner,AuthenticationService authenticationService)
+        public MainViewModel(SignalRListenerService signalRListiner,AuthenticationService authenticationService)
         {
             this.authenticationService = authenticationService;
             this.signalRListener = signalRListiner;
@@ -27,13 +27,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public void SetViewTransition(string option)
         {
-            switch (option)
+            View = option switch
             {
-                case "Game":View = new ChatAndGameView();break;
-                case "Auth":View = new LoginView();break;
-                case "Chat":View = new ChatAppView();break;
-                default: View = new LoginView(); break;
-            }
+                "Game" => new ChatAndGameView(),
+                "Auth" => new LoginView(),
+                "Chat" => new ChatAppView(),
+                _ => new LoginView(),
+            };
         }
     }
 }

@@ -1,21 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
 using System.Collections.Generic;
 
 namespace signalRChatApiServer.Controllers
 {
-
     [ApiController]
     [Route("[controller]")]
     public class ChatController : Controller
     {
+        private readonly IHubContext<ChatHub> chathub;
+
         IRepository repository;
-        public ChatController(IRepository repository) => this.repository = repository;
-       
+        public ChatController(IRepository repository, IHubContext<ChatHub> chathub)
+        {
+            this.chathub = chathub;
+            this.repository = repository;
+        }
+
         [HttpGet]
         public Chat Get(int userId, int toUserId)
-        {
+        { 
             return repository.CreateChatWithUser(userId, toUserId);
         }
 

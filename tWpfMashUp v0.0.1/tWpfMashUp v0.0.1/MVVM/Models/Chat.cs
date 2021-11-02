@@ -12,7 +12,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
         public virtual ICollection<User> Users { get; set; }
         public string Contact { get; set; }
         public int ContactId { get; set; }
-        string lastMessage = "";
+
+        private string lastMessage = "";
         public string LastMessage
         {
             get

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class StoreService
     {
-        Dictionary<string, dynamic> StoreDictionary;
+        private readonly Dictionary<string, dynamic> StoreDictionary;
 
         public event EventHandler CurrentContactChanged;
-        
-            public StoreService()
+
+        public StoreService()
         {
             StoreDictionary = new Dictionary<string, dynamic>();
         }
@@ -21,13 +22,13 @@ namespace tWpfMashUp_v0._0._1.Sevices
             {
                 StoreDictionary.Add(key, obj);
             }
-            else { StoreDictionary[key] = obj;}
+            else { StoreDictionary[key] = obj; }
         }
 
-        public void InformContactChanged(object source, System.Windows.Controls.SelectionChangedEventArgs selectionChangedEventArgs) 
+        public void InformContactChanged(object source, SelectionChangedEventArgs selectionChangedEventArgs)
             => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
 
-        public dynamic Get(string key) => StoreDictionary.TryGetValue(key,out var val) ? val :null;
+        public dynamic Get(string key) => StoreDictionary.TryGetValue(key, out var val) ? val : null;
 
         public List<string> GetAllKeys() => PrivateGetAllKeys().ToList() ?? new List<string>();
 
