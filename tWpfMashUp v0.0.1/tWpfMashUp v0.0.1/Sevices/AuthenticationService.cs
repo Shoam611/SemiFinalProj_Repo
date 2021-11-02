@@ -16,8 +16,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public AuthenticationService(StoreService storeService)
         {
             App.Current.Exit += async (s, e) => await OnLogOutHandler();
-            this.storeService = storeService;
-            
+            this.storeService = storeService;            
         }
 
       
