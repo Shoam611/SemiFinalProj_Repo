@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using signalRChatApiServer.Data;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Repositories;
+using signalRChatApiServer.Repositories.Infra;
+using signalRChatApiServer.Repositories.Repos;
 
 namespace signalRChatApiServer
 {
@@ -20,7 +22,9 @@ namespace signalRChatApiServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IRepository, MainRepository>();
+            services.AddTransient<IChatsReposatory, ChatsReposatory>();
+            services.AddTransient<IUsersReposatory, UsersReposatory>();
+            services.AddTransient<IMassegesReposatory, MassegesReposatory>();
             string connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TalkBackChatContext>(options => options.UseSqlServer(connectionString));
             services.AddSignalR();

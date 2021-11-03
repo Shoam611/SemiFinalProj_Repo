@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
+using signalRChatApiServer.Repositories.Infra;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -13,8 +14,8 @@ namespace signalRChatApiServer.Controllers
     public class MessagesController : Controller
     {
         private readonly IHubContext<ChatHub> chathub;
-        readonly IRepository repository;     
-        public MessagesController(IRepository repository, IHubContext<ChatHub> chathub)
+        readonly IMassegesReposatory repository;     
+        public MessagesController(IMassegesReposatory repository, IHubContext<ChatHub> chathub)
         {
             this.chathub = chathub;
             this.repository = repository;        

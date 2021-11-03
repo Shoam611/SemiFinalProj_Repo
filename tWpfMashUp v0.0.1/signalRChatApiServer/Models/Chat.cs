@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace signalRChatApiServer.Models
 {
@@ -7,9 +6,9 @@ namespace signalRChatApiServer.Models
     {       
         public int Id { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
-        
-       
+        public ICollection<User> Users { get; set; }
+        public ICollection<Message> Messages { get; set; }
+
+        public List<ChatUser> ChatUsers { get; set; }
     }
 }

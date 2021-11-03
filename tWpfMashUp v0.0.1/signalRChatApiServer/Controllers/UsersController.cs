@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using signalRChatApiServer.Models;
 using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Repositories;
+using signalRChatApiServer.Repositories.Infra;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -12,9 +13,9 @@ namespace signalRChatApiServer.Controllers
     public class UsersController : Controller
     {
         private IHubContext<ChatHub> chathub;
-        IRepository repository;
+        private IUsersReposatory repository;
 
-        public UsersController(IRepository repository, IHubContext<ChatHub> chatHub)
+        public UsersController(IUsersReposatory repository, IHubContext<ChatHub> chatHub)
         {
             chathub = chatHub;
             this.repository = repository;

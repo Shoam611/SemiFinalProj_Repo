@@ -9,5 +9,8 @@ namespace signalRChatApiServer.Models
         public string Password { get; set; }
         public Status IsConnected { get; set; }
         public string HubConnectionString { get; set; }
+       
+        public ICollection<Chat> Chats { get; set; }
+        public List<ChatUser> ChatUsers { get; set; }
     }
 }
