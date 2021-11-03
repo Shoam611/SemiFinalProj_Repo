@@ -45,6 +45,7 @@ namespace signalRChatApiServer.Repositories
         public int AddMessage(Message message)//when sending a masssage
         {
             //var s = "☻";
+            if (message.ChatId <= 0) return -1;
             var id = context.Messages.Add(message).Entity.Id;
             context.SaveChanges();
             return id;
