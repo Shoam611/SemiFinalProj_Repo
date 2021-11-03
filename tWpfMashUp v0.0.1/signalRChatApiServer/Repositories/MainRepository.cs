@@ -44,7 +44,6 @@ namespace signalRChatApiServer.Repositories
 
         public int AddMessage(Message message)//when sending a masssage
         {
-            //var s = "☻";
             if (message.ChatId <= 0) return -1;
             var id = context.Messages.Add(message).Entity.Id;
             context.SaveChanges();
@@ -97,15 +96,11 @@ namespace signalRChatApiServer.Repositories
 
         public Chat GetChat(int id)
         {
-            return context.Chats.Find(id);
+            var c = context.Chats.Find(id);
+            return c;
         }
 
         public List<User> GetAllUsers() => context.Users.ToList();
-
-        public Chat GetChatByMessage(int messageId)
-        {
-            return context.Chats.Where(c => c.Messages.Any(m => m.Id == messageId)).FirstOrDefault();
-        }
 
         public Chat CreateNewChat(int user1Id, int user2Id)
         {

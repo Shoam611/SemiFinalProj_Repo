@@ -31,10 +31,10 @@ namespace signalRChatApiServer.Controllers
         public void Post(Message message)
         {
             repository.AddMessage(message);
+            var chat = repository.GetChat(message.ChatId);
 
-            var chatId = repository.GetChatByMessage(message.Id).Id;
-            var userConnection = new List<User>(repository.GetChatByMessage(message.Id).Users).First().HubConnectionString;
-            chathub.Clients.Client(userConnection).SendAsync("MassageRecived", message, chatId);
+            var userConnection = chat.Users.First().HubConnectionString;
+            chathub.Clients.Client(userConnection).SendAsync("MassageRecived", message, chat.Id);
         }
 
     }

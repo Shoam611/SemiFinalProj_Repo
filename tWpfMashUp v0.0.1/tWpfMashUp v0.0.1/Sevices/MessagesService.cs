@@ -24,8 +24,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName };
-                var chat = (Chat)storeService.Get(CommonKeys.CurrentChat.ToString());
+                var chat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName,
+                    ChatId = chat.Id };
                 if(chat == null)
                 {
                     MessageBox.Show("No Chat Selected for messages"); return false;
