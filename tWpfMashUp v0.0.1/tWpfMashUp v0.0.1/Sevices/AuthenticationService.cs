@@ -1,25 +1,26 @@
-﻿using tWpfMashUp_v0._0._1.MVVM.Models;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text;
+using System.Windows;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Windows;
-using System.Text;
-using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
+using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class AuthenticationService
     {
         private readonly StoreService storeService;
+
         public event EventHandler LoggingIn;
         public AuthenticationService(StoreService storeService)
         {
             App.Current.Exit += async (s, e) => await OnLogOutHandler();
-            this.storeService = storeService;            
+            this.storeService = storeService;
         }
 
-      
+
 
         public async Task<bool> CallServerToSignUp(string username, string password)
         {
@@ -27,7 +28,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var values = new User { UserName = username, Password = password, HubConnectionString = storeService.Get(CommonKeys.HubConnectionString.ToString()) };
+                var values = new User { UserName = username, Password = password };
                 var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(url, content);
                 response.EnsureSuccessStatusCode();
@@ -39,6 +40,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task<bool> LoginAsync(string username, string password)
         {
+
             var hubstring = storeService.Get(CommonKeys.HubConnectionString.ToString()) as string;
             var url = @$"http://localhost:14795/Authentication?username={username}&password={password}&hubstring={hubstring}";
             using HttpClient client = new();
@@ -64,7 +66,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public async Task OnLogOutHandler()
         {
             var loggedUser = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
-            if (loggedUser==null) return;
+            if (loggedUser == null) return;
             loggedUser.IsConnected = Status.Offline;
             var url = @$"http://localhost:14795/Users";
             using HttpClient client = new();
@@ -76,7 +78,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch { }
         }
-       
+
         public async Task FetchAllLoggedUsers()
         {
             var url = @$"http://localhost:14795/Users";
@@ -96,7 +98,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
             }
             catch { MessageBox.Show("Failed To Call Server"); }
-        }        
+        }
     }
 
 }

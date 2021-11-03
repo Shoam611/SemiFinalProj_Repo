@@ -87,11 +87,10 @@ namespace signalRChatApiServer.Repositories
 
         public void UpdateUser(User user)
         {
-            var tempUser = context.Users.Where(c => c.Id == user.Id).First();
+            var tempUser = context.Users.FirstOrDefault(u => u.Id == user.Id);
             if (tempUser == null) return;
-            tempUser.Id = user.Id;
-            tempUser.UserName = user.UserName;
-            tempUser.Password = user.Password;
+            tempUser.IsConnected = user.IsConnected;
+            tempUser.HubConnectionString = user.HubConnectionString;
             context.SaveChanges();
         }
 

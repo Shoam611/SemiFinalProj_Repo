@@ -17,7 +17,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly SignalRListenerService signalRListinerService;
         private readonly AuthenticationService authenticationService;
         private readonly ChatsService chatsService;
-
         //full props
         private User loggedUser;
         public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
@@ -50,6 +49,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
             // authenticationService.UserFetch
         }
+
         private void FetchUserHandler()
         {
             LoggedUser = store.Get(CommonKeys.LoggedUser.ToString()) as User;
@@ -62,18 +62,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             await authenticationService.FetchAllLoggedUsers();
             Dispatcher.CurrentDispatcher.Invoke(() => UpdateUsersList());
         }
-
         private void UpdateUsersList()
         {
             var users = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
             if (!users.Any()) return;
-
+            OnlineContacts.Clear();
+            OfflineContacts.Clear();
             foreach (var u in users)
             {
                 if (u.IsConnected == Status.Online) OnlineContacts.Add(u);
                 else OfflineContacts.Add(u);
             }
-            onProppertyChange();
         }
 
         private void OnContactLogged(object sender, System.EventArgs e)
@@ -82,15 +81,30 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             if (args.IsLoggedIn) Dispatcher.CurrentDispatcher.Invoke(() => OnContactLoggedIn(args.User));
             else Dispatcher.CurrentDispatcher.Invoke(() => OnContactLoggedOut(args.User));
         }
+
         private void OnContactLoggedIn(User user)
         {
-            OnlineContacts.Add(user);
-            OfflineContacts.Remove(user);
+            if (!OnlineContacts.Where(u => u.Id == user.Id).Any())
+            {
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                  {
+                      OnlineContacts.Add(user);
+                      OfflineContacts.Remove(OfflineContacts.FirstOrDefault(u => u.Id == user.Id));
+                  });
+            }
         }
+
+
         private void OnContactLoggedOut(User user)
         {
-            OfflineContacts.Add(user);
-            OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u => u.Id == user.Id));
+            if (!OfflineContacts.Where(u => u.Id == user.Id).Any())
+            {
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                    {
+                        OfflineContacts.Add(user);
+                        OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u => u.Id == user.Id));
+                    });
+            }
         }
 
         public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)

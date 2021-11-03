@@ -22,7 +22,7 @@ namespace signalRChatApiServer.Controllers
             this.chathub = chatHub;
             this.repository = repository;
         }
-      
+      //for login
         [HttpGet]
         public User Get(string username, string password,string hubstring)
         {
@@ -36,7 +36,7 @@ namespace signalRChatApiServer.Controllers
             }
             return isauth;
         }
-
+        //for sighn up
         [HttpPost]
         public bool Post(User newUser)
         {

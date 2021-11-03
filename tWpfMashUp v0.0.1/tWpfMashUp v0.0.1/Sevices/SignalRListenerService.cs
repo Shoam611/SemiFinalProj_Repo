@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 
@@ -18,17 +19,16 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
         {
-            
+
             this.store = store;
             this.messagesService = messagesService;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();
             connection.Closed += async (err) => { await Task.Delay(2500); await connection.StartAsync(); };
-            //authentication.LoggingIn += (s, e) => StartServerListening();
             StartConnectionAsync();
         }
 
 
-        private async void StartConnectionAsync()
+        public async void StartConnectionAsync()
         {
             connection.On<string>("Connected", OnConnected);
             connection.On<int>("MassageRecived", OnMassageRecived);
@@ -41,7 +41,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnConnected(string hubConnectionString) => store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
+
+        private void OnConnected(string hubConnectionString)
+        {
+            store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
+        }
 
         private async void OnMassageRecived(int chatId)
         {
@@ -52,16 +56,20 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnContactLoggedIn(User newOnlineUser)
         {
-            if (store.Get(CommonKeys.Contacts.ToString()) is not List<User> contacts)
+            List<User> contacts;
+            if (!store.HasKey(CommonKeys.Contacts.ToString()))
                 contacts = new List<User>();
-            contacts.Add(newOnlineUser);
-            store.Add(CommonKeys.Contacts.ToString(), contacts); 
-                                 //sender => who called;                      args => all the arguments;
+            else contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+            if (! contacts.Where(u => u.Id == newOnlineUser.Id).Any())
+            {
+            contacts.Add(newOnlineUser);          
+            }
+            store.Add(CommonKeys.Contacts.ToString(), contacts);          
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = newOnlineUser, IsLoggedIn = true });
         }
 
         private void OnContactLoggedOut(User disconnectedUser)
-        {           
+        {
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
         }
 
