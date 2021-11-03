@@ -42,6 +42,8 @@ namespace signalRChatApiServer.Controllers
         {
             try
             {
+                //validate username;
+                    // return false;
                 repository.AddUser(newUser);
                 return true;
             }

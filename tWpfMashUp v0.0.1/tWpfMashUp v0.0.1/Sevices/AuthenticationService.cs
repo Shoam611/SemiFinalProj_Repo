@@ -25,6 +25,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task<bool> CallServerToSignUp(string username, string password)
         {
+            //validate
+                //msgbox.Show("") return;
             var url = @"http://localhost:14795/Authentication";
             using HttpClient client = new();
             try
@@ -33,6 +35,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(url, content);
                 response.EnsureSuccessStatusCode();
+                //if returned false - user already exist;
                 return true;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
