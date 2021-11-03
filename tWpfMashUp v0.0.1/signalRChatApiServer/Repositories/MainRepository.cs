@@ -118,16 +118,16 @@ namespace signalRChatApiServer.Repositories
         public bool IsChatExist(int user1Id, int user2Id, out Chat c)
         {
             var qchat = (from chat in context.Chats
-                     where chat.Users.Contains(GetUser(user2Id)) &&
-                            chat.Users.Contains(GetUser(user1Id))
-                     select chat).Take(1);
-            if(qchat.Any())
+                         where chat.Users.Contains(GetUser(user2Id)) &&
+                                chat.Users.Contains(GetUser(user1Id))
+                         select chat).Take(1);
+            if (qchat.Any())
             {
                 c = qchat.First(); return true;
             }
             else
             {
-                c = CreateNewChat(user1Id,user2Id);   return false;
+                c = CreateNewChat(user1Id, user2Id); return false;
             }
         }
 

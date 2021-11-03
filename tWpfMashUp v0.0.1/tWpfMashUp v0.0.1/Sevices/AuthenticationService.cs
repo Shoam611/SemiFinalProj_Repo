@@ -14,10 +14,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private readonly StoreService storeService;
 
         public event EventHandler LoggingIn;
+      
         public AuthenticationService(StoreService storeService)
         {
-            App.Current.Exit += async (s, e) => await OnLogOutHandler();
             this.storeService = storeService;
+            App.Current.Exit += async (s, e) => await OnLogOutHandler();
         }
 
 
@@ -94,7 +95,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var me = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
                     data.Remove(data.Find(u => u.Id == me.Id));
                     storeService.Add(CommonKeys.Contacts.ToString(), data);
-                    //UsersFetched?.Invoke(this, new EventArgs());
                 }
             }
             catch { MessageBox.Show("Failed To Call Server"); }
