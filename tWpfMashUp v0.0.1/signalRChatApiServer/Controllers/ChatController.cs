@@ -4,6 +4,7 @@ using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
 using signalRChatApiServer.Repositories.Infra;
+using System.Linq;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -24,10 +25,8 @@ namespace signalRChatApiServer.Controllers
         public Chat Get(int user1Id, int user2Id)
         {
             repository.IsChatExist(user1Id, user2Id, out Chat c);
-            foreach(var user in c.Users)
-            {
-                chathub.Clients.Client(user.HubConnectionString).SendAsync("ChatCreated", c);
-            }
+            var contact = c.Users.First(c => c.Id == user2Id);
+            chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", c);
             return c;
         }
 

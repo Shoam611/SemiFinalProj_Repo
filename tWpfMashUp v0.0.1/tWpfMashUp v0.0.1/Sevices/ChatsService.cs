@@ -45,7 +45,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private Chat HandleNewChatForStore(List<User> contacts, int id, Chat chat)
         {
             var contact = chat.Users.Where(u => u.Id != id).First();
-           
+
             if (contacts == null) contacts = new List<User>();
             contacts.Add(contact);
             store.Add(CommonKeys.Contacts.ToString(), contacts);
@@ -61,11 +61,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
                 var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                var chatToReturn = chats.Find(c => c.Users.Contains(newCurrentUser));
+                var chatToReturn = chats.Find(c => c.Users.Where(u=>u.Id ==newCurrentUser.Id).Any());
                 if (chatToReturn != null)
                 {
-                store.Add(CommonKeys.CurrentChat.ToString(), chatToReturn);
-                return;
+                    store.Add(CommonKeys.CurrentChat.ToString(), chatToReturn);
+                    return;
                 }
             }
             var loggedUser = store.Get(CommonKeys.LoggedUser.ToString()) as User;
@@ -76,17 +76,17 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 {
                     var res = await client.GetAsync(url);
                     res.EnsureSuccessStatusCode();
-                    var resString = await res.Content.ReadAsStringAsync();
-                    var chatRecived = JsonConvert.DeserializeObject<Chat>(resString);
-                    if (chatRecived != null)
+                    var resstring = await res.Content.ReadAsStringAsync();
+                    var chatrecived = JsonConvert.DeserializeObject<Chat>(resstring);
+                    if (chatrecived != null)
                     {
-                        store.Add(CommonKeys.CurrentChat.ToString(), chatRecived );
+                        store.Add(CommonKeys.CurrentChat.ToString(), chatrecived);
                         if (store.HasKey(CommonKeys.Chats.ToString()))
                         {
                             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                            chats.Add(chatRecived);
+                            chats.Add(chatrecived);
                         }
-                        store.Add(CommonKeys.Chats.ToString(), new List<Chat> { chatRecived });
+                        store.Add(CommonKeys.Chats.ToString(), new List<Chat> { chatrecived });
                     }
                 }
             }

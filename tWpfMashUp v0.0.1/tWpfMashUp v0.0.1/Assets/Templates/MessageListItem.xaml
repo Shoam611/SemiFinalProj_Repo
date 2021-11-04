@@ -26,12 +26,12 @@
                                     <!--Surround Info-->
                                     <Label Content="{Binding Name}"
                                               Foreground="White"
-                                              FontWeight="SemiBold"
+                                              FontWeight="Normal"
                                               VerticalAlignment="Center"
                                               Margin="0,0,-5,0"
-                                              FontSize="14"/>
+                                              FontSize="12"/>
                                     <Label Content="{Binding Date}"
-                                              Foreground="White"
+                                              Foreground="LightGray"
                                               FontWeight="SemiBold"
                                               FontSize="8"
                                               VerticalAlignment="Center"
@@ -40,7 +40,7 @@
 
                                 <!--Message-->
                                 <Border VerticalAlignment="Center" CornerRadius="10 15 15 0" Background="LightSlateGray">
-                                    <TextBlock Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="18" Text="{Binding Content}"/>
+                                    <TextBlock Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="14" Text="{Binding Content}"/>
                                 </Border>
 
                             </StackPanel>

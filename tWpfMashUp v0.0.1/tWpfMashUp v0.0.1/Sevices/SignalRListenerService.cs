@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -45,9 +45,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnChatCreated(Chat obj)
         {
-            if (!store.HasKey(CommonKeys.Chats.ToString()))
+            if (store.HasKey(CommonKeys.Chats.ToString()))
             {
-                (store.Get(CommonKeys.Chats.ToString()) as List<Chat>).Add(obj);
+                var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+                if (chats.FirstOrDefault(c => c.Id == obj.Id) == null)
+                    chats.Add(obj);
             }
             else
             {
@@ -61,17 +63,22 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnMassageRecived(Massage msg)
         {
-            if (!store.HasKey(CommonKeys.Chats.ToString()))
-            {
-            }
-            else
-            {
+            //if (!store.HasKey(CommonKeys.Chats.ToString()))
+            //{
+            //    //fetch
+            //    //users willl always have this key
+            //    //first user will create chat on selecting user
+            //    //user will recive chat on web socket
+            //        //client can not create chat when user is not online 
+            //}
+            //else
+            //{ }
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
             var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
             if (chat.Messages == null) chat.Messages = new List<Massage>();
             chat.Messages.Add(msg);
             MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatID = chat.Id ,Massage =msg});
-            }
+            
             //if chat is current chat
                     //push massage
             //else
@@ -96,6 +103,15 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private void OnContactLoggedOut(User disconnectedUser)
         {
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
+            if (store.HasKey(CommonKeys.Chats.ToString()))
+            {
+                var chats =store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+                var chat = chats.FirstOrDefault(c => c.Users.FirstOrDefault(u => u.Id == disconnectedUser.Id)!=null);
+                if (chat != null)
+                {
+                    chats.Remove(chat);
+                }
+            }
         }
 
     }
