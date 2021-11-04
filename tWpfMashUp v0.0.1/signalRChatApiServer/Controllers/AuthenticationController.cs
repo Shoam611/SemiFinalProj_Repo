@@ -15,8 +15,8 @@ namespace signalRChatApiServer.Controllers
     [Route("[controller]")]
     public class AuthenticationController : Controller
     {
-        private IHubContext<ChatHub> chathub;
-        private IUsersReposatory repository;
+        private readonly IHubContext<ChatHub> chathub;
+        private readonly IUsersReposatory repository;
 
         public AuthenticationController(IUsersReposatory repository, IHubContext<ChatHub> chatHub)
         {
