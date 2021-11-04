@@ -21,6 +21,8 @@ namespace signalRChatApiServer.Repositories.Repos
                                                                        where user.UserName == username && password == user.Password
                                                                        select user).FirstOrDefault();
 
+        public bool IsUserExist(string username) => context.Users.Where(u => u.UserName == username).Any();
+
         public int AddUser(User user)
         {
             var id = context.Users.Add(user).Entity.Id;
