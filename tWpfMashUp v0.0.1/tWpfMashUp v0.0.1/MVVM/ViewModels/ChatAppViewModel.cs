@@ -6,6 +6,7 @@ using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows.Threading;
+using System;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -46,7 +47,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
-            // authenticationService.UserFetch
+            this.signalRListinerService.MessageRecived += OnMassageRecived;
+        }
+
+        private void OnMassageRecived(object sender, MessageRecivedEventArgs eventArgs)
+        {
+            if (store.HasKey(CommonKeys.CurrentChat.ToString()))
+            {
+                var c = store.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+                if (eventArgs.ChatId == c.Id) { return; }                
+            }            
+            var contact = OnlineContacts.First(u => u.UserName == eventArgs.Massage.Name);
+            contact.HasUnreadMessage = true;
         }
 
         private void FetchUserHandler()
@@ -125,7 +137,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     var newCurrentUser = selectionChangedEventArgs.AddedItems[0] as User;
                     store.Add(CommonKeys.WithUser.ToString(), newCurrentUser);
                     await chatsService.CreateChatIfNotExistAsync(newCurrentUser);
-
+                    newCurrentUser.HasUnreadMessage = false;
                 }
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }

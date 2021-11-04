@@ -69,7 +69,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             if (!storeService.HasKey(CommonKeys.CurrentChat.ToString())) return; //data already in store for when i want it
             var currentChatId = (storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
-           if (eventArgs.ChatID == currentChatId)
+           if (eventArgs.ChatId == currentChatId)
                 Messages.Add(eventArgs.Massage);
             else
             {

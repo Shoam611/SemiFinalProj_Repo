@@ -61,8 +61,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
             store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
         }
 
-        private void OnMassageRecived(Massage msg)
-        {
             //if (!store.HasKey(CommonKeys.Chats.ToString()))
             //{
             //    //fetch
@@ -73,17 +71,19 @@ namespace tWpfMashUp_v0._0._1.Sevices
             //}
             //else
             //{ }
+        private void OnMassageRecived(Massage msg)
+        {
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
             var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
             if (chat.Messages == null) chat.Messages = new List<Massage>();
             chat.Messages.Add(msg);
-            MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatID = chat.Id ,Massage =msg});
-            
-            //if chat is current chat
-                    //push massage
-            //else
-                //add massage to store 
-                //mark user as has not read massage                
+            //if (store.HasKey(CommonKeys.CurrentChat.ToString()))
+            //{
+            //    var c = store.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+            //    if (chat.Id != c.Id) { }
+            //    else { }
+            //}            
+            MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });                  
         }
 
         private void OnContactLoggedIn(User newOnlineUser)
