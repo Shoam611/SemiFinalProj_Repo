@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
+using System.Windows;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -60,29 +61,13 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
         }
-
-            //if (!store.HasKey(CommonKeys.Chats.ToString()))
-            //{
-            //    //fetch
-            //    //users willl always have this key
-            //    //first user will create chat on selecting user
-            //    //user will recive chat on web socket
-            //        //client can not create chat when user is not online 
-            //}
-            //else
-            //{ }
+           
         private void OnMassageRecived(Massage msg)
         {
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
             var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
             if (chat.Messages == null) chat.Messages = new List<Massage>();
             chat.Messages.Add(msg);
-            //if (store.HasKey(CommonKeys.CurrentChat.ToString()))
-            //{
-            //    var c = store.Get(CommonKeys.CurrentChat.ToString()) as Chat;
-            //    if (chat.Id != c.Id) { }
-            //    else { }
-            //}            
             MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });                  
         }
 
