@@ -13,7 +13,9 @@
     <!--dark
     #292b2f
     #252525
-    #2f3136   
+    #2f3136 
+    #36393f
+    #383660
     light-->
 
     <Grid>
@@ -37,13 +39,6 @@
                    FontWeight="Medium"
                    Foreground="Gray"
                    Margin="8,0,0,0"/>
-            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-            <Button Height="20" Width="60" Content="Add Chat" Command="{Binding GetRandomChatCommand}" />
-                <TextBox Height="30" Width="50"
-                         Text="{Binding BindingTest}"
-                         Style="{StaticResource MessegeTextBox}"
-                         Grid.ColumnSpan="2" />
-            </StackPanel>-->
             <Button Width="100" HorizontalAlignment="Right" Height="20" Style="{StaticResource RoundButton}">
                 Invite to game
             </Button>
