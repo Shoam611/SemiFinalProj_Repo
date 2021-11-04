@@ -1,11 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:conv="clr-namespace:tWpfMashUp_v0._0._1.Assets.Converters"  
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-   
+
     <Style x:Key="ContactListItem" TargetType="ListViewItem">
         <Setter Property="Focusable" Value="True" />
         <Setter Property="Background" Value="#323b40"/>
-        
-        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
@@ -14,7 +13,9 @@
                             CornerRadius="4"
                             Margin="8,2,8,2">
                         <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
-                            <Border Width="30" Height="30" Background="CornflowerBlue" CornerRadius="25" />
+                            <Border Width="30" Height="30" CornerRadius="25"
+                                    Background="CornflowerBlue" x:Name="border">
+                            </Border>
                             <StackPanel >
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding UserName}" Foreground="White" />
@@ -26,11 +27,35 @@
             </Setter.Value>
         </Setter>
 
+        <Style.Resources>
+            <ControlTemplate x:Key="ColorCircle">
+                <Border Background="{TemplateBinding Background}"
+                            Height="50"
+                            CornerRadius="4"
+                            Margin="8,2,8,2">
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
+                        <Border Width="30" Height="30" CornerRadius="25"
+                                    Background="Green" x:Name="border">
+                        </Border>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding UserName}" Foreground="White" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Style.Resources>
+        
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="#252525"/>
             </Trigger>
+            <DataTrigger Binding="{Binding HasUnreadMessage}" Value="True" >
+                <Setter Property="Template" Value="{StaticResource ColorCircle}" />
+            </DataTrigger>
         </Style.Triggers>
+        
 
     </Style>
 </ResourceDictionary>

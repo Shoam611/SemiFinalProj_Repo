@@ -56,9 +56,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             {
                 var c = store.Get(CommonKeys.CurrentChat.ToString()) as Chat;
                 if (eventArgs.ChatId == c.Id) { return; }                
-            }            
-            var contact = OnlineContacts.First(u => u.UserName == eventArgs.Massage.Name);
+            }
+           var contacts = (store.Get(CommonKeys.Contacts.ToString()) as List<User>);
+            var contact = contacts.First(u => u.UserName == eventArgs.Massage.Name);
             contact.HasUnreadMessage = true;
+            OnlineContacts.Remove(OnlineContacts.First(u=>u.Id==contact.Id));
+            OnlineContacts.Add(contact);                        
+            //OnlineContacts= new ObservableCollection<User>(contacts);
         }
 
         private void FetchUserHandler()
