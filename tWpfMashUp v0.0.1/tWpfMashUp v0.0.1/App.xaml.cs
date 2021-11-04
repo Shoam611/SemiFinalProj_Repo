@@ -72,3 +72,5 @@ namespace tWpfMashUp_v0._0._1
         //no empty strings or less than 2 -> Done
         //no duplicate usernames -> Done
         //add matching error massage to user -> Done
+//TODO: Add Validation to messages sending
+        //no empty / spaces or null message content!
