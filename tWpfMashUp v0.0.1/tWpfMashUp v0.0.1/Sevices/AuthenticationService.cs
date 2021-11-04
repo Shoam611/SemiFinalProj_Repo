@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Extentions;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -20,22 +21,33 @@ namespace tWpfMashUp_v0._0._1.Sevices
             this.storeService = storeService;
             App.Current.Exit += async (s, e) => await OnLogOutHandler();
         }
-
-
-
         public async Task<bool> CallServerToSignUp(string username, string password)
         {
-            var url = @"http://localhost:14795/Authentication";
-            using HttpClient client = new();
-            try
+            if (!username.IsEmptyNullOrWhiteSpace() && !password.IsEmptyNullOrWhiteSpace())
             {
-                var values = new User { UserName = username, Password = password };
-                var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(url, content);
-                response.EnsureSuccessStatusCode();
-                return true;
+                if (username.Length > 2 && password.Length > 2)
+                {
+                    var url = @"http://localhost:14795/Authentication";
+                    using HttpClient client = new();
+                    try
+                    {
+                        var values = new User { UserName = username, Password = password };
+                        var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
+                        var response = await client.PostAsync(url, content);
+                        if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
+                        {
+                            //if returned false - user already exist;
+                            return true;
+                        }
+                        return false;
+                    }
+                    catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
+                    return false;
+                }
+                MessageBox.Show("Username / Password must be at lease 2 characters!");
+                return false;
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
+            MessageBox.Show("Username / Password cannot be empty!");
             return false;
         }
 
