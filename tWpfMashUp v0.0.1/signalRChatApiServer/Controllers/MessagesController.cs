@@ -15,9 +15,11 @@ namespace signalRChatApiServer.Controllers
     {
         private readonly IHubContext<ChatHub> chathub;
         readonly IMassegesReposatory repository;     
-        public MessagesController(IMassegesReposatory repository, IHubContext<ChatHub> chathub)
+        readonly IChatsReposatory chatrepository;     
+        public MessagesController(IMassegesReposatory repository, IHubContext<ChatHub> chathub, IChatsReposatory chatrepository)
         {
             this.chathub = chathub;
+            this.chatrepository = chatrepository;
             this.repository = repository;        
         }
 
@@ -31,11 +33,13 @@ namespace signalRChatApiServer.Controllers
         [HttpPost]
         public void Post(Message message)
         {
-            repository.AddMessage(message);
-            var chat = repository.GetChat(message.ChatId);
+            repository.AddMessage(message);            
+            var chat = chatrepository.GetChat(message.ChatId);
 
-            var userConnection = chat.Users.First().HubConnectionString;
-            chathub.Clients.Client(userConnection).SendAsync("MassageRecived", message, chat.Id);
+            foreach (var item in chat.Users)
+            {   
+            chathub.Clients.Client(item.HubConnectionString).SendAsync("MassageRecived", message);
+            }
         }
 
     }

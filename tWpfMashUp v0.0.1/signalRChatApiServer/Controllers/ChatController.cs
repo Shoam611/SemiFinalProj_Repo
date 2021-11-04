@@ -24,6 +24,10 @@ namespace signalRChatApiServer.Controllers
         public Chat Get(int user1Id, int user2Id)
         {
             repository.IsChatExist(user1Id, user2Id, out Chat c);
+            foreach(var user in c.Users)
+            {
+                chathub.Clients.Client(user.HubConnectionString).SendAsync("ChatCreated", c);
+            }
             return c;
         }
 

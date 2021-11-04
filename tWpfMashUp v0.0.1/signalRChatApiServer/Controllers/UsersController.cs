@@ -3,7 +3,6 @@ using signalRChatApiServer.Hubs;
 using System.Collections.Generic;
 using signalRChatApiServer.Models;
 using Microsoft.AspNetCore.SignalR;
-using signalRChatApiServer.Repositories;
 using signalRChatApiServer.Repositories.Infra;
 
 namespace signalRChatApiServer.Controllers
@@ -26,7 +25,7 @@ namespace signalRChatApiServer.Controllers
         {
            return repository.GetAllUsers();
         }
-
+        //update user-> status and h.c.string
         [HttpPut]
         public void Put(User user)
         {

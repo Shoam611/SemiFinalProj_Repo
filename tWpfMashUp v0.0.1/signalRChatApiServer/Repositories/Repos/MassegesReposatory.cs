@@ -13,12 +13,12 @@ namespace signalRChatApiServer.Repositories.Repos
         {
             this.context = context;
         }
-        public int AddMessage(Message message)//when sending a masssage
+        public bool AddMessage(Message message)//when sending a masssage
         {
-            if (message.ChatId <= 0) return -1;
-            var id = context.Messages.Add(message).Entity.Id;
+            if (message.ChatId <= 0) return false;
+            context.Messages.Add(message);
             context.SaveChanges();
-            return id;
+            return true;
         }
         public IEnumerable<Message> GetMessages(int chatId) //when loading a chat
            => context.Messages.Where(m => m.ChatId == chatId);

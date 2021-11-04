@@ -8,20 +8,20 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
     {
         public int Id { get; set; }
 
-        public virtual ICollection<Massage> Messages { get; set; }
-        public virtual ICollection<User> Users { get; set; }
-        public string Contact { get; set; }
-        public int ContactId { get; set; }
+        public ICollection<User> Users { get; set; }
+        public ICollection<Massage> Messages { get; set; }
 
-        private string lastMessage = "";
-        public string LastMessage
-        {
-            get
-            {
-                try { return Messages.Last().Content; }
-                catch { return " "; }
-            }
-            set { lastMessage = value; onProppertyChange(); }
-        }
+        public List<ChatUser> ChatUsers { get; set; }
+
+        //private string lastMessage = "";
+        //public string LastMessage
+        //{
+        //    get
+        //    {
+        //        try { return Messages.Last().Content; }
+        //        catch { return " "; }
+        //    }
+        //    set { lastMessage = value; onProppertyChange(); }
+        //}
     }
 }

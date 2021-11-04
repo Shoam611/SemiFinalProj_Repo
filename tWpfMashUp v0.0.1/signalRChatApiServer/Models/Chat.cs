@@ -9,6 +9,6 @@ namespace signalRChatApiServer.Models
         public ICollection<User> Users { get; set; }
         public ICollection<Message> Messages { get; set; }
 
-        public List<ChatUser> ChatUsers { get; set; }
+       public List<ChatUser> ChatUsers { get; set; }
     }
 }

@@ -25,21 +25,20 @@ namespace tWpfMashUp_v0._0._1.Sevices
             try
             {
                 var chat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
-                var msg = new Massage { Content = message, Date = DateTime.Now, Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName,
-                    ChatId = chat.Id };
-                if(chat == null)
-                {
-                    MessageBox.Show("No Chat Selected for messages"); return false;
-                }
+                if(chat == null){ MessageBox.Show("No Chat Selected for messages"); return false; }
+                var msg = new Massage 
+                { 
+                    Content = message, 
+                    Date = DateTime.Now, 
+                    Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName,
+                    ChatId = chat.Id 
+                };
                 if (chat.Messages == null)
                     chat.Messages = new List<Massage>();
-                
-                var json = JsonConvert.SerializeObject(msg);
+                                
                 var content = new StringContent(JsonConvert.SerializeObject(msg), Encoding.UTF8, "application/json");
-                var userConnection = storeService.Get(CommonKeys.WithUser.ToString()).HubConnectionString;
                 var response = await client.PostAsync(url, content);
                 response.EnsureSuccessStatusCode();
-                //Update ChatThread
                 return true;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); return false; }

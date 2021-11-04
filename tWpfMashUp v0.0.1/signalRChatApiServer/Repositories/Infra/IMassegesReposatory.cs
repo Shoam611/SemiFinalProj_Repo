@@ -5,7 +5,7 @@ namespace signalRChatApiServer.Repositories.Infra
 {
     public interface IMassegesReposatory
     {
-        int AddMessage(Message message);
+        bool AddMessage(Message message);
         IEnumerable<Message> GetMessages(int chatId);
     }
 }

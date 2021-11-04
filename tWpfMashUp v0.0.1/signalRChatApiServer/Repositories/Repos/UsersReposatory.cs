@@ -14,11 +14,13 @@ namespace signalRChatApiServer.Repositories.Repos
             this.context = context;
         }
         public User GetUser(int id) => context.Users.Find(id);// when sighning in /authenticating
-        
+
         public List<User> GetAllUsers() => context.Users.ToList();//when fetching
 
-        public User Authenticate(string username, string password) => context.Users.FirstOrDefault(u => u.UserName == username && password == u.Password);
-        
+        public User Authenticate(string username, string password) => (from user in context.Users
+                                                                       where user.UserName == username && password == user.Password
+                                                                       select user).FirstOrDefault();
+
         public int AddUser(User user)
         {
             var id = context.Users.Add(user).Entity.Id;

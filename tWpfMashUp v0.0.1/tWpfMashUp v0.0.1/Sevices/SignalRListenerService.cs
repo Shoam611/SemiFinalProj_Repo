@@ -8,13 +8,14 @@ using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
+    public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
     public class SignalRListenerService
     {
         private readonly StoreService store;
         private readonly MessagesService messagesService;
         private readonly HubConnection connection;
 
-        public event EventHandler MassageRecived;
+        public event MessageRecivedEventHandler MessageRecived;
         public event EventHandler ContactLogged;
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
@@ -31,9 +32,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public async void StartConnectionAsync()
         {
             connection.On<string>("Connected", OnConnected);
-            connection.On<int>("MassageRecived", OnMassageRecived);
+            connection.On<Massage>("MassageRecived", OnMassageRecived);
             connection.On<User>("ContactLoggedIn", OnContactLoggedIn);
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
+            connection.On<Chat>("ChatCreated", OnChatCreated);
             try
             {
                 if (connection.State != HubConnectionState.Connected) await connection.StartAsync();
@@ -41,17 +43,40 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-
+        private void OnChatCreated(Chat obj)
+        {
+            if (!store.HasKey(CommonKeys.Chats.ToString()))
+            {
+                (store.Get(CommonKeys.Chats.ToString()) as List<Chat>).Add(obj);
+            }
+            else
+            {
+                store.Add(CommonKeys.Chats.ToString(), new List<Chat> { obj });
+            }
+        }
         private void OnConnected(string hubConnectionString)
         {
             store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
         }
 
-        private async void OnMassageRecived(int chatId)
+        private void OnMassageRecived(Massage msg)
         {
-            var newMessages = await messagesService.GetChatMassages(chatId);
-            (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Messages = newMessages;
-            MassageRecived?.Invoke(this, new EventArgs());
+            if (!store.HasKey(CommonKeys.Chats.ToString()))
+            {
+            }
+            else
+            {
+            var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+            var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
+            if (chat.Messages == null) chat.Messages = new List<Massage>();
+            chat.Messages.Add(msg);
+            MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatID = chat.Id ,Massage =msg});
+            }
+            //if chat is current chat
+                    //push massage
+            //else
+                //add massage to store 
+                //mark user as has not read massage                
         }
 
         private void OnContactLoggedIn(User newOnlineUser)

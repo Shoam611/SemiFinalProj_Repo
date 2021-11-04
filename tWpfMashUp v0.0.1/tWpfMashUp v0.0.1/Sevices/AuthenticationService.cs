@@ -45,6 +45,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             var hubstring = storeService.Get(CommonKeys.HubConnectionString.ToString()) as string;
             var url = @$"http://localhost:14795/Authentication?username={username}&password={password}&hubstring={hubstring}";
             using HttpClient client = new();
+            
             try
             {
                 var response = await client.GetAsync(url);
@@ -53,8 +54,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var data = JsonConvert.DeserializeObject<User>(rawData);
                 if (data != null)
                 {
-
                     storeService.Add(CommonKeys.LoggedUser.ToString(), data);
+                    if (data.Chats != null)
+                        storeService.Add(CommonKeys.Chats.ToString(), data.Chats);
+
                     await FetchAllLoggedUsers();
                     LoggingIn?.Invoke(this, new EventArgs());
                     return true;
