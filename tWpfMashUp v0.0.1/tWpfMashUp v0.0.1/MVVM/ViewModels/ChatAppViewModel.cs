@@ -141,7 +141,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     var newCurrentUser = selectionChangedEventArgs.AddedItems[0] as User;
                     store.Add(CommonKeys.WithUser.ToString(), newCurrentUser);
                     await chatsService.CreateChatIfNotExistAsync(newCurrentUser);
-                    newCurrentUser.HasUnreadMessage = false;
+                    if (newCurrentUser.HasUnreadMessage)
+                    {
+                        newCurrentUser.HasUnreadMessage = false;
+                        var user = OnlineContacts.First(u => u.Id == newCurrentUser.Id);
+                        user.HasUnreadMessage = false;
+                        OnlineContacts.Remove(user);
+                        OnlineContacts.Add(newCurrentUser);
+                        SelectedUser = user;
+                    }
+
                 }
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }
