@@ -76,18 +76,18 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 {
                     var res = await client.GetAsync(url);
                     res.EnsureSuccessStatusCode();
-                    var resstring = await res.Content.ReadAsStringAsync();
-                    var chatrecived = JsonConvert.DeserializeObject<Chat>(resstring);
-                    if (chatrecived != null)
-                    {
-                        store.Add(CommonKeys.CurrentChat.ToString(), chatrecived);
-                        if (store.HasKey(CommonKeys.Chats.ToString()))
-                        {
-                            var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                            chats.Add(chatrecived);
-                        }
-                        store.Add(CommonKeys.Chats.ToString(), new List<Chat> { chatrecived });
-                    }
+                    //var resstring = await res.Content.ReadAsStringAsync();
+                    //var chatrecived = JsonConvert.DeserializeObject<Chat>(resstring);
+                    //if (chatrecived != null)
+                    //{
+                    //    store.Add(CommonKeys.CurrentChat.ToString(), chatrecived);
+                    //    if (store.HasKey(CommonKeys.Chats.ToString()))
+                    //    {
+                    //        var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+                    //        chats.Add(chatrecived);
+                    //    }
+                    //    store.Add(CommonKeys.Chats.ToString(), new List<Chat> { chatrecived });
+                    //}
                 }
             }
             catch { }

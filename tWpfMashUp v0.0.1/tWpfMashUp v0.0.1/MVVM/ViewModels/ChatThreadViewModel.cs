@@ -40,9 +40,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
             storeService.CurrentContactChanged += OnCurrentContactChanged;
             this.listenerService.MessageRecived += OnMessageRecived;
+            this.listenerService.ChatForUserRecived += OnChatForUserRecived;
         }
 
-
+        private void OnChatForUserRecived(object sender, EventArgs e)
+        {
+            var newChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+            this.Messages = new ObservableCollection<Massage>(newChat.Messages);
+        }
 
         private void OnCurrentContactChanged(object sender, EventArgs e)
         {

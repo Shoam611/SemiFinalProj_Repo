@@ -97,7 +97,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             else App.Current.Dispatcher.Invoke(() => OnContactLoggedOut(args.User));
             //System.NullReferenceException: 'Object reference not set to an instance of an object.'
             //System.Windows.Application.Current.get returned null.
-
         }
 
         private void OnContactLoggedIn(User user)
