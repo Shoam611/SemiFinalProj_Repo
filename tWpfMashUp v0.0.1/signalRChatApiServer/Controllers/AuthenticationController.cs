@@ -43,8 +43,8 @@ namespace signalRChatApiServer.Controllers
         {
             try
             {
-                var user = repository.Authenticate(newUser.UserName, newUser.Password);
-                if (user is null)
+                var isExist = repository.IsUserExist(newUser.UserName);
+                if (!isExist)
                 {
                     repository.AddUser(newUser);
                     return true;

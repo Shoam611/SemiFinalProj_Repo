@@ -36,9 +36,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
                         var response = await client.PostAsync(url, content);
                         var rawData = await response.Content.ReadAsStringAsync();
                         if (rawData == "false")
+                        {
+                            MessageBox.Show("User already exists!");
                             return false;
-                        //if returned false - user already exist;
-
+                            //if returned false - user already exist;
+                        }
                         return true;
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
