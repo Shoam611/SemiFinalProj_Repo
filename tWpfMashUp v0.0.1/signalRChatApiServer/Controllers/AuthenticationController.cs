@@ -43,8 +43,13 @@ namespace signalRChatApiServer.Controllers
         {
             try
             {
-                repository.AddUser(newUser);
-                return true;
+                var user = repository.Authenticate(newUser.UserName, newUser.Password);
+                if (user is null)
+                {
+                    repository.AddUser(newUser);
+                    return true;
+                }
+                return false;
             }
             catch { return false; }
         }

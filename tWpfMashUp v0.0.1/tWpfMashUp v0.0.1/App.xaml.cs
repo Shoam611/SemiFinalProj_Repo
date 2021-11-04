@@ -69,6 +69,6 @@ namespace tWpfMashUp_v0._0._1
     //fetched chat will be added to the store
     //chatthread viewModel will be notified and update Ui
 //TODO: Add Validation to registraion.
-        //no empty strings
-        //no duplicate usernames
-        //add matching error massage to user
+        //no empty strings or less than 2 -> Done
+        //no duplicate usernames -> Done
+        //add matching error massage to user -> Done

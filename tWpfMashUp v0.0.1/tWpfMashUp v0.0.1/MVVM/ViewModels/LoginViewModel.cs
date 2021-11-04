@@ -33,7 +33,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             var isSighnedUp = await authService.CallServerToSignUp(UserName, Password);
             if (isSighnedUp) LogInHandler();
-            else MessageBox.Show("Unexpected Error while sighning up");
+            else MessageBox.Show("User already exists in our system!");
         }
         private async void LogInHandler()
         {

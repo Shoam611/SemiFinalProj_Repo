@@ -15,7 +15,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private readonly StoreService storeService;
 
         public event EventHandler LoggingIn;
-      
+
         public AuthenticationService(StoreService storeService)
         {
             this.storeService = storeService;
@@ -34,20 +34,20 @@ namespace tWpfMashUp_v0._0._1.Sevices
                         var values = new User { UserName = username, Password = password };
                         var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
                         var response = await client.PostAsync(url, content);
-                        if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
-                        {
-                            //if returned false - user already exist;
-                            return true;
-                        }
-                        return false;
+                        var rawData = await response.Content.ReadAsStringAsync();
+                        if (rawData == "false")
+                            return false;
+                        //if returned false - user already exist;
+
+                        return true;
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
                     return false;
                 }
-                MessageBox.Show("Username / Password must be at lease 2 characters!");
+                MessageBox.Show("Username and Password must be at lease 2 characters!");
                 return false;
             }
-            MessageBox.Show("Username / Password cannot be empty!");
+            MessageBox.Show("Username and Password cannot be empty!");
             return false;
         }
 
@@ -57,7 +57,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             var hubstring = storeService.Get(CommonKeys.HubConnectionString.ToString()) as string;
             var url = @$"http://localhost:14795/Authentication?username={username}&password={password}&hubstring={hubstring}";
             using HttpClient client = new();
-            
+
             try
             {
                 var response = await client.GetAsync(url);
