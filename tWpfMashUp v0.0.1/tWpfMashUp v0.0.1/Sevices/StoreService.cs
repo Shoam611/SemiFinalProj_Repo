@@ -27,8 +27,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public dynamic Get(string key) => storeDictionary.TryGetValue(key, out var val) ? val : null;
        
-        public void InformContactChanged(object source, System.Windows.Controls.SelectionChangedEventArgs selectionChangedEventArgs)
-            => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
+        public void InformContactChanged(object source, SelectionChangedEventArgs selectionChangedEventArgs) => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
 
         public bool HasKey(string key) => storeDictionary.ContainsKey(key);
 
@@ -36,7 +35,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public void Remove(string key) => storeDictionary.Remove(key);
 
-        IEnumerable<string> PrivateGetAllKeys()
+        private IEnumerable<string> PrivateGetAllKeys()
         {
             foreach (var item in storeDictionary) yield return item.Key;
         }

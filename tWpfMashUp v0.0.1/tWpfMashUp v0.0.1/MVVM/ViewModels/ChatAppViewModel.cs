@@ -7,79 +7,109 @@ using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows.Threading;
 using System;
+using System.Windows;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ChatAppViewModel : ObservableObject
     {
-        //fields
-        private readonly StoreService store;
+        //Fields
+        private readonly StoreService storeService;
         private readonly SignalRListenerService signalRListinerService;
         private readonly AuthenticationService authenticationService;
         private readonly ChatsService chatsService;
-        //full props
+        private readonly GameLogicService gameService;
+
+        //Full Props
         private User loggedUser;
         public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
 
         private Chat selectedChat;
         public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); UpdateChatInStore(); } }
+
         private string displayedUser;
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
 
         private User selectedUser;
         public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); UpdateChatInStore(); } }
+
         private string bindingTest;
         public string BindingTest { get => bindingTest; set { bindingTest = value; onProppertyChange(); } }
-        //commands
-        public RelayCommand OnSelectionChangedCommand { get; set; }
 
+        //Commands
+        public RelayCommand OnSelectionChangedCommand { get; set; }
+        public RelayCommand OnInviteToGameCommand { get; set; }
+
+        //Ui Collections
         public ObservableCollection<User> OnlineContacts { get; set; }
         public ObservableCollection<User> OfflineContacts { get; set; }
 
-        public ChatAppViewModel(StoreService store, ChatsService chatsService, AuthenticationService authenticationService, SignalRListenerService signalRListinerService)
+        public ChatAppViewModel(StoreService store, ChatsService chatsService,
+            AuthenticationService authenticationService, SignalRListenerService signalRListinerService, GameLogicService gameService)
         {
-            this.authenticationService = authenticationService;
+            this.storeService = store;
+            this.gameService = gameService;
             this.chatsService = chatsService;
-            this.store = store;
+            this.authenticationService = authenticationService;
             this.signalRListinerService = signalRListinerService;
             OfflineContacts = new ObservableCollection<User>();
             OnlineContacts = new ObservableCollection<User>();
+
+            OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
+            OnInviteToGameCommand = new RelayCommand((o) => InviteToGame());
+
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
-            OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
             this.signalRListinerService.MessageRecived += OnMassageRecived;
+            this.signalRListinerService.UserInvitedToGame += OnGameInvitation;
+        }
+
+        private void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
+        {
+            var mb = MessageBox.Show($"{eventArgs.User.UserName} You were invited to a game!", "Game Invitation", MessageBoxButton.YesNo);
+            if(mb == MessageBoxResult.Yes)
+            {
+                //switch to game view
+                MessageBox.Show("Good luck!");
+            }
+        }
+
+        private async void InviteToGame()
+        {
+            await gameService.CallServerForOtherUserInvite();
         }
 
         private void OnMassageRecived(object sender, MessageRecivedEventArgs eventArgs)
         {
-            if (store.HasKey(CommonKeys.CurrentChat.ToString()))
+            if (storeService.HasKey(CommonKeys.CurrentChat.ToString()))
             {
-                var c = store.Get(CommonKeys.CurrentChat.ToString()) as Chat;
-                if (eventArgs.ChatId == c.Id) { return; }                
+                var c = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+                if (eventArgs.ChatId == c.Id) { return; }
             }
-           var contacts = (store.Get(CommonKeys.Contacts.ToString()) as List<User>);
+            var contacts = (storeService.Get(CommonKeys.Contacts.ToString()) as List<User>);
             var contact = contacts.First(u => u.UserName == eventArgs.Massage.Name);
             contact.HasUnreadMessage = true;
-            OnlineContacts.Remove(OnlineContacts.First(u=>u.Id==contact.Id));
-            OnlineContacts.Add(contact);                        
+            OnlineContacts.Remove(OnlineContacts.First(u => u.Id == contact.Id));
+            OnlineContacts.Add(contact);
             //OnlineContacts= new ObservableCollection<User>(contacts);
         }
 
         private void FetchUserHandler()
         {
-            LoggedUser = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
             DisplayedUser = $"{LoggedUser.UserName} (#{LoggedUser.Id})";
             FetchAllOnlineContacts();
-
         }
+
         private async void FetchAllOnlineContacts()
         {
             await authenticationService.FetchAllLoggedUsers();
             App.Current.Dispatcher.Invoke(() => UpdateUsersList());
         }
+
         private void UpdateUsersList()
         {
-            var users = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+            var users = storeService.Get(CommonKeys.Contacts.ToString()) as List<User>;
             if (!users.Any()) return;
             OnlineContacts.Clear();
             OfflineContacts.Clear();
@@ -97,7 +127,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             else App.Current.Dispatcher.Invoke(() => OnContactLoggedOut(args.User));
             //System.NullReferenceException: 'Object reference not set to an instance of an object.'
             //System.Windows.Application.Current.get returned null.
-
         }
 
         private void OnContactLoggedIn(User user)
@@ -113,7 +142,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
             }
         }
-
 
         private void OnContactLoggedOut(User user)
         {
@@ -133,13 +161,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             {
                 if (selectionChangedEventArgs.RemovedItems != null && selectionChangedEventArgs.RemovedItems.Count > 0)
                 {
-                    store.Remove(CommonKeys.CurrentChat.ToString());
-                    store.Remove(CommonKeys.WithUser.ToString());
+                    storeService.Remove(CommonKeys.CurrentChat.ToString());
+                    storeService.Remove(CommonKeys.WithUser.ToString());
                 }
                 if (selectionChangedEventArgs.AddedItems != null && selectionChangedEventArgs.AddedItems.Count > 0)
                 {
                     var newCurrentUser = selectionChangedEventArgs.AddedItems[0] as User;
-                    store.Add(CommonKeys.WithUser.ToString(), newCurrentUser);
+                    storeService.Add(CommonKeys.WithUser.ToString(), newCurrentUser);
                     await chatsService.CreateChatIfNotExistAsync(newCurrentUser);
                     if (newCurrentUser.HasUnreadMessage)
                     {
@@ -152,11 +180,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     }
 
                 }
-                store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
+                storeService.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }
             catch { }
         }
 
-        private void UpdateChatInStore() => store.Add(CommonKeys.WithUser.ToString(), SelectedUser);
+        private void UpdateChatInStore() => storeService.Add(CommonKeys.WithUser.ToString(), SelectedUser);
     }
 }

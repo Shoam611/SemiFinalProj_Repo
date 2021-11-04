@@ -10,6 +10,7 @@ using System.Windows;
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
+    public delegate void UserInvitedEventHandler(object sender, UserInvitedEventArgs eventArgs);
     public class SignalRListenerService
     {
         private readonly StoreService store;
@@ -17,19 +18,18 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private readonly HubConnection connection;
 
         public event MessageRecivedEventHandler MessageRecived;
+        public event UserInvitedEventHandler UserInvitedToGame;
         public event EventHandler ContactLogged;
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
         {
-
             this.store = store;
             this.messagesService = messagesService;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();
             connection.Closed += async (err) => { await Task.Delay(2500); await connection.StartAsync(); };
             StartConnectionAsync();
         }
-
-
+        
         public async void StartConnectionAsync()
         {
             connection.On<string>("Connected", OnConnected);
@@ -37,11 +37,18 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<User>("ContactLoggedIn", OnContactLoggedIn);
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
             connection.On<Chat>("ChatCreated", OnChatCreated);
+            connection.On<User>("GameInvite", OnGameInvite);
+
             try
             {
                 if (connection.State != HubConnectionState.Connected) await connection.StartAsync();
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
+        }
+
+        private void OnGameInvite(User user)
+        {
+            UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = user });
         }
 
         private void OnChatCreated(Chat obj)
@@ -57,18 +64,19 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 store.Add(CommonKeys.Chats.ToString(), new List<Chat> { obj });
             }
         }
+
         private void OnConnected(string hubConnectionString)
         {
             store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
         }
-           
+
         private void OnMassageRecived(Massage msg)
         {
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
             var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
             if (chat.Messages == null) chat.Messages = new List<Massage>();
             chat.Messages.Add(msg);
-            MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });                  
+            MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });
         }
 
         private void OnContactLoggedIn(User newOnlineUser)
@@ -77,11 +85,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (!store.HasKey(CommonKeys.Contacts.ToString()))
                 contacts = new List<User>();
             else contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
-            if (! contacts.Where(u => u.Id == newOnlineUser.Id).Any())
+            if (!contacts.Where(u => u.Id == newOnlineUser.Id).Any())
             {
-            contacts.Add(newOnlineUser);          
+                contacts.Add(newOnlineUser);
             }
-            store.Add(CommonKeys.Contacts.ToString(), contacts);          
+            store.Add(CommonKeys.Contacts.ToString(), contacts);
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = newOnlineUser, IsLoggedIn = true });
         }
 
@@ -90,8 +98,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
-                var chats =store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                var chat = chats.FirstOrDefault(c => c.Users.FirstOrDefault(u => u.Id == disconnectedUser.Id)!=null);
+                var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+                var chat = chats.FirstOrDefault(c => c.Users.FirstOrDefault(u => u.Id == disconnectedUser.Id) != null);
                 if (chat != null)
                 {
                     chats.Remove(chat);

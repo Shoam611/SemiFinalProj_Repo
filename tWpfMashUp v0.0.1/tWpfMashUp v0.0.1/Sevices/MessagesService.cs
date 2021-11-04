@@ -25,7 +25,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             try
             {
                 var chat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
-                if(chat == null){ MessageBox.Show("No Chat Selected for messages"); return false; }
+                if(chat == null){ MessageBox.Show("No User Selected For Messages!"); return false; }
                 var msg = new Massage 
                 { 
                     Content = message, 
@@ -33,8 +33,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName,
                     ChatId = chat.Id 
                 };
-                if (chat.Messages == null)
-                    chat.Messages = new List<Massage>();
                                 
                 var content = new StringContent(JsonConvert.SerializeObject(msg), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(url, content);

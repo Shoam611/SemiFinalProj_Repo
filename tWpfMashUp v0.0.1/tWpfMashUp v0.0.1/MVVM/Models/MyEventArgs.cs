@@ -12,6 +12,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
     {
         public User User{ get; set; }
         public bool IsLoggedIn { get; set; }
+    }
 
+    public class UserInvitedEventArgs : EventArgs
+    {
+        public User User { get; set; }
     }
 }

@@ -19,12 +19,13 @@ namespace signalRChatApiServer.Controllers
             chathub = chatHub;
             this.repository = repository;
         }
-   
+
         [HttpGet]
         public List<User> Get()
         {
-           return repository.GetAllUsers();
+            return repository.GetAllUsers();
         }
+
         //update user-> status and h.c.string
         [HttpPut]
         public void Put(User user)
