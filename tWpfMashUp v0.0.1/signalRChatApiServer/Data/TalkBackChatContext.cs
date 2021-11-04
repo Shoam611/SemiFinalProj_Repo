@@ -40,7 +40,6 @@ namespace signalRChatApiServer.Data
             modelBuilder.Entity<Chat>()
                         .HasMany(c => c.Users)
                         .WithMany(u => u.Chats)
-
                         .UsingEntity<ChatUser>(
                             cu => cu.HasOne(cu => cu.User)
                                     .WithMany(u => u.ChatUsers)

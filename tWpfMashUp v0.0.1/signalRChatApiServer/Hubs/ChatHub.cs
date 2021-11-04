@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System;
 using signalRChatApiServer.Models;
-using System;
+using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Hubs
@@ -14,9 +14,9 @@ namespace signalRChatApiServer.Hubs
             return base.OnConnectedAsync();
         }
 
-        public void InformClientLoggedIn(User user) => Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedIn", user);
-        public void InformClientLoggedOut(User user) => Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedOut", user);
-        public void InformClientMassageRecived(Message message, int chatId, string hubConnectionString) => Clients.Client(hubConnectionString).SendAsync("MassageRecived", message, chatId);
+        //public void InformClientLoggedIn(User user) => Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedIn", user);
+        //public void InformClientLoggedOut(User user) => Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedOut", user);
+        //public void InformClientMassageRecived(Message message, int chatId, string hubConnectionString) => Clients.Client(hubConnectionString).SendAsync("MassageRecived", message, chatId);
 
     }
 }
