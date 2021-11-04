@@ -21,8 +21,14 @@
         <Border  Grid.RowSpan="2">
             <Border.Background>
                 <LinearGradientBrush>
-                    <GradientStop Color="MidnightBlue" Offset="0.0"/>
-                    <GradientStop Color="DarkSlateGray" Offset="1"/>
+                    <GradientStop Color="#292b2f" Offset="0.0"/>
+                    <GradientStop Color="#292b2f" Offset="0.4"/>
+
+                    <GradientStop Color="#2f3136" Offset="0.4"/>
+                    <GradientStop Color="#2f3136" Offset="0.6"/>
+                    
+                    <GradientStop Color="#36393f" Offset="0.6"/>
+                    <GradientStop Color="#36393f" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
         </Border>

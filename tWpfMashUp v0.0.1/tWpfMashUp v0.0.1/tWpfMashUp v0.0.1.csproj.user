@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Assets\Components\CustomModal\PopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\Views\ChatAndGameView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -24,6 +27,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Assets\Components\CustomModal\PopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Assets\Templates\ScrollBar.xaml">
       <SubType>Designer</SubType>
     </Page>
