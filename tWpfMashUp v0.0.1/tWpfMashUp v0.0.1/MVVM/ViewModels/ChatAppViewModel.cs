@@ -6,7 +6,7 @@ using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows.Threading;
-using System.Windows;
+using System;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -47,7 +47,22 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
-            // authenticationService.UserFetch
+            this.signalRListinerService.MessageRecived += OnMassageRecived;
+        }
+
+        private void OnMassageRecived(object sender, MessageRecivedEventArgs eventArgs)
+        {
+            if (store.HasKey(CommonKeys.CurrentChat.ToString()))
+            {
+                var c = store.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+                if (eventArgs.ChatId == c.Id) { return; }                
+            }
+           var contacts = (store.Get(CommonKeys.Contacts.ToString()) as List<User>);
+            var contact = contacts.First(u => u.UserName == eventArgs.Massage.Name);
+            contact.HasUnreadMessage = true;
+            OnlineContacts.Remove(OnlineContacts.First(u=>u.Id==contact.Id));
+            OnlineContacts.Add(contact);                        
+            //OnlineContacts= new ObservableCollection<User>(contacts);
         }
 
         private void FetchUserHandler()
@@ -60,7 +75,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private async void FetchAllOnlineContacts()
         {
             await authenticationService.FetchAllLoggedUsers();
-            Dispatcher.CurrentDispatcher.Invoke(() => UpdateUsersList());
+            App.Current.Dispatcher.Invoke(() => UpdateUsersList());
         }
         private void UpdateUsersList()
         {
@@ -78,19 +93,24 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private void OnContactLogged(object sender, System.EventArgs e)
         {
             var args = e as ContactLoggedEventArgs;
-            if (args.IsLoggedIn) Dispatcher.CurrentDispatcher.Invoke(() => OnContactLoggedIn(args.User));
-            else Dispatcher.CurrentDispatcher.Invoke(() => OnContactLoggedOut(args.User));
+            if (args.IsLoggedIn) App.Current.Dispatcher.Invoke(() => OnContactLoggedIn(args.User));
+            else App.Current.Dispatcher.Invoke(() => OnContactLoggedOut(args.User));
+            //System.NullReferenceException: 'Object reference not set to an instance of an object.'
+            //System.Windows.Application.Current.get returned null.
+
         }
 
         private void OnContactLoggedIn(User user)
         {
             if (!OnlineContacts.Where(u => u.Id == user.Id).Any())
             {
-                Dispatcher.CurrentDispatcher.Invoke(() =>
+                App.Current.Dispatcher.Invoke(() =>
                   {
                       OnlineContacts.Add(user);
                       OfflineContacts.Remove(OfflineContacts.FirstOrDefault(u => u.Id == user.Id));
                   });
+                //System.NotSupportedException: 'This type of CollectionView does not support changes to its SourceCollection from a thread different from the Dispatcher thread.'
+
             }
         }
 
@@ -99,7 +119,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             if (!OfflineContacts.Where(u => u.Id == user.Id).Any())
             {
-                Dispatcher.CurrentDispatcher.Invoke(() =>
+                App.Current.Dispatcher.Invoke(() =>
                     {
                         OfflineContacts.Add(user);
                         OnlineContacts.Remove(OnlineContacts.FirstOrDefault(u => u.Id == user.Id));
@@ -107,7 +127,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             }
         }
 
-        public void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)
+        public async void HandleSelectionChanged(SelectionChangedEventArgs selectionChangedEventArgs)
         {
             try
             {
@@ -120,8 +140,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 {
                     var newCurrentUser = selectionChangedEventArgs.AddedItems[0] as User;
                     store.Add(CommonKeys.WithUser.ToString(), newCurrentUser);
-                    //create new chat
-                    chatsService.CreateChatIfNotExistAsync(newCurrentUser);
+                    await chatsService.CreateChatIfNotExistAsync(newCurrentUser);
+                    newCurrentUser.HasUnreadMessage = false;
                 }
                 store.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }

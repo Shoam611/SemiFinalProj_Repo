@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Extentions;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -14,31 +15,41 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private readonly StoreService storeService;
 
         public event EventHandler LoggingIn;
-      
+
         public AuthenticationService(StoreService storeService)
         {
             this.storeService = storeService;
             App.Current.Exit += async (s, e) => await OnLogOutHandler();
         }
-
-
-
         public async Task<bool> CallServerToSignUp(string username, string password)
         {
-            //validate
-                //msgbox.Show("") return;
-            var url = @"http://localhost:14795/Authentication";
-            using HttpClient client = new();
-            try
+            if (!username.IsEmptyNullOrWhiteSpace() && !password.IsEmptyNullOrWhiteSpace())
             {
-                var values = new User { UserName = username, Password = password };
-                var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(url, content);
-                response.EnsureSuccessStatusCode();
-                //if returned false - user already exist;
-                return true;
+                if (username.Length > 2 && password.Length > 2)
+                {
+                    var url = @"http://localhost:14795/Authentication";
+                    using HttpClient client = new();
+                    try
+                    {
+                        var values = new User { UserName = username, Password = password };
+                        var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
+                        var response = await client.PostAsync(url, content);
+                        var rawData = await response.Content.ReadAsStringAsync();
+                        if (rawData == "false")
+                        {
+                            MessageBox.Show("User already exists!");
+                            return false;
+                            //if returned false - user already exist;
+                        }
+                        return true;
+                    }
+                    catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
+                    return false;
+                }
+                MessageBox.Show("Username and Password must be at lease 2 characters!");
+                return false;
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
+            MessageBox.Show("Username and Password cannot be empty!");
             return false;
         }
 
@@ -48,6 +59,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             var hubstring = storeService.Get(CommonKeys.HubConnectionString.ToString()) as string;
             var url = @$"http://localhost:14795/Authentication?username={username}&password={password}&hubstring={hubstring}";
             using HttpClient client = new();
+
             try
             {
                 var response = await client.GetAsync(url);
@@ -56,8 +68,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var data = JsonConvert.DeserializeObject<User>(rawData);
                 if (data != null)
                 {
-
                     storeService.Add(CommonKeys.LoggedUser.ToString(), data);
+                    if (data.Chats != null)
+                        storeService.Add(CommonKeys.Chats.ToString(), data.Chats);
+
                     await FetchAllLoggedUsers();
                     LoggingIn?.Invoke(this, new EventArgs());
                     return true;

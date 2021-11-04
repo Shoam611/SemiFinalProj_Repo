@@ -1,7 +1,7 @@
 ﻿using signalRChatApiServer.Models;
 using System.Collections.Generic;
 
-namespace signalRChatApiServer.Repositories
+namespace signalRChatApiServer.Repositories.Infra
 {
     public interface IRepository
     {

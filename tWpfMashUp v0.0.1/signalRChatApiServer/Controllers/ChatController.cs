@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
+using signalRChatApiServer.Repositories.Infra;
+using System.Linq;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -12,8 +14,8 @@ namespace signalRChatApiServer.Controllers
     {
         private readonly IHubContext<ChatHub> chathub;
 
-        IRepository repository;
-        public ChatController(IRepository repository, IHubContext<ChatHub> chathub)
+        IChatsReposatory repository;
+        public ChatController(IChatsReposatory repository, IHubContext<ChatHub> chathub)
         {
             this.chathub = chathub;
             this.repository = repository;
@@ -23,6 +25,8 @@ namespace signalRChatApiServer.Controllers
         public Chat Get(int user1Id, int user2Id)
         {
             repository.IsChatExist(user1Id, user2Id, out Chat c);
+            var contact = c.Users.First(c => c.Id == user2Id);
+            chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", c);
             return c;
         }
 

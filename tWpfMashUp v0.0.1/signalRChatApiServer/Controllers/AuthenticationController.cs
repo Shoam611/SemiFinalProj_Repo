@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
+using signalRChatApiServer.Repositories.Infra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace signalRChatApiServer.Controllers
     public class AuthenticationController : Controller
     {
         private IHubContext<ChatHub> chathub;
-        private IRepository repository;
+        private IUsersReposatory repository;
 
-        public AuthenticationController(IRepository repository, IHubContext<ChatHub> chatHub)
+        public AuthenticationController(IUsersReposatory repository, IHubContext<ChatHub> chatHub)
         {
             this.chathub = chatHub;
             this.repository = repository;
@@ -42,10 +43,13 @@ namespace signalRChatApiServer.Controllers
         {
             try
             {
-                //validate username;
-                    // return false;
-                repository.AddUser(newUser);
-                return true;
+                var isExist = repository.IsUserExist(newUser.UserName);
+                if (!isExist)
+                {
+                    repository.AddUser(newUser);
+                    return true;
+                }
+                return false;
             }
             catch { return false; }
         }
