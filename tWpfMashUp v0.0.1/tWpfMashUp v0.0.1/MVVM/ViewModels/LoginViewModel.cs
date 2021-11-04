@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.Core;
 using tWpfMashUp_v0._0._1.Sevices;
 
@@ -40,7 +41,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var isAuthenticated = await authService.LoginAsync(UserName, Password);
             if (!isAuthenticated)
             {
-                MessageBox.Show("User not found");
+                Modal.ShowModal("User not found"); 
             }
         }
 

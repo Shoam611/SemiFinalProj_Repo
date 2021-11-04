@@ -6,6 +6,7 @@ using System.Windows;
 using System;
 using System.Linq;
 using System.Windows.Controls;
+using tWpfMashUp_v0._0._1.Extentions;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -41,7 +42,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.listenerService.MessageRecived += OnMessageRecived;
         }
 
-       
+
 
         private void OnCurrentContactChanged(object sender, EventArgs e)
         {
@@ -69,7 +70,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             if (!storeService.HasKey(CommonKeys.CurrentChat.ToString())) return; //data already in store for when i want it
             var currentChatId = (storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
-           if (eventArgs.ChatId == currentChatId)
+            if (eventArgs.ChatId == currentChatId)
                 Messages.Add(eventArgs.Massage);
             else
             {
@@ -78,11 +79,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         }
         private async void AddMessageHandler()
         {
-            var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
-            if (isSuccesfull)
-            Message = "";
+            if (!Message.IsEmptyNullOrWhiteSpace())
+            {
+                var isSuccesfull = await messagesService.CallServerToAddMessage(Message);
+                if (isSuccesfull)
+                    Message = "";
+            }
         }
 
-       // public void ChatChangedHandler(RoutedEventArgs routedEventArgs) => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
+        // public void ChatChangedHandler(RoutedEventArgs routedEventArgs) => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
     }
 }

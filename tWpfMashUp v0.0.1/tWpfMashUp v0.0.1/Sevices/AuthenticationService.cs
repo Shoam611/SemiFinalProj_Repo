@@ -83,8 +83,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task OnLogOutHandler()
         {
-            var loggedUser = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
-            if (loggedUser == null) return;
+            if (storeService.Get(CommonKeys.LoggedUser.ToString()) is not User loggedUser) return;
             loggedUser.IsConnected = Status.Offline;
             var url = @$"http://localhost:14795/Users";
             using HttpClient client = new();
