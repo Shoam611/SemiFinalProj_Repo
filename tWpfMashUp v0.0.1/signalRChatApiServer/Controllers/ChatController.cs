@@ -22,11 +22,11 @@ namespace signalRChatApiServer.Controllers
         }
 
         [HttpGet]
-        public async Task<Chat> Get(int user1Id, int user2Id)
+        public Chat Get(int user1Id, int user2Id)
         {
             repository.IsChatExist(user1Id, user2Id, out Chat c);
             var contact = c.Users.First(c => c.Id == user2Id);
-            await chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", c);
+            chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", c);
             return c;
         }
 

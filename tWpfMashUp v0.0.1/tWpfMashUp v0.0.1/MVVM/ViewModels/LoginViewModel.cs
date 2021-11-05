@@ -10,7 +10,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     {
         private readonly AuthenticationService authService;
 
-
         public RelayCommand SighUpCommand { get; set; }
         public RelayCommand AuthenticateCommand { get; set; }
         public RelayCommand PasswordChangedCommand { get; set; }
