@@ -44,17 +44,17 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnChatCreated(Chat obj)
+        private void OnChatCreated(Chat chat)
         {
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
                 var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                if (chats.FirstOrDefault(c => c.Id == obj.Id) == null)
-                    chats.Add(obj);
+                if (chats.FirstOrDefault(c => c.Id == chat.Id) == null)
+                    chats.Add(chat);
             }
             else
             {
-                store.Add(CommonKeys.Chats.ToString(), new List<Chat> { obj });
+                store.Add(CommonKeys.Chats.ToString(), new List<Chat> { chat });
             }
         }
         private void OnConnected(string hubConnectionString)
