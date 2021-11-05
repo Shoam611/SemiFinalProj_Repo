@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -24,8 +25,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var chat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
-                if(chat == null){ MessageBox.Show("No Chat Selected for messages"); return false; }
+                if (storeService.Get(CommonKeys.CurrentChat.ToString()) is not Chat chat) { Modal.ShowModal("No Chat Selected for messages"); return false; }
                 var msg = new Massage 
                 { 
                     Content = message, 
@@ -41,7 +41,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 response.EnsureSuccessStatusCode();
                 return true;
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); return false; }
+            catch (Exception ex) { Modal.ShowModal(ex.Message, "Failed to call server"); return false; }
         }
 
         public async Task<List<Massage>> GetChatMassages(int chatId)
@@ -57,7 +57,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch (Exception ex) 
             {
-                MessageBox.Show(ex.Message, "Failed to call server"); 
+                Modal.ShowModal(ex.Message, "Failed to call server"); 
                 return null; 
             }
         }

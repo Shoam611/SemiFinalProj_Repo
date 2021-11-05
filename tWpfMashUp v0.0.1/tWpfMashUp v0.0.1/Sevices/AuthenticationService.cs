@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Extentions;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -37,19 +38,19 @@ namespace tWpfMashUp_v0._0._1.Sevices
                         var rawData = await response.Content.ReadAsStringAsync();
                         if (rawData == "false")
                         {
-                            MessageBox.Show("User already exists!");
+                            Modal.ShowModal("User already exists!");
                             return false;
                             //if returned false - user already exist;
                         }
                         return true;
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); }
+                    catch (Exception ex) { Modal.ShowModal(ex.Message, "Failed to call server"); }
                     return false;
                 }
-                MessageBox.Show("Username and Password must be at lease 2 characters!");
+                Modal.ShowModal("Username and Password must be at lease 2 characters!");
                 return false;
             }
-            MessageBox.Show("Username and Password cannot be empty!");
+            Modal.ShowModal("Username and Password cannot be empty!");
             return false;
         }
 
@@ -77,7 +78,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     return true;
                 }
             }
-            catch { MessageBox.Show("Failed To Call Server"); }
+            catch { Modal.ShowModal("Failed To Call Server"); }
             return false;
         }
 
@@ -113,7 +114,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     storeService.Add(CommonKeys.Contacts.ToString(), data);
                 }
             }
-            catch { MessageBox.Show("Failed To Call Server"); }
+            catch { Modal.ShowModal("Failed To Call Server"); }
         }
     }
 

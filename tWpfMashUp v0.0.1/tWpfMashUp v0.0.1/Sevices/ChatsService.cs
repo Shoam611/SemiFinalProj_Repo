@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
@@ -31,11 +32,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     var resString = await response.Content.ReadAsStringAsync();
                     chat = JsonConvert.DeserializeObject<Chat>(resString);
                 }
-                catch { MessageBox.Show("Failed To Get Chat"); return null; }
+                catch { Modal.ShowModal("Failed To Get Chat"); return null; }
             }
             if (chat == null)
             {
-                MessageBox.Show("Cannot create Chat, Chat already exist ");
+                Modal.ShowModal("Cannot create Chat, Chat already exist ");
                 return null;
             }
 
@@ -49,8 +50,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (contacts == null) contacts = new List<User>();
             contacts.Add(contact);
             store.Add(CommonKeys.Contacts.ToString(), contacts);
-            var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-            if (chats == null) chats = new List<Chat>();
+            if (store.Get(CommonKeys.Chats.ToString()) is not List<Chat> chats) chats = new List<Chat>();
             chats.Add(chat);
             store.Add(CommonKeys.Chats.ToString(), chat);
             return chat;
@@ -72,7 +72,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             var url = @$"http://localhost:14795/Chat?user1Id={loggedUser.Id}&user2Id={newCurrentUser.Id}";
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (HttpClient client = new())
                 {
                     var res = await client.GetAsync(url);
                     res.EnsureSuccessStatusCode();

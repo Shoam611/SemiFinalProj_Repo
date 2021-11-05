@@ -10,7 +10,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     {
         private readonly AuthenticationService authService;
 
-        
+
         public RelayCommand SighUpCommand { get; set; }
         public RelayCommand AuthenticateCommand { get; set; }
         public RelayCommand PasswordChangedCommand { get; set; }
@@ -24,7 +24,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public LoginViewModel(AuthenticationService authService)
         {
             this.authService = authService;
-            UserName = "Username";
+            UserName = "User";
             SighUpCommand = new RelayCommand((o) => SighnUpHandler());
             AuthenticateCommand = new RelayCommand(o => LogInHandler());
             PasswordChangedCommand = new RelayCommand((o) => HandlePasswordChanged(o as RoutedEventArgs));
@@ -33,15 +33,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private async void SighnUpHandler()
         {
             var isSighnedUp = await authService.CallServerToSignUp(UserName, Password);
-            if (isSighnedUp) LogInHandler();
-            else MessageBox.Show("Unexpected Error while sighning up");
+            if (isSighnedUp)
+                LogInHandler();
+            else
+                Modal.ShowModal("Unexpected Error while sighning up");
         }
         private async void LogInHandler()
         {
             var isAuthenticated = await authService.LoginAsync(UserName, Password);
             if (!isAuthenticated)
             {
-                Modal.ShowModal("User not found"); 
+                Modal.ShowModal("User not found");
             }
         }
 

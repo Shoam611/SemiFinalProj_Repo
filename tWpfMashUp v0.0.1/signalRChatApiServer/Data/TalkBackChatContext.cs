@@ -25,17 +25,17 @@ namespace signalRChatApiServer.Data
                 new { Id = 3, IsConnected = Status.Offline, UserName = "User3", Password = "123", HubConnectionString = "dummy-c-string" }
                 );
             modelBuilder.Entity<Message>().HasData(
-                new { Id = 1, Content = "dummy-content", Date = DateTime.Now, ChatId = 1, Name = "User1", },
-                new { Id = 2, Content = "dummy-content", Date = DateTime.Now, ChatId = 1, Name = "User2", },
-                new { Id = 3, Content = "dummy-content", Date = DateTime.Now, ChatId = 1, Name = "User1", },
+                new { Id = 1, Content = "למה לא בעצם?", Date = DateTime.Now.AddMinutes(50), ChatId = 1, Name = "User1", },
+                new { Id = 2, Content = "למה אתה כותב באנגלית?", Date = DateTime.Now.AddMinutes(37), ChatId = 1, Name = "User2", },
+                new { Id = 3, Content = "Hi, how are you?", Date = DateTime.Now.AddMinutes(5), ChatId = 1, Name = "User1", },
 
-                new { Id = 4, Content = "dummy-content", Date = DateTime.Now, ChatId = 2, Name = "User1", },
-                new { Id = 5, Content = "dummy-content", Date = DateTime.Now, ChatId = 2, Name = "User3", },
-                new { Id = 6, Content = "dummy-content", Date = DateTime.Now, ChatId = 2, Name = "User1", },
+                new { Id = 4, Content = "Q_Q everyone are against me", Date = DateTime.Now.AddMinutes(72), ChatId = 2, Name = "User1", },
+                new { Id = 5, Content = "why are you so toxic?", Date = DateTime.Now.AddMinutes(49), ChatId = 2, Name = "User3", },
+                new { Id = 6, Content = "User2 is such a bitch...", Date = DateTime.Now.AddMinutes(17), ChatId = 2, Name = "User1", },
 
-                new { Id = 7, Content = "dummy-content", Date = DateTime.Now, ChatId = 3, Name = "User2", },
-                new { Id = 8, Content = "dummy-content", Date = DateTime.Now, ChatId = 3, Name = "User3", },
-                new { Id = 9, Content = "dummy-content", Date = DateTime.Now, ChatId = 3, Name = "User2", }
+                new { Id = 7, Content = "מה... איזה דביל", Date = DateTime.Now.AddMinutes(10), ChatId = 3, Name = "User2", },
+                new { Id = 8, Content = "כי שאלתי למה הוא כותב באנגלית", Date = DateTime.Now.AddMinutes(3), ChatId = 3, Name = "User3", },
+                new { Id = 9, Content = "למה יוזר1 אחד שונא אותך?", Date = DateTime.Now, ChatId = 3, Name = "User2", }
                 );
             modelBuilder.Entity<Chat>()
                         .HasMany(c => c.Users)
