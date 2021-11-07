@@ -3,17 +3,59 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:local="clr-namespace:tWpfMashUp_v0._0._1"
         mc:Ignorable="d" 
         ResizeMode="CanResizeWithGrip"
         Background="Transparent"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
+        AllowsTransparency="True"
         MinWidth="300" MinHeight="500"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"         
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
         Height="500" Width="600">
 
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
     <Grid  Background="Transparent">
-        <ContentControl Content="{Binding View}" Width="auto" Height="auto" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Padding="3" Background="#252525" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown">
+                    <i:InvokeCommandAction Command="{Binding MouseDownCommand}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Grid HorizontalAlignment="Stretch">
+                <Label Content="Talkback Sela Chat" 
+                       Foreground="gray"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Left"/>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button Width="20" Height="20" Content="_"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="gray"
+                            FontWeight="Bold"
+                            Margin="0,0,0,4"
+                            Command="{Binding MinimizeCommand}"/>
+                    <Button Width="20" Height="20" Content="☐"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="gray"
+                            FontWeight="Bold"
+                            Command="{Binding MaximizeCommand}"/>
+                    <Button Width="20" Height="20" Content="✕"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="gray"
+                            FontWeight="Bold"
+                            Command="{Binding CloseCommand}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <ContentControl Content="{Binding View}" Width="auto" Height="auto" Grid.Row="1"/>
     </Grid>
 </Window>

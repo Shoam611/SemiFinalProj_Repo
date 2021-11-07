@@ -126,8 +126,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var args = e as ContactLoggedEventArgs;
             if (args.IsLoggedIn) App.Current.Dispatcher.Invoke(() => OnContactLoggedIn(args.User));
             else App.Current.Dispatcher.Invoke(() => OnContactLoggedOut(args.User));
-            //System.NullReferenceException: 'Object reference not set to an instance of an object.'
-            //System.Windows.Application.Current.get returned null.
         }
 
         private void OnContactLoggedIn(User user)
@@ -139,7 +137,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                       OnlineContacts.Add(user);
                       OfflineContacts.Remove(OfflineContacts.FirstOrDefault(u => u.Id == user.Id));
                   });
-                //System.NotSupportedException: 'This type of CollectionView does not support changes to its SourceCollection from a thread different from the Dispatcher thread.'
 
             }
         }
@@ -186,6 +183,19 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             catch { }
         }
 
-        private void UpdateChatInStore() => storeService.Add(CommonKeys.WithUser.ToString(), SelectedUser);
+        private void OnMassageRecived(object sender, MessageRecivedEventArgs eventArgs)
+        {
+            if (store.HasKey(CommonKeys.CurrentChat.ToString()))
+            {
+                var c = store.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+                if (eventArgs.ChatId == c.Id) { return; }                
+            }
+           var contacts = (store.Get(CommonKeys.Contacts.ToString()) as List<User>);
+            var contact = contacts.First(u => u.UserName == eventArgs.Massage.Name);
+            contact.HasUnreadMessage = true;//false
+            OnlineContacts.Remove(OnlineContacts.First(u=>u.Id==contact.Id));
+            OnlineContacts.Insert(0, contact);                       
+        }    
+
     }
 }
