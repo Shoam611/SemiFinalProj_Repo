@@ -80,8 +80,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var args = e as ContactLoggedEventArgs;
             if (args.IsLoggedIn) App.Current.Dispatcher.Invoke(() => OnContactLoggedIn(args.User));
             else App.Current.Dispatcher.Invoke(() => OnContactLoggedOut(args.User));
-            //System.NullReferenceException: 'Object reference not set to an instance of an object.'
-            //System.Windows.Application.Current.get returned null.
         }
 
         private void OnContactLoggedIn(User user)
@@ -93,7 +91,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                       OnlineContacts.Add(user);
                       OfflineContacts.Remove(OfflineContacts.FirstOrDefault(u => u.Id == user.Id));
                   });
-                //System.NotSupportedException: 'This type of CollectionView does not support changes to its SourceCollection from a thread different from the Dispatcher thread.'
 
             }
         }
@@ -151,8 +148,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var contact = contacts.First(u => u.UserName == eventArgs.Massage.Name);
             contact.HasUnreadMessage = true;//false
             OnlineContacts.Remove(OnlineContacts.First(u=>u.Id==contact.Id));
-            OnlineContacts.Add(contact);                        
-            //OnlineContacts= new ObservableCollection<User>(contacts);
+            OnlineContacts.Insert(0, contact);                       
         }    
 
     }
