@@ -12,12 +12,8 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var store = App.ServiceProvider.GetRequiredService<StoreService>();
-            var user = store.Get(CommonKeys.LoggedUser.ToString()).UserName;
-            if ((string)value == user)
-            {
-                return HorizontalAlignment.Left;
-            }
-            return HorizontalAlignment.Right;
+            var user = (string)store.Get(CommonKeys.LoggedUser.ToString()).UserName;
+            return (string)value == user ? HorizontalAlignment.Left : HorizontalAlignment.Right;
         }
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
