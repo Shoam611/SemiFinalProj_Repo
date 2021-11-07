@@ -22,8 +22,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                var invitedUser = storeService.Get(CommonKeys.WithUser.ToString()) as User;
-                if(invitedUser is null) { MessageBox.Show("No User Selected To Play With!"); return false; }
+                if (storeService.Get(CommonKeys.WithUser.ToString()) is not User invitedUser) { MessageBox.Show("No User Selected To Play With!"); return false; }
 
                 var content = new StringContent(JsonConvert.SerializeObject(invitedUser), Encoding.UTF8, "application/json");
                 var response = await client.PutAsync(url, content);

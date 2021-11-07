@@ -11,6 +11,8 @@ using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
+    public delegate void UserInvitedEventHandler(object sender, UserInvitedEventArgs eventArgs);
+
     public class SignalRListenerService
     {
         private readonly StoreService store;
@@ -19,6 +21,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public event EventHandler ChatForUserRecived;
         public event MessageRecivedEventHandler MessageRecived;
+        public event UserInvitedEventHandler UserInvitedToGame;
         public event EventHandler ContactLogged;
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
@@ -39,11 +42,18 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
             connection.On<Chat>("ChatCreated", OnChatCreated);
             connection.On<Massage>("MassageRecived", OnMassageRecived);
+            connection.On<User>("GameInvite", OnGameInvite);
+
             try
             {
                 if (connection.State != HubConnectionState.Connected) await connection.StartAsync();
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
+        }
+
+        private void OnGameInvite(User user)
+        {
+            UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = user });
         }
 
         private void OnChatCreated(Chat obj)
