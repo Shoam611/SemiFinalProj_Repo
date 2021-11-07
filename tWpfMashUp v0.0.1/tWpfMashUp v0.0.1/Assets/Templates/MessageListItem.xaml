@@ -11,25 +11,17 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-<<<<<<< Updated upstream
 
-                        <Grid Margin="10" Grid.Column="1" HorizontalAlignment="{Binding Name, Converter={local:StringToHorizontalAlignmentConverter}}">
-=======
-                       
+
+
                         <Grid Grid.Column="1" HorizontalAlignment="{Binding Name, Converter={local:StringToHorizontalAlignmentConverter}}">
->>>>>>> Stashed changes
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-<<<<<<< Updated upstream
 
-=======
-                                    
-                                    <!--Surround Info-->
->>>>>>> Stashed changes
                                     <Label Content="{Binding Name}"
                                               Foreground="White"
                                               FontWeight="Normal"
@@ -43,15 +35,8 @@
                                               VerticalAlignment="Center"
                                               Margin="0,0,-5,0" Grid.Column="1"/>
                                 </Grid>
-<<<<<<< Updated upstream
                                 <Border VerticalAlignment="Center" CornerRadius="10" Background="{Binding Name, Converter={local:SentByMeBackgroundConverter}}">
                                     <TextBlock VerticalAlignment="Center" Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="14" Text="{Binding Content}"/>
-=======
-
-                                <!--Message-->
-                                <Border CornerRadius="10" Background="{Binding Name, Converter={local:SentByMeBackgroundConverter}}">
-                                    <TextBlock HorizontalAlignment="Center" Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="14" Text="{Binding Content}"/>
->>>>>>> Stashed changes
                                 </Border>
                                 <Path Grid.Row="1" 
                               Stroke="Black"
@@ -68,8 +53,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 </ResourceDictionary>

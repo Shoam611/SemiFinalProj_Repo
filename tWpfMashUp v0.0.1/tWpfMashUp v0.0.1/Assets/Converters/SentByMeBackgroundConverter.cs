@@ -13,7 +13,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
         {
             var store = App.ServiceProvider.GetRequiredService<StoreService>();
             var user = store.Get(CommonKeys.LoggedUser.ToString()).UserName;
-<<<<<<< Updated upstream
+
             if((string)value == user)
             {
                 return Application.Current.FindResource("AccentBrush");
@@ -22,9 +22,6 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
             {
                 return Application.Current.FindResource("ComplimentaryBrush");
             }
-=======
-            return (string)value == user ? Application.Current.FindResource("WordVeryLightBlueBrush") : Application.Current.FindResource("ForegroundLightBrush");
->>>>>>> Stashed changes
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

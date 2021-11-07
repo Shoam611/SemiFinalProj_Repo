@@ -11,10 +11,20 @@
     <SolidColorBrush x:Key="ComplimentaryBrush" Color="{StaticResource Complimentary}" />
     <!--
     mains:
-    Color="#292b2f"
-    Color="#2f3136"
-    Color="#36393f" 
+    Color="#292b2f" - Primery
+    Color="#2f3136" - Accent
+    Color="#36393f" - Complimentary
+    
     from chat thread
     Color="#2f3139"
+    
+    chat app current background
+    Color="#36393f" - Complimentary
+    online/new message circle
+    Color ="#3bff6f" - green/active
+    passive
+    Color ="CornflowerBlue" - blue/passive
+    
+    
     -->
 </ResourceDictionary>
