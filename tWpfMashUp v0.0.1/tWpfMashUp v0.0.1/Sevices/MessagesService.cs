@@ -26,16 +26,17 @@ namespace tWpfMashUp_v0._0._1.Sevices
             try
             {
                 if (storeService.Get(CommonKeys.CurrentChat.ToString()) is not Chat chat) { Modal.ShowModal("No Chat Selected for messages"); return false; }
-                var msg = new Massage 
-                { 
-                    Content = message, 
-                    Date = DateTime.Now, 
+                var msg = new Massage
+                {
+                    Content = message,
+                    Date = DateTime.Now,
                     Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName,
-                    ChatId = chat.Id 
+                    ChatId = chat.Id,
+                    SentByMe = true
                 };
                 if (chat.Messages == null)
                     chat.Messages = new List<Massage>();
-                                
+
                 var content = new StringContent(JsonConvert.SerializeObject(msg), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(url, content);
                 response.EnsureSuccessStatusCode();
@@ -55,10 +56,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 var data = JsonConvert.DeserializeObject<List<Massage>>(readData);
                 return data;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Modal.ShowModal(ex.Message, "Failed to call server"); 
-                return null; 
+                Modal.ShowModal(ex.Message, "Failed to call server");
+                return null;
             }
         }
     }
