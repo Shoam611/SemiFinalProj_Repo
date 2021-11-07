@@ -28,23 +28,27 @@
         </Grid.RowDefinitions>
 
         <Grid Background="#2f3136" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="23*"/>
+                <ColumnDefinition Width="17*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition/>
                 <RowDefinition Height="60"/>
+                <RowDefinition/>
+                <RowDefinition Height="75"/>
             </Grid.RowDefinitions>
+            <Border VerticalAlignment="Top" BorderBrush="{StaticResource PrimeryBrush}" 
+                    BorderThickness="0,4,0,4" Grid.ColumnSpan="2" />
+            <TextBlock  Text="Contacts" FontSize="16"
+                        VerticalAlignment="Center" FontWeight="Medium" Width="70" HorizontalAlignment="Left"
+                        Foreground="Gray" Margin="8,0,0,0" 
+                        Grid.ColumnSpan="2"/>
+            <Button Width="80" HorizontalAlignment="Left" Height="20" Content="Invite to game"
+                        Style="{StaticResource RoundButton}" Command="{Binding OnInviteToGameCommand}" Grid.Column="1" Margin="5,20,0,20" />
 
-            <Label Content="Contact"
-                   VerticalAlignment="Center"
-                   FontWeight="Medium"
-                   Foreground="Gray"
-                   Margin="8,0,0,0"/>
-            <Button Width="100" HorizontalAlignment="Right" Height="20" Style="{StaticResource RoundButton}" Command="{Binding OnInviteToGameCommand}">
-                Invite to game
-            </Button>
-                <Border VerticalAlignment="Bottom" CornerRadius="5" BorderBrush="#292b2f" BorderThickness="5" Margin="4"/>
+            <Border VerticalAlignment="Bottom" BorderBrush="{StaticResource PrimeryBrush}" BorderThickness="4" Grid.ColumnSpan="2"/>
 
-            <Grid Grid.Row="1" >
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="auto"/>
@@ -55,11 +59,11 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
+
                     <TextBlock Text="Online:" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="5 0 0 0"/>
                     <ListView Grid.Row="1" ItemsSource="{Binding OnlineContacts}"                              
                       SelectedItem="{Binding SelectedUser}"
-                      Background="Transparent"
-                      BorderThickness="0"
+                      Background="Transparent" BorderThickness="0" 
                       ItemContainerStyle="{StaticResource ContactListItem}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -70,7 +74,7 @@
 
                     <!---->
                 </Grid>
-                <Border Grid.Row="1" VerticalAlignment="Bottom" CornerRadius="5" BorderBrush="#292b2f" BorderThickness="5" Margin="4"/>
+                <Border Grid.Row="1" VerticalAlignment="Bottom"  BorderBrush="#292b2f" BorderThickness="5" />
                 <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -89,9 +93,9 @@
                 </Grid>
             </Grid>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Background="#292b2f">
-                <Border CornerRadius="25" Width="30" Height="30" 
-                        Background="#3bff6f"  Margin="18,0,0,0"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Background="{StaticResource PrimeryBrush}" Grid.ColumnSpan="2" >
+                <Border CornerRadius="30" Width="30" Height="30" 
+                        Background="{StaticResource ActiveBrush}"  Margin="18,0,0,0"/>
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="{Binding DisplayedUser}" 
@@ -108,6 +112,6 @@
         </Grid>
 
         <v:ChatThreadView Grid.Column="1" />
-    
+
     </Grid>
 </UserControl>

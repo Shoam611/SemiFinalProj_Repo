@@ -16,7 +16,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
 
             if((string)value == user)
             {
-                return Application.Current.FindResource("AccentBrush");
+                return Application.Current.FindResource("PrimeryBrush");
             }
             else
             {

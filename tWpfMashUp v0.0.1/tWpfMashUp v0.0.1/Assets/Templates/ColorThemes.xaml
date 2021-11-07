@@ -9,6 +9,13 @@
 
     <Color x:Key="Complimentary">#36393f</Color>
     <SolidColorBrush x:Key="ComplimentaryBrush" Color="{StaticResource Complimentary}" />
+
+    <Color x:Key="Dim">#252525</Color>
+    <SolidColorBrush x:Key="DimBrush" Color="{StaticResource Dim}" />
+
+    <Color x:Key="Active">#3bff6f</Color>
+    <SolidColorBrush x:Key="ActiveBrush" Color="{StaticResource Active}" />
+    
     <!--
     mains:
     Color="#292b2f" - Primery
@@ -18,13 +25,14 @@
     from chat thread
     Color="#2f3139"
     
-    chat app current background
+    from chat app
     Color="#36393f" - Complimentary
     online/new message circle
     Color ="#3bff6f" - green/active
     passive
     Color ="CornflowerBlue" - blue/passive
-    
-    
+    contatct active bg Color = "#252525" - Active
+    contatct passive bg Color ="#323b40" - Passive #323b40
+
     -->
 </ResourceDictionary>

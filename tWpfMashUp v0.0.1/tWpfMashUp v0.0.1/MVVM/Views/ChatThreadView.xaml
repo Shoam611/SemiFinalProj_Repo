@@ -8,14 +8,14 @@
              Background="Transparent"             
              DataContext="{Binding Source={StaticResource Locator},Path=ChatThread}"
              d:DesignHeight="450" d:DesignWidth="500">
-    <Grid Grid.Column="1">
+    <Grid Grid.Column="1" Background="{StaticResource PrimeryBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="#2f3139" BorderThickness="0,8,0,8">
+        <Border BorderBrush="{StaticResource PrimeryBrush}" BorderThickness="8" Background="{StaticResource AccentBrush}">
             <Grid HorizontalAlignment="Stretch" Margin="6" VerticalAlignment="Stretch">
                 <Label Content="{Binding CurrentContact}"
                            Foreground="White"
@@ -38,13 +38,13 @@
         </Border>
 
         <ListView Grid.Row="1" ItemsSource="{Binding Messages}"
-                      Background="#292b2f"
+                      Background="{StaticResource AccentBrush}"
                       BorderBrush="Transparent"
-                      BorderThickness="6"   
+                      BorderThickness="8,0,8,4"   
                         HorizontalContentAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ItemContainerStyle="{StaticResource MessageListItem}"
-                      Margin="8,0,0,0"/>
+                     />
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
