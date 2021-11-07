@@ -64,6 +64,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             }
             catch { }
         }
+        
         private void OnMessageRecived(object sender, MessageRecivedEventArgs eventArgs)
         {
             if (!storeService.HasKey(CommonKeys.CurrentChat.ToString())) return; //data already in store for when i want it
@@ -74,10 +75,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 if (Messages.Count == 0) //new fix();
                     Messages = new ObservableCollection<Massage>(currentChat.Messages);
                 else Messages.Add(eventArgs.Massage);
-            }
-            else
-            {
-
             }
         }
 
