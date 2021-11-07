@@ -62,7 +62,7 @@ namespace signalRChatApiServer.Data
                                 );
                             }
                         );
-            //base.OnModelCreating(modelBuilder);
+          
         }
     }
 }

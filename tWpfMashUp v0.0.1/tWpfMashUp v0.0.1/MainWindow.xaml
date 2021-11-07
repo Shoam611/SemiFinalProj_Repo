@@ -13,12 +13,6 @@
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
         Height="500" Width="600">
 
-    <!--<i:Interaction.Triggers>
-        AllowsTransparency="True"
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding OnLoadedCommand}" PassEventArgsToCommand="True"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>-->
     <Grid  Background="Transparent">
         <ContentControl Content="{Binding View}" Width="auto" Height="auto" />
     </Grid>
