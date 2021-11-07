@@ -48,12 +48,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnChatCreated(Chat obj)
         {
-            Modal.ShowModal("GG","Test");
             if (obj.Messages == null) obj.Messages = new List<Massage>();
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
                 var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                // if (chats.FirstOrDefault(c => c.Id == obj.Id) == null)
                 chats.Add(obj);
             }
             else
@@ -70,6 +68,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 //make chat as currrent chat
             }
         }
+        
         private void OnConnected(string hubConnectionString)
         {
             store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
@@ -77,6 +76,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnMassageRecived(Massage msg)
         {
+            Modal.ShowModal("GG", "Test");
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
             var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
             if (chat == null) return;//throw new Exception("Unhanadled Exception Chat not exist");

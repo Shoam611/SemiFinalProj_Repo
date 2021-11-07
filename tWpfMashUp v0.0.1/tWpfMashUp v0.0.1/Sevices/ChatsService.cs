@@ -65,6 +65,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 if (chatToReturn != null)
                 {
                     store.Add(CommonKeys.CurrentChat.ToString(), chatToReturn);
+                    //inform chat has changed;
                     return;
                 }
             }
@@ -75,19 +76,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 using (HttpClient client = new HttpClient())
                 {
                     var res = await client.GetAsync(url);
-                    res.EnsureSuccessStatusCode();
-                    //var resstring = await res.Content.ReadAsStringAsync();
-                    //var chatrecived = JsonConvert.DeserializeObject<Chat>(resstring);
-                    //if (chatrecived != null)
-                    //{
-                    //    store.Add(CommonKeys.CurrentChat.ToString(), chatrecived);
-                    //    if (store.HasKey(CommonKeys.Chats.ToString()))
-                    //    {
-                    //        var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                    //        chats.Add(chatrecived);
-                    //    }
-                    //    store.Add(CommonKeys.Chats.ToString(), new List<Chat> { chatrecived });
-                    //}
+                    res.EnsureSuccessStatusCode();                    
                 }
             }
             catch { }

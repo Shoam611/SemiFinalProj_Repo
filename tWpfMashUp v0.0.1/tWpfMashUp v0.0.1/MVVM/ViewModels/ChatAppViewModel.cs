@@ -59,7 +59,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             }
            var contacts = (store.Get(CommonKeys.Contacts.ToString()) as List<User>);
             var contact = contacts.First(u => u.UserName == eventArgs.Massage.Name);
-            contact.HasUnreadMessage = true;
+            contact.HasUnreadMessage = true;//false
             OnlineContacts.Remove(OnlineContacts.First(u=>u.Id==contact.Id));
             OnlineContacts.Add(contact);                        
             //OnlineContacts= new ObservableCollection<User>(contacts);
@@ -72,11 +72,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             FetchAllOnlineContacts();
 
         }
+    
         private async void FetchAllOnlineContacts()
         {
             await authenticationService.FetchAllLoggedUsers();
             App.Current.Dispatcher.Invoke(() => UpdateUsersList());
         }
+        
         private void UpdateUsersList()
         {
             var users = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
@@ -112,7 +114,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
             }
         }
-
 
         private void OnContactLoggedOut(User user)
         {
