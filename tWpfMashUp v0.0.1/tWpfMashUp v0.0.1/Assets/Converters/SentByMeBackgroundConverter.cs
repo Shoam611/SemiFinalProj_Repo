@@ -15,11 +15,11 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
             var user = store.Get(CommonKeys.LoggedUser.ToString()).UserName;
             if((string)value == user)
             {
-                return Application.Current.FindResource("WordVeryLightBlueBrush");
+                return Application.Current.FindResource("AccentBrush");
             }
             else
             {
-                return Application.Current.FindResource("ForegroundLightBrush");
+                return Application.Current.FindResource("ComplimentaryBrush");
             }
         }
 

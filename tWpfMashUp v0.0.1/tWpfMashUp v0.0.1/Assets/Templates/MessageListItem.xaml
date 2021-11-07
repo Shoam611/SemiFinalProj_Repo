@@ -11,7 +11,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                       
+
                         <Grid Margin="10" Grid.Column="1" HorizontalAlignment="{Binding Name, Converter={local:StringToHorizontalAlignmentConverter}}">
                             <StackPanel>
                                 <Grid>
@@ -19,7 +19,7 @@
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <!--Surround Info-->
+
                                     <Label Content="{Binding Name}"
                                               Foreground="White"
                                               FontWeight="Normal"
@@ -33,8 +33,6 @@
                                               VerticalAlignment="Center"
                                               Margin="0,0,-5,0" Grid.Column="1"/>
                                 </Grid>
-
-                                <!--Message-->
                                 <Border VerticalAlignment="Center" CornerRadius="10" Background="{Binding Name, Converter={local:SentByMeBackgroundConverter}}">
                                     <TextBlock VerticalAlignment="Center" Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="14" Text="{Binding Content}"/>
                                 </Border>
@@ -46,19 +44,11 @@
                               StrokeThickness="0"
                               HorizontalAlignment="{Binding Name, Converter={local:StringToHorizontalAlignmentConverter}}"
                               Fill="{Binding Name, Converter={local:SentByMeBackgroundConverter}}" />
-
                             </StackPanel>
                         </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
-
-    <Color x:Key="WordVeryLightBlue">LightSlateGray</Color>
-    <SolidColorBrush x:Key="WordVeryLightBlueBrush" Color="{StaticResource WordVeryLightBlue}" />
-
-    <Color x:Key="ForegroundLight">#686868</Color>
-    <SolidColorBrush x:Key="ForegroundLightBrush" Color="{StaticResource ForegroundLight}" />
 </ResourceDictionary>

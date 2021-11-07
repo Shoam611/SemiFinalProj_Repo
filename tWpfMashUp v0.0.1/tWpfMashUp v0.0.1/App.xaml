@@ -5,15 +5,15 @@
              Startup="Application_Startup" >
     <Application.Resources>
         <ResourceDictionary>
-        <vm:ViewModelLocator x:Key="Locator" />
+            <vm:ViewModelLocator x:Key="Locator" />
             <ResourceDictionary.MergedDictionaries >
                 <ResourceDictionary Source="/Assets/Templates/ButtonTheme.xaml" />
                 <ResourceDictionary Source="/Assets/Templates/MessegeTextBox.xaml" />
                 <ResourceDictionary Source="/Assets/Templates/ContectListItem.xaml" />
                 <ResourceDictionary Source="/Assets/Templates/MessageListItem.xaml" />
                 <ResourceDictionary Source="/Assets/Templates/ScrollBar.xaml"/>
+                <ResourceDictionary Source="/Assets/Templates/ColorThemes.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-           
         </ResourceDictionary>
     </Application.Resources>
 </Application>

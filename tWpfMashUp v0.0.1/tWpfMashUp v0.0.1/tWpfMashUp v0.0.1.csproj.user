@@ -30,6 +30,9 @@
     <Page Update="Assets\Components\CustomModal\PopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Assets\Templates\ColorThemes.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Assets\Templates\ScrollBar.xaml">
       <SubType>Designer</SubType>
     </Page>
