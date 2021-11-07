@@ -13,7 +13,7 @@
 
     <Grid Background="Transparent">
 
-        <Border Background="#2f3136" CornerRadius="15"  ClipToBounds="True">
+        <Border Background="{StaticResource PrimeryBrush}" CornerRadius="15"  ClipToBounds="True">
             <Border.Clip>
                 <RectangleGeometry RadiusY="15" RadiusX="15" Rect="0,0,350,200" />
             </Border.Clip>
@@ -23,7 +23,7 @@
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Grid x:Name="TopGrid" Background="#292b2f" MouseDown="Grid_MouseDown">
+                <Grid x:Name="TopGrid" Background="{StaticResource AccentBrush}" MouseDown="Grid_MouseDown">
                     <TextBlock x:Name="tbTitle" HorizontalAlignment="Left" Margin="15,0,0,0" 
                                VerticalAlignment="Center" FontSize="19" Foreground="White" TextWrapping="Wrap" 
                                FontWeight="Medium"/>
@@ -32,7 +32,7 @@
                                 FontSize="16" Foreground="LightGray" TextWrapping="Wrap" VerticalAlignment="Top"
                                FontWeight="Medium"/>
 
-                <Grid Grid.Row="2"  Background="#36393f"  VerticalAlignment="Stretch" 
+                <Grid Grid.Row="2"  Background="{StaticResource ComplimentaryBrush}"  VerticalAlignment="Stretch" 
                     HorizontalAlignment="Stretch" x:Name="Panel">
 
                 </Grid>

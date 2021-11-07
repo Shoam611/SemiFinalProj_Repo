@@ -36,7 +36,7 @@
                                               Margin="0,0,-5,0" Grid.Column="1"/>
                                 </Grid>
                                 <Border VerticalAlignment="Center" CornerRadius="10" Background="{Binding Name, Converter={local:SentByMeBackgroundConverter}}">
-                                    <TextBlock VerticalAlignment="Center" Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="14" Text="{Binding Content}"/>
+                                    <TextBlock VerticalAlignment="Center" Foreground="#eee" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="14" Text="{Binding Content}"/>
                                 </Border>
                                 <Path Grid.Row="1" 
                               Stroke="Black"

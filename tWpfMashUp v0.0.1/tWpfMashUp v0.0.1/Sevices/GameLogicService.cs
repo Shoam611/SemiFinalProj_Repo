@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
@@ -22,14 +23,14 @@ namespace tWpfMashUp_v0._0._1.Sevices
             using HttpClient client = new();
             try
             {
-                if (storeService.Get(CommonKeys.WithUser.ToString()) is not User invitedUser) { MessageBox.Show("No User Selected To Play With!"); return false; }
+                if (storeService.Get(CommonKeys.WithUser.ToString()) is not User invitedUser) {Modal.ShowModal("No User Selected To Play With!"); return false; }
 
                 var content = new StringContent(JsonConvert.SerializeObject(invitedUser), Encoding.UTF8, "application/json");
                 var response = await client.PutAsync(url, content);
                 response.EnsureSuccessStatusCode();
                 return true;
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to call server"); return false; }
+            catch (Exception ex) { Modal.ShowModal("Failed to call server"); return false; }
         }
 
 

@@ -13,26 +13,25 @@
     <Color x:Key="Dim">#252525</Color>
     <SolidColorBrush x:Key="DimBrush" Color="{StaticResource Dim}" />
 
+    <Color x:Key="Bright">#53535e</Color>
+    <SolidColorBrush x:Key="BrightBrush" Color="{StaticResource Bright}" />
+
     <Color x:Key="Active">#3bff6f</Color>
     <SolidColorBrush x:Key="ActiveBrush" Color="{StaticResource Active}" />
-    
-    <!--
+
+</ResourceDictionary>
+<!--
     mains:
     Color="#292b2f" - Primery
     Color="#2f3136" - Accent
-    Color="#36393f" - Complimentary
+    Color="#36393f" - Complimentary    
+    bright ? #39993e : #53535e
     
-    from chat thread
-    Color="#2f3139"
+    from chat thread Color="#2f3139"
     
     from chat app
-    Color="#36393f" - Complimentary
-    online/new message circle
-    Color ="#3bff6f" - green/active
-    passive
-    Color ="CornflowerBlue" - blue/passive
+    online/new message circle Color ="#3bff6f" - green/active
+    passive Color ="CornflowerBlue" - blue/passive
     contatct active bg Color = "#252525" - Active
-    contatct passive bg Color ="#323b40" - Passive #323b40
-
+    contatct passive bg Color ="#323b40" - Passive 
     -->
-</ResourceDictionary>

@@ -16,11 +16,11 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
 
             if((string)value == user)
             {
-                return Application.Current.FindResource("PrimeryBrush");
+                return Application.Current.FindResource("BrightBrush");
             }
             else
             {
-                return Application.Current.FindResource("ComplimentaryBrush");
+                return Application.Current.FindResource("PrimeryBrush");
             }
         }
 

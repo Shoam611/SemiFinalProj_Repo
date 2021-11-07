@@ -74,7 +74,7 @@
 
                     <!---->
                 </Grid>
-                <Border Grid.Row="1" VerticalAlignment="Bottom"  BorderBrush="#292b2f" BorderThickness="5" />
+                <Border Grid.Row="1" VerticalAlignment="Bottom"  BorderBrush="{StaticResource PrimeryBrush}" BorderThickness="5" />
                 <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>

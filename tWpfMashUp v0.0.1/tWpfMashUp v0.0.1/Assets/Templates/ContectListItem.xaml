@@ -12,16 +12,15 @@
                             Height="50"
                             CornerRadius="4"
                             Margin="8,2,8,2">
-                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
-                            <Border Width="30" Height="30" CornerRadius="25"
-                                    Background="CornflowerBlue" x:Name="border">
+                        <Grid Margin="10,0,0,0" >
+                            <Border Width="30" Height="30" CornerRadius="25" HorizontalAlignment="Left"
+                                    Background="{StaticResource ResourceKey=AccentBrush}" x:Name="border">
                             </Border>
-                            <StackPanel >
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding UserName}" Foreground="White" />
-                                </StackPanel>
-                            </StackPanel>
-                        </StackPanel>
+                            <Border HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding UserName}" Foreground="White" HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" FontWeight="Medium" FontSize="16" />
+                            </Border>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -33,16 +32,15 @@
                             Height="50"
                             CornerRadius="4"
                             Margin="8,2,8,2">
-                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
-                        <Border Width="30" Height="30" CornerRadius="25"
-                                    Background="{StaticResource ActiveBrush}" x:Name="border">
+                    <Grid Margin="10,0,0,0" >
+                        <Border Width="30" Height="30" CornerRadius="25" HorizontalAlignment="Left"
+                                    Background="{StaticResource ResourceKey=ActiveBrush}" x:Name="border">
                         </Border>
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding UserName}" Foreground="White" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
+                        <Border HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding UserName}" Foreground="White" HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" FontWeight="Medium" FontSize="16" />
+                        </Border>
+                    </Grid>
                 </Border>
             </ControlTemplate>
         </Style.Resources>
