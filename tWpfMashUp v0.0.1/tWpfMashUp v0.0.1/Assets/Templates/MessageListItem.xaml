@@ -1,22 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.Assets.Converters">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.Assets.Converters">
 
     <Style TargetType="ListBoxItem" x:Key="MessageListItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Grid HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeAlignmentConverter}}">
+                    <Grid HorizontalAlignment="{Binding Name, Converter={local:StringToHorizontalAlignmentConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <!--Icon-->
-                        <!--<Ellipse Width="30" Height="30" Margin="10,0,0,-5" Grid.Column="0">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding ImageSource}" RenderOptions.BitmapScalingMode="Fant"/>
-                                </Ellipse.Fill>
-                            </Ellipse>-->
-                        <Grid Margin="10" Grid.Column="1" HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeAlignmentConverter}}">
+                       
+                        <Grid Margin="10" Grid.Column="1" HorizontalAlignment="{Binding Name, Converter={local:StringToHorizontalAlignmentConverter}}">
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -39,7 +35,7 @@
                                 </Grid>
 
                                 <!--Message-->
-                                <Border VerticalAlignment="Center" CornerRadius="10" Background="{Binding SentByMe, Converter={local:SentByMeBackgroundConverter}}">
+                                <Border VerticalAlignment="Center" CornerRadius="10" Background="{Binding Name, Converter={local:SentByMeBackgroundConverter}}">
                                     <TextBlock VerticalAlignment="Center" Foreground="White" Margin="7" TextWrapping="Wrap" FontWeight="Medium" FontSize="14" Text="{Binding Content}"/>
                                 </Border>
                                 <Path Grid.Row="1" 
@@ -48,8 +44,8 @@
                               Margin="15 -1 15 0"
                               Data="M 0,0 L 10,10 L 20,0 L 0,0" 
                               StrokeThickness="0"
-                              HorizontalAlignment="{Binding SentByMe, Converter={local:SentByMeAlignmentConverter}}"
-                              Fill="{Binding SentByMe, Converter={local:SentByMeBackgroundConverter}}" />
+                              HorizontalAlignment="{Binding Name, Converter={local:StringToHorizontalAlignmentConverter}}"
+                              Fill="{Binding Name, Converter={local:SentByMeBackgroundConverter}}" />
 
                             </StackPanel>
                         </Grid>
@@ -57,21 +53,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Resources>
 
-            <ControlTemplate x:Key="CustomRow">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="{Binding Message}" Foreground="White" Margin="40,-2,0,-2"/>
-                </StackPanel>
-            </ControlTemplate>
-
-        </Style.Resources>
-
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding FirstMessage}" Value="False">
-                <Setter Property="Template" Value="{StaticResource CustomRow}" />
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
     <Color x:Key="WordVeryLightBlue">LightSlateGray</Color>

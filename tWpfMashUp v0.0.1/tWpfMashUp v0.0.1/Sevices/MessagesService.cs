@@ -31,8 +31,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                     Content = message,
                     Date = DateTime.Now,
                     Name = ((User)storeService.Get(CommonKeys.LoggedUser.ToString())).UserName,
-                    ChatId = chat.Id,
-                    SentByMe = true
+                    ChatId = chat.Id
                 };
                 if (chat.Messages == null)
                     chat.Messages = new List<Massage>();

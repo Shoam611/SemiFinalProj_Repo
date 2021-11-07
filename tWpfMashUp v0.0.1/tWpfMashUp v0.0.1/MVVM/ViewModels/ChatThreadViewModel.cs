@@ -71,22 +71,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var currentChatId = currentChat.Id;
             if (eventArgs.ChatId == currentChatId)
             {
-                var currentUser = storeService.Get(CommonKeys.LoggedUser.ToString()).UserName;
-                if (eventArgs.Massage.Name == currentUser)
-                    eventArgs.Massage.SentByMe = false;
-                else
-                    eventArgs.Massage.SentByMe = true;
-
                 if (Messages.Count == 0) //new fix();
                     Messages = new ObservableCollection<Massage>(currentChat.Messages);
                 else
                 {
                     Messages.Add(eventArgs.Massage);
                 }
-            }
-            else
-            {
-
             }
         }
 
