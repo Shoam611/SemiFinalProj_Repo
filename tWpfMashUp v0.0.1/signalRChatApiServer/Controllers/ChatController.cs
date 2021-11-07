@@ -5,6 +5,7 @@ using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
 using signalRChatApiServer.Repositories.Infra;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -13,8 +14,7 @@ namespace signalRChatApiServer.Controllers
     public class ChatController : Controller
     {
         private readonly IHubContext<ChatHub> chathub;
-
-        IChatsReposatory repository;
+        private readonly IChatsReposatory repository;
         public ChatController(IChatsReposatory repository, IHubContext<ChatHub> chathub)
         {
             this.chathub = chathub;
@@ -22,11 +22,11 @@ namespace signalRChatApiServer.Controllers
         }
 
         [HttpGet]
-        public Chat Get(int user1Id, int user2Id)
+        public async Task<Chat> Get(int user1Id, int user2Id)
         {
             repository.IsChatExist(user1Id, user2Id, out Chat c);
             var contact = c.Users.First(c => c.Id == user2Id);
-            chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", c);
+            await chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", c);
             return c;
         }
 

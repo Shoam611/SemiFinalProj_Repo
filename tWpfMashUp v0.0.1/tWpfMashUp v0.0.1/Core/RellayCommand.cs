@@ -4,8 +4,8 @@ namespace tWpfMashUp_v0._0._1.Core
 {
     public class RelayCommand : ICommand
     {
-        private Action<object> execute;
-        private Func<object, bool> canExecute;
+        private readonly Action<object> execute;
+        private readonly Func<object, bool> canExecute;
         public bool IsEnabled{ get; set; }
 
         public event EventHandler CanExecuteChanged
