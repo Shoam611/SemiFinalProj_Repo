@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <Color x:Key="Primery">#292b2f</Color>
     <SolidColorBrush x:Key="PrimeryBrush" Color="{StaticResource Primery}" />
 
@@ -8,13 +9,12 @@
 
     <Color x:Key="Complimentary">#36393f</Color>
     <SolidColorBrush x:Key="ComplimentaryBrush" Color="{StaticResource Complimentary}" />
-
     <!--
-    <GradientStop Color="#292b2f" Offset="0.0"/>
-    <GradientStop Color="#292b2f" Offset="0.4"/>
-    <GradientStop Color="#2f3136" Offset="0.4"/>
-    <GradientStop Color="#2f3136" Offset="0.6"/>
-    <GradientStop Color="#36393f" Offset="0.6"/>
-    <GradientStop Color="#36393f" Offset="1.0"/>-->
-    
+    mains:
+    Color="#292b2f"
+    Color="#2f3136"
+    Color="#36393f" 
+    from chat thread
+    Color="#2f3139"
+    -->
 </ResourceDictionary>

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views"
              mc:Ignorable="d" 
+             Background="Transparent"             
              DataContext="{Binding Source={StaticResource Locator},Path=ChatThread}"
              d:DesignHeight="450" d:DesignWidth="500">
     <Grid Grid.Column="1">
