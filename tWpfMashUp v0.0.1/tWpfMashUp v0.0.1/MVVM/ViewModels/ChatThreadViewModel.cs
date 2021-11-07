@@ -28,7 +28,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public RelayCommand AddMessageCommand { get; set; }
 
-        public ChatThreadViewModel(MessagesService messagesService,ChatsService chatsService, StoreService storeService, SignalRListenerService listenerService)
+        public ChatThreadViewModel(MessagesService messagesService, ChatsService chatsService, StoreService storeService, SignalRListenerService listenerService)
         {
             chatService = chatsService;
             this.storeService = storeService;
@@ -39,15 +39,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
             this.storeService.CurrentContactChanged += OnCurrentContactChanged;
             this.listenerService.MessageRecived += OnMessageRecived;
-            //this.listenerService.ChatForUserRecived += OnChatForUserRecived;
-            //this.chatService.CurrentChatChanged += OnChatForUserRecived;
-        }
 
-        //private void OnChatForUserRecived(object sender, EventArgs e)
-        //{
-        //    var newChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
-        //    this.Messages = new ObservableCollection<Massage>(newChat.Messages);
-        //}
+        }
 
         private void OnCurrentContactChanged(object sender, EventArgs e)
         {
@@ -60,7 +53,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 {
                     if (storeService.HasKey(CommonKeys.CurrentChat.ToString()))
                     {
-                        var cChat = (storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat);
+                        var cChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
                         if (cChat.Messages != null)
                             Messages = new ObservableCollection<Massage>(cChat.Messages);
                         else Messages.Clear();
@@ -74,15 +67,20 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private void OnMessageRecived(object sender, MessageRecivedEventArgs eventArgs)
         {
             if (!storeService.HasKey(CommonKeys.CurrentChat.ToString())) return; //data already in store for when i want it
-            var currentChatId = (storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
+            var currentChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+            var currentChatId = currentChat.Id;
             if (eventArgs.ChatId == currentChatId)
-                Messages.Add(eventArgs.Massage);
+            {
+                if (Messages.Count == 0) //new fix();
+                    Messages = new ObservableCollection<Massage>(currentChat.Messages);
+                else Messages.Add(eventArgs.Massage);
+            }
             else
             {
 
             }
         }
-      
+
         private async void AddMessageHandler()
         {
             if (!Message.IsEmptyNullOrWhiteSpace())
