@@ -8,6 +8,7 @@ using tWpfMashUp_v0._0._1.MVVM.Models;
 using System.Windows.Threading;
 using System;
 using System.Windows;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -66,11 +67,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
         {
-            var mb = MessageBox.Show($"{eventArgs.User.UserName} You were invited to a game!", "Game Invitation", MessageBoxButton.YesNo);
-            if(mb == MessageBoxResult.Yes)
+            var mb = Modal.ShowModal($"{eventArgs.User.UserName} You were invited to a game!", "Game Invitation", "Accept", "Deny", "Cancel");
+            if(mb == "Accept")
             {
                 //switch to game view
-                MessageBox.Show("Good luck!");
+                Modal.ShowModal("Good luck!");
             }
         }
 

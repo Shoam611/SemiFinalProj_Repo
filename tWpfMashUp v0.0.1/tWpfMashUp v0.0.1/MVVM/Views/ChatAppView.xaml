@@ -39,7 +39,7 @@
                    FontWeight="Medium"
                    Foreground="Gray"
                    Margin="8,0,0,0"/>
-            <Button Width="100" HorizontalAlignment="Right" Height="20" Style="{StaticResource RoundButton}">
+            <Button Width="100" HorizontalAlignment="Right" Height="20" Style="{StaticResource RoundButton}" Command="{Binding OnInviteToGameCommand}">
                 Invite to game
             </Button>
                 <Border VerticalAlignment="Bottom" CornerRadius="5" BorderBrush="#292b2f" BorderThickness="5" Margin="4"/>
