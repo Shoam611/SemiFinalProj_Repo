@@ -13,6 +13,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class ChatsService
     {
         private readonly StoreService store;
+        public event EventHandler CurrentChatChanged;
         public ChatsService(StoreService store) => this.store = store;
 
         public async Task<Chat> GetChatAsync(int userToId)
@@ -65,7 +66,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 if (chatToReturn != null)
                 {
                     store.Add(CommonKeys.CurrentChat.ToString(), chatToReturn);
-                    //inform chat has changed;
+                    /*inform chat has changed;*/
+                    CurrentChatChanged?.Invoke(this, new EventArgs { });
                     return;
                 }
             }
@@ -80,7 +82,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
             }
             catch { }
-
         }
     }
 

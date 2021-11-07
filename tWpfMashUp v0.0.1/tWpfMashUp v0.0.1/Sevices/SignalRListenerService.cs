@@ -58,14 +58,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
             {
                 store.Add(CommonKeys.Chats.ToString(), new List<Chat> { obj });
             }
-            //if chat.users has with user.
             var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
             var other = obj.Users.First(u => u.Id != me.Id);
             if (store.HasKey(CommonKeys.WithUser.ToString()) && (store.Get(CommonKeys.WithUser.ToString()) as User).Id == other.Id)
             {
                 store.Add(CommonKeys.CurrentChat.ToString(), obj);
                 ChatForUserRecived?.Invoke(obj,new EventArgs());
-                //make chat as currrent chat
             }
         }
         
@@ -76,7 +74,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnMassageRecived(Massage msg)
         {
-            Modal.ShowModal("GG", "Test");
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
             var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
             if (chat == null) return;//throw new Exception("Unhanadled Exception Chat not exist");

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories;
 using signalRChatApiServer.Repositories.Infra;
+using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -31,14 +32,14 @@ namespace signalRChatApiServer.Controllers
 
         //Put
         [HttpPost]
-        public void Post(Message message)
+        public async Task Post(Message message)
         {
             repository.AddMessage(message);            
             var chat = chatrepository.GetChat(message.ChatId);
 
             foreach (var item in chat.Users)
             {   
-            chathub.Clients.Client(item.HubConnectionString).SendAsync("MassageRecived", message);
+            await chathub.Clients.Client(item.HubConnectionString).SendAsync("MassageRecived", message);
             }
         }
 
