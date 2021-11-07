@@ -42,8 +42,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.listenerService.MessageRecived += OnMessageRecived;
         }
 
-
-
         private void OnCurrentContactChanged(object sender, EventArgs e)
         {
             try
