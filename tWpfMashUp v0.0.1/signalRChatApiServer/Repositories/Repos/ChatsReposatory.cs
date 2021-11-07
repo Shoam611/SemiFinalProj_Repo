@@ -15,14 +15,14 @@ namespace signalRChatApiServer.Repositories.Repos
 
         public Chat GetChat(int id)
         {
-          return ( from chat in context.Chats
-            where chat.Id == id        
-            select new Chat 
-            {
-                Id=id,
-                Messages=chat.Messages,
-                Users=chat.Users 
-            }).FirstOrDefault();
+            return (from chat in context.Chats
+                    where chat.Id == id
+                    select new Chat
+                    {
+                        Id = id,
+                        Messages = chat.Messages,
+                        Users = chat.Users
+                    }).FirstOrDefault();
         }
 
         public int AddChat(Chat chat) //when openning a room
@@ -51,17 +51,17 @@ namespace signalRChatApiServer.Repositories.Repos
             AddChat(newChat);
             return newChat;
         }
-       
+
         public bool IsChatExist(int user1Id, int user2Id, out Chat c)
         {
             var qchat = (from chat in context.Chats
-                         //join user in context.Users
-                         //on chat.ChatUsers equals user.ChatUsers
+                             //join user in context.Users
+                             //on chat.ChatUsers equals user.ChatUsers
                          where chat.Users.Contains(context.Users.Find(user2Id)) &&
                                 chat.Users.Contains(context.Users.Find(user1Id))
-                         select new Chat{Id=chat.Id,Users=chat.Users,Messages=chat.Messages,}).Take(1);
+                         select new Chat { Id = chat.Id, Users = chat.Users, Messages = chat.Messages, }).Take(1);
             if (qchat.Any())
-            {                
+            {
                 c = qchat.First();
                 //c.Users = qchat.Users;
                 return true;
@@ -71,7 +71,7 @@ namespace signalRChatApiServer.Repositories.Repos
                 c = CreateNewChat(user1Id, user2Id); return false;
             }
         }
-        
+
         public void UpdateChat(Chat chat)
         {
             var tempChat = context.Chats.Where(c => c.Id == chat.Id).FirstOrDefault();
@@ -81,12 +81,11 @@ namespace signalRChatApiServer.Repositories.Repos
             tempChat.Users = chat.Users;
             context.SaveChanges();
         }
-        
+
         public Chat CreateNewChat(int user1Id, int user2Id)
         {
             var chat = new Chat { Users = new List<User> { context.Users.Find(user1Id), context.Users.Find(user2Id) }, Messages = new List<Message>() };
-            var id = AddChat(chat);
-            chat.Id = id;
+            AddChat(chat);
             return chat;
         }
     }

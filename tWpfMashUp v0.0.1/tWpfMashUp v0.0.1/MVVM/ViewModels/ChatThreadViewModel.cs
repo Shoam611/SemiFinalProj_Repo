@@ -15,32 +15,39 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly MessagesService messagesService;
         private readonly StoreService storeService;
         private readonly SignalRListenerService listenerService;
+        private readonly ChatsService chatService;
 
         private string currentContact;
-        public string CurrentContact
-        {
-            get => currentContact;
-            set { currentContact = value; onProppertyChange(); }
-        }
+        public string CurrentContact { get => currentContact; set { currentContact = value; onProppertyChange(); } }
 
-        public RelayCommand AddMessageCommand { get; set; }
         private ObservableCollection<Massage> messages;
         public ObservableCollection<Massage> Messages { get => messages; set { messages = value; onProppertyChange(); } }
 
         private string message;
         public string Message { get => message; set { message = value; onProppertyChange(); } }
 
-        public ChatThreadViewModel(MessagesService messagesService, StoreService storeService, SignalRListenerService listenerService)
+        public RelayCommand AddMessageCommand { get; set; }
+
+        public ChatThreadViewModel(MessagesService messagesService,ChatsService chatsService, StoreService storeService, SignalRListenerService listenerService)
         {
-            CurrentContact = "";
+            chatService = chatsService;
             this.storeService = storeService;
             this.listenerService = listenerService;
             this.messagesService = messagesService;
+            CurrentContact = "";
             Messages = new ObservableCollection<Massage>();
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
-            storeService.CurrentContactChanged += OnCurrentContactChanged;
+            this.storeService.CurrentContactChanged += OnCurrentContactChanged;
             this.listenerService.MessageRecived += OnMessageRecived;
+            //this.listenerService.ChatForUserRecived += OnChatForUserRecived;
+            //this.chatService.CurrentChatChanged += OnChatForUserRecived;
         }
+
+        //private void OnChatForUserRecived(object sender, EventArgs e)
+        //{
+        //    var newChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+        //    this.Messages = new ObservableCollection<Massage>(newChat.Messages);
+        //}
 
         private void OnCurrentContactChanged(object sender, EventArgs e)
         {
@@ -75,6 +82,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
             }
         }
+      
         private async void AddMessageHandler()
         {
             if (!Message.IsEmptyNullOrWhiteSpace())
@@ -84,7 +92,5 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                     Message = "";
             }
         }
-
-        // public void ChatChangedHandler(RoutedEventArgs routedEventArgs) => Messages = new ObservableCollection<Massage>(((Chat)storeService.Get(CommonKeys.CurrentChat.ToString())).Messages);
     }
 }

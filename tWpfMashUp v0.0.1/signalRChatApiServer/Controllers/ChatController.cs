@@ -22,12 +22,16 @@ namespace signalRChatApiServer.Controllers
         }
 
         [HttpGet]
-        public Chat Get(int user1Id, int user2Id)
+        public void Get(int user1Id, int user2Id)
         {
-            repository.IsChatExist(user1Id, user2Id, out Chat c);
-            var contact = c.Users.First(c => c.Id == user2Id);
-            chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", c);
-            return c;
+            repository.IsChatExist(user1Id, user2Id, out Chat obj);
+            foreach (var user in obj.Users)
+            {
+                user.Chats = null;  user.ChatUsers = null;
+            }
+            obj.ChatUsers = null;
+            foreach (var contact in obj.Users)
+                chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", obj);
         }
 
         [HttpPost]
