@@ -175,7 +175,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                         OnlineContacts.Add(newCurrentUser);
                         SelectedUser = user;
                     }
-
                 }
                 storeService.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }
