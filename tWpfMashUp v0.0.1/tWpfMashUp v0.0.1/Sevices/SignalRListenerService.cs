@@ -42,7 +42,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
             connection.On<Chat>("ChatCreated", OnChatCreated);
             connection.On<Massage>("MassageRecived", OnMassageRecived);
-            connection.On<User>("GameInvite", OnGameInvite);
+            
+            connection.On<Chat>("GameInvite", OnGameInvite);
+            connection.On<User>("GameEccepted", OnGameEccepted);
 
             try
             {
@@ -51,9 +53,16 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnGameInvite(User user)
+        private void OnGameEccepted(User obj)
         {
-            UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = user });
+           
+        }
+
+        private void OnGameInvite(Chat chat)
+        {
+            var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            var contact = chat.Users.First(u => u.Id != me.Id);
+            UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact,ChatId=chat.Id });
         }
 
         private void OnChatCreated(Chat obj)

@@ -26,13 +26,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
 
         private Chat selectedChat;
-        public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange();} }
+        public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); } }
 
         private string displayedUser;
         public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
 
         private User selectedUser;
-        public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange();  } }
+        public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); } }
 
         private string bindingTest;
         public string BindingTest { get => bindingTest; set { bindingTest = value; onProppertyChange(); } }
@@ -62,23 +62,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
             this.signalRListinerService.MessageRecived += OnMassageRecived;
-            this.signalRListinerService.UserInvitedToGame += OnGameInvitation;
         }
 
-        private void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
-        {
-            var mb = Modal.ShowModal($"{eventArgs.User.UserName} You were invited to a game!", "Game Invitation", "Accept", "Deny", "Cancel");
-            if(mb == "Accept")
-            {
-                //switch to game view
-                Modal.ShowModal("Good luck!");
-            }
-        }
-
-        private async void InviteToGame()
-        {
-            await gameService.CallServerForOtherUserInvite();
-        }
+        private async void InviteToGame() => await gameService.CallServerForOtherUserInvite();
 
         private void OnMassageRecived(object sender, MessageRecivedEventArgs eventArgs)
         {
@@ -93,7 +79,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnlineContacts.Remove(OnlineContacts.First(u => u.Id == contact.Id));
             OnlineContacts.Insert(0, contact);
         }
-   
+
         private void FetchUserHandler()
         {
             LoggedUser = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
@@ -105,6 +91,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             await authenticationService.FetchAllLoggedUsers();
             App.Current.Dispatcher.Invoke(() => UpdateUsersList());
+
         }
 
         private void UpdateUsersList()

@@ -13,34 +13,63 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class GameLogicService
     {
         private readonly StoreService storeService;
-        public GameLogicService(StoreService storeService)
+        private readonly SignalRListenerService signalRListenerService;
+
+        public GameLogicService(StoreService storeService, SignalRListenerService signalRListenerService)
         {
             this.storeService = storeService;
+            this.signalRListenerService = signalRListenerService;
+            this.signalRListenerService.UserInvitedToGame += OnGameInvitation;
         }
-        public async Task<bool> CallServerForOtherUserInvite()
+        private void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
+        {
+            var mb = Modal.ShowModal($"{eventArgs.User.UserName} invited you to a game!", "Game Invitation", "Accept", "Deny", "Cancel");
+            if (mb == "Accept")
+            {
+                AcceptGameInviteAsync(eventArgs.ChatId);
+            }
+            else { DenyGameInviteAsync(); }
+        }
+
+        private void DenyGameInviteAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void AcceptGameInviteAsync(int chatId)
+        {
+            var me = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
+            var url = $@"http://localhost:14795/Game?userId={me.Id}&chatId={chatId}";
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                }
+                catch { }
+            }
+
+            //server will push web socket to the two users
+            //from the background the two users will pop to the game
+            //impliment through chat?
+        }
+
+        public async Task CallServerForOtherUserInvite()
         {
             var url = @"http://localhost:14795/Game";
             using HttpClient client = new();
             try
             {
-                if (storeService.Get(CommonKeys.WithUser.ToString()) is not User invitedUser) {Modal.ShowModal("No User Selected To Play With!"); return false; }
+                Chat currentChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
+                if (currentChat == null) { Modal.ShowModal("No User Selected To Play With!"); }
 
-                var content = new StringContent(JsonConvert.SerializeObject(invitedUser), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(currentChat), Encoding.UTF8, "application/json");
                 var response = await client.PutAsync(url, content);
                 response.EnsureSuccessStatusCode();
-                return true;
             }
-            catch (Exception ex) { Modal.ShowModal("Failed to call server"); return false; }
+            catch { Modal.ShowModal("Failed to call server"); }
         }
 
-
-        //void AddItem(object item)
-        //{
-        //    Thread.Sleep(3000);
-        //}
-        //public async void AddItemAsync(object item)
-        //{
-        //    Task.Run(() => { AddItem(item); });
-        //}
     }
 }

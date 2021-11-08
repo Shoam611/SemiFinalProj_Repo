@@ -17,5 +17,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
     public class UserInvitedEventArgs : EventArgs
     {
         public User User { get; set; }
+        public int ChatId { get; set; }
     }
 }

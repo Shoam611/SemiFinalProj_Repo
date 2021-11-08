@@ -57,25 +57,8 @@ namespace tWpfMashUp_v0._0._1
 //Ergent
 //TODO: Export on server: hub and repo logic to services; ☻ -> later
 
-//not complited:
-//TODO: when user is logged in ,user.remove? from oflline & vice versa. -> Done
+//TODO: if user has pending request he cannot sent another one while waiting 
 
-//TODO: on MessageSent Inform User -> \/
-////    if not on current chat, make circle green -> Done
-////     else push thread update -> Done
 
 //active tasks
 //TODO: LogOut functionality.
-
-//TODO: Chats:When user is Selected
-    //chat will be created if not exist.
-    //fetched chat will be added to the store
-    //ChatThread viewModel will be notified and update Ui
-
-//TODO: Add Validation to registraion.
-        //no empty strings or less than 2 -> Done
-        //no duplicate usernames -> Done
-        //add matching error massage to user -> Done
-
-//TODO: Add Validation to messages sending
-        //no empty / spaces or null message content! -> Done
