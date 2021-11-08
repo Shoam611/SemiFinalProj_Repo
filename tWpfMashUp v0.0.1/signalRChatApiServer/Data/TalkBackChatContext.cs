@@ -15,9 +15,9 @@ namespace signalRChatApiServer.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Chat>().HasData(
-                new { Id = 1 },
-                new { Id = 2 },
-                new { Id = 3 }
+                new { Id = 1, GameAproval = ""},
+                new { Id = 2, GameAproval = ""},
+                new { Id = 3, GameAproval = ""}
                 );
             modelBuilder.Entity<User>().HasData(
                 new { Id = 1, IsConnected = Status.Offline, UserName = "User1", Password = "123", HubConnectionString = "dummy-c-string" },

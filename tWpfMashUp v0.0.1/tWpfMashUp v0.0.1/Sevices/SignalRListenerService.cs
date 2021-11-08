@@ -15,14 +15,19 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
     public class SignalRListenerService
     {
+        #region services
         private readonly StoreService store;
         private readonly MessagesService messagesService;
         private readonly HubConnection connection;
+        #endregion
 
+        #region events
+        public event EventHandler ContactLogged;
         public event EventHandler ChatForUserRecived;
         public event MessageRecivedEventHandler MessageRecived;
         public event UserInvitedEventHandler UserInvitedToGame;
-        public event EventHandler ContactLogged;
+        public event EventHandler GameStarting;
+        #endregion
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
         {
@@ -34,7 +39,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
             StartConnectionAsync();
         }
 
-
         public async void StartConnectionAsync()
         {
             connection.On<string>("Connected", OnConnected);
@@ -42,9 +46,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
             connection.On<Chat>("ChatCreated", OnChatCreated);
             connection.On<Massage>("MassageRecived", OnMassageRecived);
-            
+
             connection.On<Chat>("GameInvite", OnGameInvite);
-            connection.On<User>("GameEccepted", OnGameEccepted);
+            connection.On<Chat>("GameStarting", OnGameEccepted);
+            connection.On<Chat>("GameDenied", OnGameDenied);
 
             try
             {
@@ -53,52 +58,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnGameEccepted(User obj)
-        {
-           
-        }
-
-        private void OnGameInvite(Chat chat)
-        {
-            var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
-            var contact = chat.Users.First(u => u.Id != me.Id);
-            UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact,ChatId=chat.Id });
-        }
-
-        private void OnChatCreated(Chat obj)
-        {
-            if (obj.Messages == null) obj.Messages = new List<Massage>();
-            if (store.HasKey(CommonKeys.Chats.ToString()))
-            {
-                var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                chats.Add(obj);
-            }
-            else
-            {
-                store.Add(CommonKeys.Chats.ToString(), new List<Chat> { obj });
-            }
-            var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
-            var other = obj.Users.First(u => u.Id != me.Id);
-            if (store.HasKey(CommonKeys.WithUser.ToString()) && (store.Get(CommonKeys.WithUser.ToString()) as User).Id == other.Id)
-            {
-                store.Add(CommonKeys.CurrentChat.ToString(), obj);
-                ChatForUserRecived?.Invoke(obj,new EventArgs());
-            }
-        }
-        
         private void OnConnected(string hubConnectionString)
         {
             store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
-        }
-
-        private void OnMassageRecived(Massage msg)
-        {
-            var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-            var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
-            if (chat == null) return;//throw new Exception("Unhanadled Exception Chat not exist");
-            if (chat.Messages == null) chat.Messages = new List<Massage>();
-            chat.Messages.Add(msg);
-            MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });
         }
 
         private void OnContactLoggedIn(User newOnlineUser)
@@ -129,5 +91,58 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
         }
 
+        private void OnChatCreated(Chat obj)
+        {
+            if (obj.Messages == null) obj.Messages = new List<Massage>();
+            if (store.HasKey(CommonKeys.Chats.ToString()))
+            {
+                var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+                chats.Add(obj);
+            }
+            else
+            {
+                store.Add(CommonKeys.Chats.ToString(), new List<Chat> { obj });
+            }
+            var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            var other = obj.Users.First(u => u.Id != me.Id);
+            if (store.HasKey(CommonKeys.WithUser.ToString()) && (store.Get(CommonKeys.WithUser.ToString()) as User).Id == other.Id)
+            {
+                store.Add(CommonKeys.CurrentChat.ToString(), obj);
+                ChatForUserRecived?.Invoke(obj, new EventArgs());
+            }
+        }
+
+        private void OnMassageRecived(Massage msg)
+        {
+            var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
+            var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
+            if (chat == null) return;//throw new Exception("Unhanadled Exception Chat not exist");
+            if (chat.Messages == null) chat.Messages = new List<Massage>();
+            chat.Messages.Add(msg);
+            MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });
+        }
+
+        private void OnGameInvite(Chat chat)
+        {
+            var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            var contact = chat.Users.First(u => u.Id != me.Id);
+            UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact, ChatId = chat.Id });
+        }
+
+        private void OnGameEccepted(Chat obj)
+        {
+            //set chat as currnt chat.
+            store.Add(CommonKeys.CurrentChat.ToString(), obj);
+            var me = store.Get(CommonKeys.LoggedUser.ToString())as User;
+            store.Add(CommonKeys.WithUser.ToString(),obj.Users.First(u=>u.Id!=me.Id));
+            //push update on eveny to ui.
+            //emit event to viewmodel to change view
+            GameStarting?.Invoke(this, new EventArgs());
+        }
+
+        private void OnGameDenied(Chat obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

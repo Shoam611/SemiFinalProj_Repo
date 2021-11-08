@@ -28,7 +28,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.authenticationService = authenticationService;
             this.signalRListener = signalRListiner;
             View = new LoginView();
-            authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
+            this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
+            this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
         }
 
         private void OnMouseDown(MouseButtonEventArgs e)
