@@ -42,7 +42,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private async void AcceptGameInviteAsync(int chatId, bool isAccepted)
         {
             var me = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
-            var url = $@"http://localhost:14795/Game?userId={me.Id}&chatId={chatId}&accepted={isAccepted}";
+            var url = $@"http://localhost:14795/Game?chatId={chatId}&accepted={isAccepted}";
             using (var client = new HttpClient())
             {
                 try

@@ -21,7 +21,9 @@ namespace signalRChatApiServer.Repositories.Repos
                     {
                         Id = id,
                         Messages = chat.Messages,
-                        Users = chat.Users
+                        Users = chat.Users,
+                        GameAproval=chat.GameAproval,
+                        ChatUsers=chat.ChatUsers
                     }).FirstOrDefault();
         }
 
@@ -77,7 +79,9 @@ namespace signalRChatApiServer.Repositories.Repos
             var tempChat = context.Chats.Where(c => c.Id == chat.Id).FirstOrDefault();
             if (tempChat == null) return;
             tempChat.Messages = chat.Messages;
-            tempChat.Users = chat.Users;
+            //tempChat.Users = chat.Users;
+            tempChat.Id = chat.Id;
+            //tempChat.ChatUsers = chat.ChatUsers;
             tempChat.GameAproval = chat.GameAproval;
             context.SaveChanges();
         }

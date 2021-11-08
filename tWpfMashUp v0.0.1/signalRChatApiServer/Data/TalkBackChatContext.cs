@@ -19,7 +19,14 @@ namespace signalRChatApiServer.Data
                 new { Id = 2, GameAproval = ""},
                 new { Id = 3, GameAproval = ""}
                 );
-            modelBuilder.Entity<User>().HasData(
+         
+            modelBuilder.Entity<Chat>(b =>
+            {
+                b.HasKey(e => e.Id);
+                b.Property(e => e.Id).UseIdentityColumn();//.ValueGeneratedOnAdd();
+            });
+        
+        modelBuilder.Entity<User>().HasData(
                 new { Id = 1, IsConnected = Status.Offline, UserName = "User1", Password = "123", HubConnectionString = "dummy-c-string" },
                 new { Id = 2, IsConnected = Status.Offline, UserName = "User2", Password = "123", HubConnectionString = "dummy-c-string" },
                 new { Id = 3, IsConnected = Status.Offline, UserName = "User3", Password = "123", HubConnectionString = "dummy-c-string" }
