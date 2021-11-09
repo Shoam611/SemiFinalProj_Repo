@@ -20,6 +20,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Views
     /// </summary>
     public partial class ChatThreadView : UserControl
     {
-        public ChatThreadView() => InitializeComponent();
+        public ChatThreadView()
+        {
+            InitializeComponent();
+          
+        }
     }
 }

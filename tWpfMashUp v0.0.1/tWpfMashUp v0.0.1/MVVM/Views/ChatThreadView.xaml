@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views"
              mc:Ignorable="d" 
-             Background="Transparent"             
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"             
+             Background="Transparent" 
+             xmlns:bhv="clr-namespace:tWpfMashUp_v0._0._1.Assets.Behaviors"
              DataContext="{Binding Source={StaticResource Locator},Path=ChatThread}"
              d:DesignHeight="450" d:DesignWidth="500">
     <Grid Grid.Column="1" Background="{StaticResource PrimeryBrush}">
@@ -40,11 +41,15 @@
         <ListView Grid.Row="1" ItemsSource="{Binding Messages}"
                       Background="{StaticResource AccentBrush}"
                       BorderBrush="Transparent"
-                      BorderThickness="8,0,8,4"   
-                        HorizontalContentAlignment="Stretch"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ItemContainerStyle="{StaticResource MessageListItem}"
-                     />
+                      BorderThickness="8,0,8,4"                  
+                    HorizontalContentAlignment="Stretch"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    x:Name="MessageThread"
+                      ItemContainerStyle="{StaticResource MessageListItem}">
+                <i:Interaction.Behaviors>
+                <bhv:ScrollIntoViewBehavior/>
+            </i:Interaction.Behaviors>
+        </ListView>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

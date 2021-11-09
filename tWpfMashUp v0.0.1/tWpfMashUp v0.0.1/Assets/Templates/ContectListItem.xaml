@@ -33,7 +33,7 @@
                             CornerRadius="4"
                             Margin="8,2,8,2">
                     <Grid Margin="10,0,0,0" >
-                        <Border Width="30" Height="30" CornerRadius="25" HorizontalAlignment="Left"
+                        <Border Width="30" Height="30" CornerRadius="25" HorizontalAlignment="Left" 
                                     Background="{StaticResource ResourceKey=ActiveBrush}" x:Name="border">
                         </Border>
                         <Border HorizontalAlignment="Center">

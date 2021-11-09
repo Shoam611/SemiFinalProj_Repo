@@ -23,7 +23,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         }
         private void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
         {
-            var mb = Modal.ShowModal($"{eventArgs.User.UserName} invited you to a game!", "Game Invitation", "Accept", "Deny", "Cancel");
+            var mb = Modal.ShowModal($"Start a game with {eventArgs.User.UserName} ?", "Game Invitation", "Accept", "Deny");
             if (mb == "Accept")
             {
                 AcceptGameInviteAsync(eventArgs.ChatId, true);

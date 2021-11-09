@@ -62,15 +62,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
                 var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                var chatToReturn = chats.Find(c => c.Users.Where(u=>u.Id ==newCurrentUser.Id).Any());
+                var chatToReturn = chats.Find(c => c.Users.Where(u => u.Id == newCurrentUser.Id).Any());
                 if (chatToReturn != null)
                 {
                     store.Add(CommonKeys.CurrentChat.ToString(), chatToReturn);
                     var newContactName = (store.Get(CommonKeys.WithUser.ToString()) as User).UserName;
-                    store.InformContactChanged(this, new ChatRecivedEventArgs {NewChat=chatToReturn,ContactName= newContactName });
-                    //*inform chat has changed;*/
-                    //CurrentChatChanged?.Invoke(this, new EventArgs { });
-                    //call store func 
+                    store.InformContactChanged(this, new ChatRecivedEventArgs { NewChat = chatToReturn, ContactName = newContactName });
                     return;
                 }
             }
@@ -81,7 +78,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 using (HttpClient client = new())
                 {
                     var res = await client.GetAsync(url);
-                    res.EnsureSuccessStatusCode();                    
+                    res.EnsureSuccessStatusCode();
                 }
             }
             catch { }

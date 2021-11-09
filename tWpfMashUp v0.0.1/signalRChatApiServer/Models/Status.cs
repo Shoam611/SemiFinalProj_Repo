@@ -2,7 +2,6 @@
 {
     public enum Status
     {
-        Offline,
-        Online
+        Offline, Online, InGame
     }
 }
