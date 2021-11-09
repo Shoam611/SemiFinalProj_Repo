@@ -46,7 +46,11 @@ namespace signalRChatApiServer.Controllers
                 if (chat.GameAproval.Length > 1)
                 {
                     //  push both game start
-                    await SendInvitesAsync(chat);
+                    foreach (var user in chat.Users)
+                    {
+                        //  the two users switches views with the current chat
+                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat);
+                    }
                     //reset to enable another invites;
                     chat.GameAproval = "";
                     reposatory.UpdateChat(chat);
@@ -60,20 +64,13 @@ namespace signalRChatApiServer.Controllers
                 //  game cancel popup,
                 //  action chain discontinuse,
                 //  turn of both bits
+
                 foreach (var user in chat.Users)
                 {
-                    await chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", chat);
+                    chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", chat);
                 }
             }
         }
 
-        private async Task SendInvitesAsync(Chat chat)
-        {
-            foreach (var user in chat.Users)
-            {
-                //  the two users switches views with the current chat
-                 chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat);
-            }
-        }
     }
 }

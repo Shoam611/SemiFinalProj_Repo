@@ -4,6 +4,7 @@ using tWpfMashUp_v0._0._1.Sevices;
 using Microsoft.Extensions.Hosting;
 using tWpfMashUp_v0._0._1.MVVM.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1
 {

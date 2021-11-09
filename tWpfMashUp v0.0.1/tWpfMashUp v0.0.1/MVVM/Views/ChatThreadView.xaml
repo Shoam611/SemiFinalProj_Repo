@@ -46,7 +46,7 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     x:Name="MessageThread"
                       ItemContainerStyle="{StaticResource MessageListItem}">
-                <i:Interaction.Behaviors>
+            <i:Interaction.Behaviors>
                 <bhv:ScrollIntoViewBehavior/>
             </i:Interaction.Behaviors>
         </ListView>
