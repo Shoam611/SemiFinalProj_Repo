@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using tWpfMashUp_v0._0._1.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Windows;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -108,7 +110,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             if (store.HasKey(CommonKeys.WithUser.ToString()) && (store.Get(CommonKeys.WithUser.ToString()) as User).Id == other.Id)
             {
                 store.Add(CommonKeys.CurrentChat.ToString(), obj);
-                ChatForUserRecived?.Invoke(obj, new EventArgs());
+                var a = store.Get(CommonKeys.WithUser.ToString()) as User;
+                ChatForUserRecived?.Invoke(obj, new ChatRecivedEventArgs { NewChat = obj, ContactName = a != null?a.UserName : " " });  ;
+                //store.InformContactChanged(this,);
             }
         }
 

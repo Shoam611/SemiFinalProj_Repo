@@ -10,7 +10,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
     }
     public class ContactLoggedEventArgs : EventArgs
     {
-        public User User{ get; set; }
+        public User User { get; set; }
         public bool IsLoggedIn { get; set; }
     }
 
@@ -19,4 +19,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
         public User User { get; set; }
         public int ChatId { get; set; }
     }
+    public class ChatRecivedEventArgs : EventArgs
+    {
+        public Chat NewChat { get; set; }
+        public string ContactName { get; set; }
+    }
+
 }

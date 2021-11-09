@@ -28,7 +28,7 @@
 
         <Style.Resources>
             <ControlTemplate x:Key="ColorCircle">
-                <Border Background="{TemplateBinding Background}"
+                <Border Background="{TemplateBinding Background}" 
                             Height="50"
                             CornerRadius="4"
                             Margin="8,2,8,2">

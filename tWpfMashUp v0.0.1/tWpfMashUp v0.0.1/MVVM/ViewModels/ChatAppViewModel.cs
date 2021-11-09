@@ -163,7 +163,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                         SelectedUser = user;
                     }
                 }
-                storeService.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
+                //storeService.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }
             catch { }
         }

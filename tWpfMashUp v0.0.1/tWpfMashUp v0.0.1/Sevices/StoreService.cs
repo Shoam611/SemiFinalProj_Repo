@@ -27,7 +27,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public dynamic Get(string key) => storeDictionary.TryGetValue(key, out var val) ? val : null;
        
-        public void InformContactChanged(object source, SelectionChangedEventArgs selectionChangedEventArgs) => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
+        public void InformContactChanged(object source, EventArgs selectionChangedEventArgs) => CurrentContactChanged?.Invoke(source, selectionChangedEventArgs);
 
         public bool HasKey(string key) => storeDictionary.ContainsKey(key);
 
