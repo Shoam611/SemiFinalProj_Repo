@@ -14,7 +14,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class ChatsService
     {
         private readonly StoreService store;
-        public event EventHandler CurrentChatChanged;
+        //public event EventHandler CurrentChatChanged;
         public ChatsService(StoreService store) => this.store = store;
 
         public async Task<Chat> GetChatAsync(int userToId)
@@ -66,8 +66,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 if (chatToReturn != null)
                 {
                     store.Add(CommonKeys.CurrentChat.ToString(), chatToReturn);
-                    /*inform chat has changed;*/
-                    CurrentChatChanged?.Invoke(this, new EventArgs { });
+                    var newContactName = (store.Get(CommonKeys.WithUser.ToString()) as User).UserName;
+                    store.InformContactChanged(this, new ChatRecivedEventArgs {NewChat=chatToReturn,ContactName= newContactName });
+                    //*inform chat has changed;*/
+                    //CurrentChatChanged?.Invoke(this, new EventArgs { });
+                    //call store func 
                     return;
                 }
             }

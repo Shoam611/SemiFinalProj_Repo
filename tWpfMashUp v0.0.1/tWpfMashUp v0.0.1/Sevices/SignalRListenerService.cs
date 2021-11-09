@@ -111,8 +111,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             {
                 store.Add(CommonKeys.CurrentChat.ToString(), obj);
                 var a = store.Get(CommonKeys.WithUser.ToString()) as User;
-                ChatForUserRecived?.Invoke(obj, new ChatRecivedEventArgs { NewChat = obj, ContactName = a != null?a.UserName : " " });  ;
-                //store.InformContactChanged(this,);
+                ChatForUserRecived?.Invoke(obj, new ChatRecivedEventArgs { NewChat = obj, ContactName = a != null ? a.UserName : " " });
             }
         }
 
@@ -137,8 +136,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             //set chat as currnt chat.
             store.Add(CommonKeys.CurrentChat.ToString(), obj);
-            var me = store.Get(CommonKeys.LoggedUser.ToString())as User;
-            store.Add(CommonKeys.WithUser.ToString(),obj.Users.First(u=>u.Id!=me.Id));
+            var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            store.Add(CommonKeys.WithUser.ToString(), obj.Users.First(u => u.Id != me.Id));
             //push update on eveny to ui.
             //emit event to viewmodel to change view
             GameStarting?.Invoke(this, new EventArgs());
