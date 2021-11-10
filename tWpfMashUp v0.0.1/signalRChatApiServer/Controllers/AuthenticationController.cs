@@ -23,19 +23,20 @@ namespace signalRChatApiServer.Controllers
             this.chathub = chatHub;
             this.repository = repository;
         }
-      //for login
+        //for login
         [HttpGet]
-        public User Get(string username, string password,string hubstring)
+        public User Get(string username, string password, string hubstring)
         {
             var isauth = repository.Authenticate(username, password);
-            if (isauth != null)
+            if (isauth != null && isauth.IsConnected != Status.Online && isauth.IsConnected != Status.InGame)
             {
                 isauth.HubConnectionString = hubstring;
                 isauth.IsConnected = Status.Online;
                 repository.UpdateUser(isauth);
                 chathub.Clients.AllExcept(isauth.HubConnectionString).SendAsync("ContactLoggedIn", isauth);
+                return isauth;
             }
-            return isauth;
+            return null;
         }
         //for sighn up
         [HttpPost]

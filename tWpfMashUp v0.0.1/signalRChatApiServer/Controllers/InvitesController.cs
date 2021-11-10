@@ -12,12 +12,13 @@ namespace signalRChatApiServer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GameController : Controller
+    public class InvitesController : Controller
     {
         private IChatsReposatory reposatory;
         private IHubContext<ChatHub> chathub;
+        private static string gameAproval;
 
-        public GameController(IHubContext<ChatHub> chathub, IChatsReposatory reposatory)
+        public InvitesController(IHubContext<ChatHub> chathub, IChatsReposatory reposatory)
         {
             this.reposatory = reposatory;
             this.chathub = chathub;
@@ -31,36 +32,41 @@ namespace signalRChatApiServer.Controllers
                 chathub.Clients.Client(user.HubConnectionString).SendAsync("GameInvite", chat);
             }
         }
+
         [HttpGet]
-        public async void Get(int chatId, bool accepted)
+        public void Get(int chatId, bool accepted)
         {
             //turn if accepted
             var chat = reposatory.GetChat(chatId);
-            if (string.IsNullOrEmpty(chat.GameAproval)) chat.GameAproval = "";
+            if (string.IsNullOrEmpty(gameAproval)) gameAproval = "";
             if (accepted)
             {
                 //turn on one bit
-                chat.GameAproval += "/";
-                reposatory.UpdateChat(chat);
+                gameAproval += "/";
                 //if two bits are on
-                if (chat.GameAproval.Length > 1)
+                if (gameAproval.Length > 1)
                 {
+                    foreach (var user in chat.Users)
+                    {
+                        user.Chats = null; user.ChatUsers = null;
+                    }
+                    chat.ChatUsers = null;
                     //  push both game start
                     foreach (var user in chat.Users)
                     {
                         //  the two users switches views with the current chat
-                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat);
+                        chathub.Groups.AddToGroupAsync(user.HubConnectionString, "Accepted");
+                        //await chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat);
                     }
+                    chathub.Clients.Group("Accepted").SendAsync("GameStarting", chat);
                     //reset to enable another invites;
-                    chat.GameAproval = "";
-                    reposatory.UpdateChat(chat);
+                    gameAproval = "";
                 }
             }
             //if deny push both on deny
             else
             {
-                chat.GameAproval = "";
-                reposatory.UpdateChat(chat);
+                gameAproval = "";
                 //  game cancel popup,
                 //  action chain discontinuse,
                 //  turn of both bits
@@ -71,6 +77,5 @@ namespace signalRChatApiServer.Controllers
                 }
             }
         }
-
     }
 }

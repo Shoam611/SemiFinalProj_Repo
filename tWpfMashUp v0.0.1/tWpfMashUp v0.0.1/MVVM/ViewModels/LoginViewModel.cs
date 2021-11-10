@@ -43,7 +43,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var isAuthenticated = await authService.LoginAsync(UserName, Password);
             if (!isAuthenticated)
             {
-                Modal.ShowModal("User not found");
+                Modal.ShowModal("User Already Connected or Was not Found.\n                 Please Try Again Later!");
             }
         }
 

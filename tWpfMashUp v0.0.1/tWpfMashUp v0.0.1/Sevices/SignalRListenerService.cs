@@ -59,7 +59,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
-
+        #region Connection
         private void OnConnected(string hubConnectionString)
         {
             store.Add(CommonKeys.HubConnectionString.ToString(), hubConnectionString);
@@ -92,29 +92,33 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
             }
         }
+        #endregion
 
-        private void OnChatCreated(Chat obj)
+        #region Chat
+        private void OnChatCreated(Chat chat)
         {
-            if (obj.Messages == null) obj.Messages = new List<Massage>();
+            if (chat.Messages == null) chat.Messages = new List<Massage>();
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
                 var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
-                chats.Add(obj);
+                chats.Add(chat);
             }
             else
             {
-                store.Add(CommonKeys.Chats.ToString(), new List<Chat> { obj });
+                store.Add(CommonKeys.Chats.ToString(), new List<Chat> { chat });
             }
             var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
-            var other = obj.Users.First(u => u.Id != me.Id);
+            var other = chat.Users.First(u => u.Id != me.Id);
             if (store.HasKey(CommonKeys.WithUser.ToString()) && (store.Get(CommonKeys.WithUser.ToString()) as User).Id == other.Id)
             {
-                store.Add(CommonKeys.CurrentChat.ToString(), obj);
+                store.Add(CommonKeys.CurrentChat.ToString(), chat);
                 var a = store.Get(CommonKeys.WithUser.ToString()) as User;
-                ChatForUserRecived?.Invoke(obj, new ChatRecivedEventArgs { NewChat = obj, ContactName = a != null ? a.UserName : " " });
+                ChatForUserRecived?.Invoke(chat, new ChatRecivedEventArgs { NewChat = chat, ContactName = a != null ? a.UserName : " " });
             }
         }
+        #endregion
 
+        #region Message
         private void OnMassageRecived(Massage msg)
         {
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
@@ -131,13 +135,16 @@ namespace tWpfMashUp_v0._0._1.Sevices
             var contact = chat.Users.First(u => u.Id != me.Id);
             UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact, ChatId = chat.Id });
         }
+        #endregion
 
-        private void OnGameEccepted(Chat obj)
+        #region Invites
+
+        private void OnGameEccepted(Chat chat)
         {
             //set chat as currnt chat.
-            store.Add(CommonKeys.CurrentChat.ToString(), obj);
+            store.Add(CommonKeys.CurrentChat.ToString(), chat);
             var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
-            store.Add(CommonKeys.WithUser.ToString(), obj.Users.First(u => u.Id != me.Id));
+            store.Add(CommonKeys.WithUser.ToString(), chat.Users.First(u => u.Id != me.Id));
             //push update on eveny to ui.
             //emit event to viewmodel to change view
             GameStarting?.Invoke(this, new EventArgs());
@@ -147,5 +154,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

@@ -35,7 +35,7 @@
             <Image Source="/Assets/Images/HomeLogo.png" Height="50" Width="50"/>
             <TextBlock Text="Login" VerticalAlignment="Center" FontWeight="Light"
                     FontSize="28" FontFamily="Halvetica" Foreground="White"
-                    HorizontalAlignment="Center"/> 
+                    HorizontalAlignment="Center"/>
             <TextBlock Text="TalkBack Chat" VerticalAlignment="Center" FontWeight="Light"
                     FontSize="22" FontFamily="Halvetica" Foreground="LightGray"
                     HorizontalAlignment="Center"/>
@@ -62,6 +62,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </PasswordBox>
+                
                 <icons:PackIconMaterial Kind="FormTextboxPassword" VerticalAlignment="Center"
                                  HorizontalAlignment="Center" Foreground="White"/>
             </StackPanel>
