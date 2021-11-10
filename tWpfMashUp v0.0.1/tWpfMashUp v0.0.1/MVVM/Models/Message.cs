@@ -2,7 +2,7 @@
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models
 {
-    public class Massage
+    public class Message
     {
         public int Id { get; set; }
         public string Content { get; set; }

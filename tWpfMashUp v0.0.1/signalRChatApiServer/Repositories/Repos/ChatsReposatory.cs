@@ -20,10 +20,10 @@ namespace signalRChatApiServer.Repositories.Repos
                     select new Chat
                     {
                         Id = id,
-                        Messages = chat.Messages,
+                        GameAproval = chat.GameAproval,
                         Users = chat.Users,
-                        GameAproval=chat.GameAproval,
-                        ChatUsers=chat.ChatUsers
+                        Messages = chat.Messages,
+                        ChatUsers = chat.ChatUsers
                     }).FirstOrDefault();
         }
 

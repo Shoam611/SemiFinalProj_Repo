@@ -47,10 +47,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<User>("ContactLoggedIn", OnContactLoggedIn);
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
             connection.On<Chat>("ChatCreated", OnChatCreated);
-            connection.On<Massage>("MassageRecived", OnMassageRecived);
+            connection.On<Message>("MassageRecived", OnMassageRecived);
 
             connection.On<Chat>("GameInvite", OnGameInvite);
-            connection.On<Chat>("GameStarting", OnGameEccepted);
+            connection.On<int>("GameStarting", OnGameAccepted);
             connection.On<Chat>("GameDenied", OnGameDenied);
 
             try
@@ -97,7 +97,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         #region Chat
         private void OnChatCreated(Chat chat)
         {
-            if (chat.Messages == null) chat.Messages = new List<Massage>();
+            if (chat.Messages == null) chat.Messages = new List<Message>();
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
                 var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
@@ -119,12 +119,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
         #endregion
 
         #region Message
-        private void OnMassageRecived(Massage msg)
+        private void OnMassageRecived(Message msg)
         {
             var chats = store.Get(CommonKeys.Chats.ToString()) as List<Chat>;
             var chat = chats.FirstOrDefault(c => c.Id == msg.ChatId);
             if (chat == null) return;//throw new Exception("Unhanadled Exception Chat not exist");
-            if (chat.Messages == null) chat.Messages = new List<Massage>();
+            if (chat.Messages == null) chat.Messages = new List<Message>();
             chat.Messages.Add(msg);
             MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });
         }
@@ -139,12 +139,14 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         #region Invites
 
-        private void OnGameEccepted(Chat chat)
+        private void OnGameAccepted(int chatId)
         {
             //set chat as currnt chat.
-            store.Add(CommonKeys.CurrentChat.ToString(), chat);
+            var localChat = (store.Get(CommonKeys.Chats.ToString()) as List<Chat>).First(c => c.Id == chatId);
+            store.Add(CommonKeys.CurrentChat.ToString(), localChat);
+
             var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
-            store.Add(CommonKeys.WithUser.ToString(), chat.Users.First(u => u.Id != me.Id));
+            store.Add(CommonKeys.WithUser.ToString(), localChat.Users.First(u => u.Id != me.Id));
             //push update on eveny to ui.
             //emit event to viewmodel to change view
             GameStarting?.Invoke(this, new EventArgs());

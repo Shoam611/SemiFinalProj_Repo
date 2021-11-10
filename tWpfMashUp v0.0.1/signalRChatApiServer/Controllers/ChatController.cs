@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
-using signalRChatApiServer.Repositories;
 using signalRChatApiServer.Repositories.Infra;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -25,11 +22,13 @@ namespace signalRChatApiServer.Controllers
         public void Get(int user1Id, int user2Id)
         {
             repository.IsChatExist(user1Id, user2Id, out Chat obj);
+
             foreach (var user in obj.Users)
             {
-                user.Chats = null;  user.ChatUsers = null;
+                user.Chats = null; user.ChatUsers = null;
             }
             obj.ChatUsers = null;
+
             foreach (var contact in obj.Users)
                 chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", obj);
         }

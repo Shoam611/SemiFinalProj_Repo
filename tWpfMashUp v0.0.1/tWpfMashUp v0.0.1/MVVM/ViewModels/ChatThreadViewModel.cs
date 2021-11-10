@@ -19,8 +19,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private string currentContact;
         public string CurrentContact { get => currentContact; set { currentContact = value; onProppertyChange(); } }
 
-        private ObservableCollection<Massage> messages;
-        public ObservableCollection<Massage> Messages { get => messages; set { messages = value; onProppertyChange(); } }
+        private ObservableCollection<Message> messages;
+        public ObservableCollection<Message> Messages { get => messages; set { messages = value; onProppertyChange(); } }
 
         private string message;
         public string Message { get => message; set { message = value; onProppertyChange(); } }
@@ -34,7 +34,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.storeService = storeService;
             this.listenerService = listenerService;
             this.messagesService = messagesService;
-            Messages = new ObservableCollection<Massage>();
+            Messages = new ObservableCollection<Message>();
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
             OnLVChangedCommand = new RelayCommand(o => OnLVChanged(o as RoutedEvent));
             this.storeService.CurrentContactChanged += OnCurrentContactChanged;
@@ -53,7 +53,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var cChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
             CurrentContact = (storeService.Get(CommonKeys.WithUser.ToString()) as User).UserName;
             Message = $"Good Luck {CurrentContact}!";
-            Messages = new ObservableCollection<Massage>(cChat.Messages);
+            Messages = new ObservableCollection<Message>(cChat.Messages);
         }
 
         private void OnCurrentContactChanged(object sender, EventArgs e)
@@ -65,7 +65,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 if (args.NewChat != null)
                 {
                     if (args.NewChat.Messages != null)
-                        Messages = new ObservableCollection<Massage>(args.NewChat.Messages);
+                        Messages = new ObservableCollection<Message>(args.NewChat.Messages);
                     else Messages.Clear();
                 }
             }
@@ -80,7 +80,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             if (eventArgs.ChatId == currentChatId)
             {
                 if (Messages.Count == 0) //new fix();
-                    Messages = new ObservableCollection<Massage>(currentChat.Messages);
+                    Messages = new ObservableCollection<Message>(currentChat.Messages);
                 else Messages.Add(eventArgs.Massage);
             }
         }

@@ -111,7 +111,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             var args = e as ContactLoggedEventArgs;
             if (args.IsLoggedIn) App.Current.Dispatcher.Invoke(() => OnContactLoggedIn(args.User));
-            else App.Current.Dispatcher.Invoke(() => OnContactLoggedOut(args.User));
+            else App.Current.Dispatcher?.Invoke(() => OnContactLoggedOut(args.User));
         }
 
         private void OnContactLoggedIn(User user)
