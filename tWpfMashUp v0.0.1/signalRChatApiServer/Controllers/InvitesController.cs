@@ -36,14 +36,13 @@ namespace signalRChatApiServer.Controllers
         [HttpGet]
         public void Get(int chatId, bool accepted)
         {
-            //turn if accepted
             var chat = reposatory.GetChat(chatId);
             if (string.IsNullOrEmpty(gameAproval)) gameAproval = "";
             if (accepted)
             {
-                //turn on one bit
+
                 gameAproval += "/";
-                //if two bits are on
+
                 if (gameAproval.Length > 1)
                 {
                     foreach (var user in chat.Users)
@@ -51,18 +50,15 @@ namespace signalRChatApiServer.Controllers
                         user.Chats = null; user.ChatUsers = null;
                     }
                     chat.ChatUsers = null;
-                    //  push both game start
+
                     foreach (var user in chat.Users)
                     {
-                        //  the two users switches views with the current chat
-                        chathub.Groups.AddToGroupAsync(user.HubConnectionString, "Accepted");
-                        //await chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat);
+                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat);
                     }
-                    chathub.Clients.Group("Accepted").SendAsync("GameStarting", chat);
-                    //reset to enable another invites;
                     gameAproval = "";
                 }
             }
+
             //if deny push both on deny
             else
             {
