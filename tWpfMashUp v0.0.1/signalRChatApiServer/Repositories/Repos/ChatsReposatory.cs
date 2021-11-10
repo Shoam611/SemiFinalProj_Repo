@@ -20,7 +20,7 @@ namespace signalRChatApiServer.Repositories.Repos
                     select new Chat
                     {
                         Id = id,
-                        GameAproval = chat.GameAproval,
+                        InviteStatus = chat.InviteStatus,
                         Users = chat.Users,
                         Messages = chat.Messages,
                         ChatUsers = chat.ChatUsers
@@ -82,7 +82,7 @@ namespace signalRChatApiServer.Repositories.Repos
             //tempChat.Users = chat.Users;
             tempChat.Id = chat.Id;
             //tempChat.ChatUsers = chat.ChatUsers;
-            tempChat.GameAproval = chat.GameAproval;
+            tempChat.InviteStatus = chat.InviteStatus;
             context.SaveChanges();
         }
 

@@ -16,7 +16,6 @@ namespace signalRChatApiServer.Controllers
     {
         private IChatsReposatory reposatory;
         private IHubContext<ChatHub> chathub;
-        //private static string gameAproval;
 
         public InvitesController(IHubContext<ChatHub> chathub, IChatsReposatory reposatory)
         {
@@ -37,33 +36,25 @@ namespace signalRChatApiServer.Controllers
         public void Get(int chatId, bool accepted)
         {
             var chat = reposatory.GetChat(chatId);
-            if (string.IsNullOrEmpty(chat.GameAproval)) chat.GameAproval = "";
             if (accepted)
             {
-                chat.GameAproval += "/";
+                chat.InviteStatus = (InviteStatus)((int)chat.InviteStatus + 1);
                 reposatory.UpdateChat(chat);
 
-                if (chat.GameAproval.Length > 1)
+                if (chat.InviteStatus == InviteStatus.Accepted)
                 {
-                    //foreach (var user in chat.Users)
-                    //{
-                    //    user.Chats = null; user.ChatUsers = null;
-                    //}
-                    //chat.ChatUsers = null;
-                    //chat.GameAproval = null;
-
                     foreach (var user in chat.Users)
                     {
                         chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat.Id);
                     }
-                    chat.GameAproval = "";
+                    chat.InviteStatus = InviteStatus.Empty;
                     reposatory.UpdateChat(chat);
                 }
             }
             //if deny push both on deny
             else
             {
-                chat.GameAproval = "";
+                chat.InviteStatus = InviteStatus.Empty;
                 reposatory.UpdateChat(chat);
                 //  game cancel popup,
                 //  action chain discontinuse,

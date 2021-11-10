@@ -6,7 +6,7 @@ namespace signalRChatApiServer.Models
     {
         public int Id { get; set; }
 
-        public string GameAproval { get; set; }
+        public InviteStatus InviteStatus { get; set; }
 
         public ICollection<User> Users { get; set; }
         public ICollection<Message> Messages { get; set; }

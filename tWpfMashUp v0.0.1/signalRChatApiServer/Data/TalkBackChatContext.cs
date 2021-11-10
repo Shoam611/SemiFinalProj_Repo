@@ -11,26 +11,26 @@ namespace signalRChatApiServer.Data
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
-       
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Chat>().HasData(
-                new { Id = 1, GameAproval = ""},
-                new { Id = 2, GameAproval = ""},
-                new { Id = 3, GameAproval = ""}
+                new { Id = 1, InviteStatus = InviteStatus.Empty },
+                new { Id = 2, InviteStatus = InviteStatus.Empty },
+                new { Id = 3, InviteStatus = InviteStatus.Empty }
                 );
-         
+
             modelBuilder.Entity<Chat>(b =>
             {
                 b.HasKey(e => e.Id);
                 b.Property(e => e.Id).UseIdentityColumn();//.ValueGeneratedOnAdd();
             });
-        
-        modelBuilder.Entity<User>().HasData(
-                new { Id = 1, IsConnected = Status.Offline, UserName = "User1", Password = "123", HubConnectionString = "dummy-c-string" },
-                new { Id = 2, IsConnected = Status.Offline, UserName = "User2", Password = "123", HubConnectionString = "dummy-c-string" },
-                new { Id = 3, IsConnected = Status.Offline, UserName = "User3", Password = "123", HubConnectionString = "dummy-c-string" }
-                );
+
+            modelBuilder.Entity<User>().HasData(
+                    new { Id = 1, IsConnected = Status.Offline, UserName = "User1", Password = "123", HubConnectionString = "dummy-c-string" },
+                    new { Id = 2, IsConnected = Status.Offline, UserName = "User2", Password = "123", HubConnectionString = "dummy-c-string" },
+                    new { Id = 3, IsConnected = Status.Offline, UserName = "User3", Password = "123", HubConnectionString = "dummy-c-string" }
+                    );
             modelBuilder.Entity<Message>().HasData(
                 new { Id = 1, Content = "למה לא בעצם?", Date = DateTime.Now.AddDays(2), ChatId = 1, Name = "User1", },
                 new { Id = 2, Content = "למה אתה כותב באנגלית?", Date = DateTime.Now.AddMinutes(3), ChatId = 1, Name = "User2", },
@@ -69,7 +69,7 @@ namespace signalRChatApiServer.Data
                                 );
                             }
                         );
-          
+
         }
     }
 }
