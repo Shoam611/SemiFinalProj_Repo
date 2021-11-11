@@ -10,7 +10,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     public class ModalViewModel : ObservableObject
     {
         Canvas cnvs;
-        
+
         internal event EventHandler ModalClosing;
         internal event ModalLoadedEventHandler ModalLoaded;
         internal event ModalLoadedWithButtonsEventHandler ModalLoadedWithButtons;
@@ -50,18 +50,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             if ((bool)e.NewValue == true)
             {
-                //if (ModalLoadedWithButtons != null)
-                //{
-                //    var Caption = "";
-                //    string Title = "";
-                //    var vals = new string[] { "" };
-                //    ModalLoadedWithButtons?.Invoke(out vals, out Title, out Caption);
-                //    Caption = Caption;
-                //    Title = Title;
-                //    //BuildBottomButtons(vals);
-
-                //}
-                //else
+              
                 if (ModalLoaded != null && ModalLoaded.GetInvocationList().Any())
                 {
                     string title = " "; string caption = " ";
@@ -72,22 +61,29 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 }
             }
         }
+
         private void BuildExitButton()
         {
             Button btn = new Button
             {
                 Content = "X",
-                Width = 25,
-                Height = 25,
+                Width = 30,
+                Height = 30,
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 Margin = new Thickness(0, 10, 10, 0),
                 Style = App.Current.FindResource("RoundButton") as Style
             };
-            btn.Click += btnSaveData_Click;
-          //  TopGrid.Children.Add(btn);
+            btn.Command = new RelayCommand(o => OnExit(btn, o as RoutedEventArgs));
+
+            var border = cnvs.Children[0] as Border;
+            var grid = border.Child as Grid;
+
+            Grid.SetColumn(btn, 0);
+            Grid.SetRow(btn, 0);
+            grid.Children.Add(btn);
         }
-        private void btnSaveData_Click(object sender, RoutedEventArgs e)
+        private void OnExit(object sender, RoutedEventArgs e)
         {
             ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
             cnvs.Visibility = Visibility.Collapsed;

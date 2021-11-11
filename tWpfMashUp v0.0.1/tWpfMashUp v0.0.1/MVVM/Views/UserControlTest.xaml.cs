@@ -16,8 +16,7 @@ namespace tWpfMashUp_v0._0._1
     public partial class UserControlTest : UserControl
     {
         internal event EventHandler ModalClosing;
-        internal event ModalLoadedEventHandler ModalLoaded;
-        internal event ModalLoadedWithButtonsEventHandler ModalLoadedWithButtons;
+
         public UserControlTest()
         {
             InitializeComponent();
@@ -34,74 +33,14 @@ namespace tWpfMashUp_v0._0._1
             };
             Canvas.SetLeft(modalBorder, this.ActualWidth / 2 - modalBorder.Width / 2);
             Canvas.SetTop(modalBorder, this.ActualHeight / 2 - modalBorder.Height / 2);
-            cnvs.IsVisibleChanged += Cnvs_IsVisibleChanged;
         }
 
-        private void Cnvs_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            //if ((bool)e.NewValue == true)
-            //{
-            //    if (ModalLoadedWithButtons != null)
-            //    {
-            //        var Caption = "";
-            //        string Title = "";
-            //        var vals = new string[] { "" };
-            //        ModalLoadedWithButtons?.Invoke(out vals, out Title, out Caption);
-            //        tbCaption.Text = Caption;
-            //        tbTitle.Text = Title;
-            //        BuildBottomButtons(vals);
 
-            //    }
-            //    else
-            //    if (ModalLoaded != null && ModalLoaded.GetInvocationList().Any())
-            //    {
-            //        string Title = " "; string Caption = " ";
-            //        ModalLoaded?.Invoke(out Title, out Caption);
-            //        tbCaption.Text = Caption;
-            //        tbTitle.Text = Title;
-            //        BuildExitButton();
-            //    }
-            //}
-        }
-
-        private void BuildExitButton()
-        {
-            Button btn = new Button
-            {
-                Content = "X",
-                Width = 25,
-                Height = 25,
-                VerticalAlignment = VerticalAlignment.Top,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(0, 10, 10, 0),
-                Style = App.Current.FindResource("RoundButton") as Style
-            };
-            btn.Click += btnSaveData_Click;
-            TopGrid.Children.Add(btn);
-        }
-
-        private void BuildBottomButtons(string[] vals)
-        {
-            int i = 0;
-            foreach (var val in vals)
-            {
-                if (!string.IsNullOrWhiteSpace(val))
-                {
-                    Panel.ColumnDefinitions.Add(new ColumnDefinition());
-                    Button btn = new Button { Content = val, Width = 50, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
-                    btn.Click += btnSaveData_Click;
-                    Grid.SetColumn(btn, i);
-                    Panel.Children.Add(btn);
-                    i++;
-                }
-            }
-        }
-
-        private void btnSaveData_Click(object sender, RoutedEventArgs e)
-        {
-            ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
-            cnvs.Visibility = Visibility.Collapsed;
-        }
+        //private void btnSaveData_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
+        //    cnvs.Visibility = Visibility.Collapsed;
+        //}
 
 
     }

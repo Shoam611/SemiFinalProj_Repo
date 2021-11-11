@@ -41,12 +41,12 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
         {
             var view = new UserControlTest();
             view.ModalClosing += OnClosingHandler;
-            view.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
-            {
-                Caption = caption;
-                Title = title;
-                Vals = new string[] { Button1, Button2 };
-            };
+            //view.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
+            //{
+            //    Caption = caption;
+            //    Title = title;
+            //    Vals = new string[] { Button1, Button2 };
+            //};
             var loc = App.Current.Resources["Locator"] as ViewModelLocator;
             loc.Modal.Init();
 
