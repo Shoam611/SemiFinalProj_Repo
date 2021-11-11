@@ -84,8 +84,8 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
 
         private void btnSaveData_Click(object sender, RoutedEventArgs e)
         {
-            ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
-            this.Close();
+            //ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
+            //this.Close();
         }
 
     }

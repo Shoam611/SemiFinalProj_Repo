@@ -21,9 +21,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             this.signalRListenerService = signalRListenerService;
             this.signalRListenerService.UserInvitedToGame += OnGameInvitation;
         }
-        private void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
+        private async void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
         {
-            var mb = Modal.ShowModal($"Start a game with {eventArgs.User.UserName} ?", "Game Invitation", "Accept", "Deny");
+            var mb = await Modal.ShowModal($"Start a game with {eventArgs.User.UserName} ?","Game Invitation", "Accept", "Deny");
             if (mb == "Accept")
             {
                 AcceptGameInviteAsync(eventArgs.ChatId, true);

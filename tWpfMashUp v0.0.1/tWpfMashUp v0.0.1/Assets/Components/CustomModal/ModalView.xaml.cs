@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,17 +8,12 @@ using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1
 {
-    /// <summary>
-    /// Interaction logic for UserControlTest.xaml
-    /// </summary>
-    internal delegate void ModalLoadedEventHandler(out string title, out string caption);
-    internal delegate void ModalLoadedWithButtonsEventHandler(out string[] vals, out string title, out string caption);
-
     public partial class ModalView : UserControl
     {
         internal event EventHandler ModalClosing;
-        internal event ModalLoadedEventHandler ModalLoaded;
-        internal event ModalLoadedWithButtonsEventHandler ModalLoadedWithButtons;
+        private TaskCompletionSource<string> _pickButton;
+        private string selection;
+       
         public ModalView()
         {
             InitializeComponent();
@@ -35,29 +31,14 @@ namespace tWpfMashUp_v0._0._1
             Canvas.SetLeft(modalBorder, this.ActualWidth / 2 - modalBorder.Width / 2);
             Canvas.SetTop(modalBorder, this.ActualHeight / 2 - modalBorder.Height / 2);
         }
-        public void Init()
+
+        public void Init(string caption, string title)
         {
-            if (cnvs == null)
-                cnvs.Visibility = Visibility.Visible;
-            if (ModalLoaded != null && ModalLoaded.GetInvocationList().Any())
-            {
-                string title = " "; string caption = " ";
-                ModalLoaded?.Invoke(out title, out caption);
-                tbCaption.Text = caption;
-                tbTitle.Text = string.IsNullOrWhiteSpace(title) ? "Warning!" : title;
-                BuildExitButton();
-            }
-            if (ModalLoadedWithButtons != null)//.GetInvocationList().Any())
-            {
-                var caption = "";
-                string title = "";
-                var vals = new string[] { "" };
-                ModalLoadedWithButtons?.Invoke(out vals, out title, out caption);
-                tbCaption.Text = caption;
-                tbTitle.Text = string.IsNullOrWhiteSpace(title) ? "Warning!" : title;
-                BuildBottomButtons(vals);
-            }
+            tbCaption.Text = caption;
+            tbTitle.Text = string.IsNullOrWhiteSpace(title) ? "Warning!" : title;
+            BuildExitButton();
         }
+
         private void BuildExitButton()
         {
             Button btn = new Button
@@ -77,27 +58,60 @@ namespace tWpfMashUp_v0._0._1
             Grid.SetRow(btn, 0);
             grid.Children.Add(btn);
         }
-       
+
+        private void OnExit(object sender, RoutedEventArgs e)
+        {
+            ModalClosing?.Invoke(this, new EventArgs());
+        }
+
+
+        internal async Task<string> InitWithButtons(string caption, string title, string[] vals)
+        {
+            tbCaption.Text = caption;
+            tbTitle.Text= title;
+            BuildBottomButtons(vals);
+            try
+            {
+                await GetSelectionAsync();
+            }
+            finally { ModalClosing?.Invoke(this, new EventArgs()); }
+            return selection;
+        }
+
         private void BuildBottomButtons(string[] vals)
         {
-            int i = 0;
-            foreach (var val in vals)
+            for (int i = 0; i < vals.Length; i++)
             {
-                if (!string.IsNullOrWhiteSpace(val))
+                if (!string.IsNullOrWhiteSpace(vals[i]))
                 {
                     Panel.ColumnDefinitions.Add(new ColumnDefinition());
-                    Button btn = new Button { Content = val, Width = 50, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
-                    btn.Click += OnExit;
+                    Button btn = new Button { Content = vals[i], Width = 50, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
+                    btn.Click += SelectionButtonClick;
                     Grid.SetColumn(btn, i);
                     Panel.Children.Add(btn);
-                    i++;
                 }
             }
         }
-        private void OnExit(object sender, RoutedEventArgs e)
+
+        private async Task<string> GetSelectionAsync()
         {
-            ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
-            cnvs.Visibility = Visibility.Collapsed;
+            _pickButton = new TaskCompletionSource<string>();
+            try
+            {
+                return await _pickButton.Task;
+            }
+            finally { }
+        }
+
+        private void SelectionButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (_pickButton != null)
+            {
+                selection = ((Button)sender).Content.ToString();
+                _pickButton.TrySetResult(((Button)sender).Content.ToString());
+                _pickButton = null;
+                ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = ((Button)sender).Content.ToString() });
+            }
         }
     }
 }
