@@ -18,6 +18,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private object view;
         public object View { get => view; set { view = value; onProppertyChange(); } }
+        private object modal;
+        public object Modal { get => modal; set { modal = value; onProppertyChange(); } }
 
         public MainViewModel(SignalRListenerService signalRListiner, AuthenticationService authenticationService)
         {
@@ -30,6 +32,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             View = new LoginView();
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
             this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
+            Modal = new UserControlTest();
         }
 
         private void OnMouseDown(MouseButtonEventArgs e)

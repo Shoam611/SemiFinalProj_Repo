@@ -19,7 +19,10 @@
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border Padding="3" Background="#252525" >
+        <!--<local:UserControlTest Panel.ZIndex="4" Content="{Binding Modal}" Grid.Row="1"/>-->
+        <ContentControl Panel.ZIndex="4" Content="{Binding Modal}" Grid.Row="1" />
+       
+        <Border Padding="3" Background="#252525" Panel.ZIndex="1">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
                     <i:InvokeCommandAction Command="{Binding MouseDownCommand}" PassEventArgsToCommand="True" />

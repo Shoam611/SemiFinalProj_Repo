@@ -31,8 +31,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             this.Loaded += LoadedHandler;
         }
 
-
-
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
 
         private void LoadedHandler(object sender, RoutedEventArgs e)
         {
@@ -89,6 +88,5 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             this.Close();
         }
 
-        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
     }
 }

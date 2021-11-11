@@ -25,6 +25,9 @@
     <Compile Update="MVVM\Views\LoginView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\Views\UserControlTest.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Assets\Components\CustomModal\PopupWindow.xaml">
@@ -64,6 +67,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\Views\UserControlTest.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
