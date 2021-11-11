@@ -10,7 +10,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ChatAppViewModel Chat => App.ServiceProvider.GetRequiredService<ChatAppViewModel>();
         public ChatThreadViewModel ChatThread => App.ServiceProvider.GetRequiredService<ChatThreadViewModel>();
         public GameViewModel Game => App.ServiceProvider.GetRequiredService<GameViewModel>();
-        public ModalViewModel Modal => App.ServiceProvider.GetRequiredService<ModalViewModel>();
 
         public ViewModelLocator()
         {

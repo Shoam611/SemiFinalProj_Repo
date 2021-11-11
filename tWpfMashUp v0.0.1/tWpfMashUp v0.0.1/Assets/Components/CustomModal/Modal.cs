@@ -10,55 +10,38 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
     public static class Modal
     {
         private static string value;
-
+        private static TaskCompletionSource<string> chooseOpt;
         //caption and title optional
         public static void ShowModal(string caption, string title = " ")
         {
-
+            var view = new ModalView();
             var loc = App.Current.Resources["Locator"] as ViewModelLocator;
-            //view.ModalLoaded += (out string Title, out string Caption) =>
-            //{
-            //    Caption = caption;
-            //    Title = title;
-            //};
-           loc.Modal.ModalLoaded += (out string Title, out string Caption) =>
-             {
-                 Caption = caption;
-                 Title = title;
-             };
-            loc.Modal.Init();
-
-           // PopupWindow popupWindow = new PopupWindow();
-            //popupWindow.ModalLoaded += (out string Title, out string Caption) =>
-            //{
-            //    Caption = caption;
-            //    Title = title;
-            //};
-            //popupWindow.ShowDialog();
+            loc.Main.Modal = view;
+            view.ModalLoaded += (out string Title, out string Caption) =>
+              {
+                  Caption = caption;
+                  Title = title;
+              };
+            view.ModalClosing += (s, e) => loc.Main.Modal = null;
+            view.Init();
         }
         //caption title and two buttons
         public static string ShowModal(string caption, string title, string Button1, string Button2)
         {
-            var view = new UserControlTest();
-            view.ModalClosing += OnClosingHandler;
-            //view.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
-            //{
-            //    Caption = caption;
-            //    Title = title;
-            //    Vals = new string[] { Button1, Button2 };
-            //};
+            var view = new ModalView();
             var loc = App.Current.Resources["Locator"] as ViewModelLocator;
-            loc.Modal.Init();
-
-            PopupWindow popupWindow = new PopupWindow();
-            popupWindow.ModalClosing += OnClosingHandler; // fetch back data
-            popupWindow.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
+             loc.Main.Modal = view;
+            view.ModalClosing += OnClosingHandler;
+            view.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
             {
                 Caption = caption;
                 Title = title;
                 Vals = new string[] { Button1, Button2 };
             };
-            popupWindow.ShowDialog();
+            view.ModalClosing += (s, e) => { loc.Main.Modal = null; };
+            view.ModalClosing += OnClosingHandler;
+            view.Init();
+            //showDialog()
             return value;
         }
         //caption title and three buttons
@@ -75,7 +58,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             popupWindow.ShowDialog();
             return value;
         }
-        
+
         private static void OnClosingHandler(object sender, EventArgs e)
         {
             var args = e as ModalClosingEventArgs;

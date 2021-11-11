@@ -32,7 +32,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             View = new LoginView();
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
             this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
-            Modal = new UserControlTest();
+            //Modal = new UserControlTest();
         }
 
         private void OnMouseDown(MouseButtonEventArgs e)

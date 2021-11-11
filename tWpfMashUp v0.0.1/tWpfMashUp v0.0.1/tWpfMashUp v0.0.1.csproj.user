@@ -25,7 +25,7 @@
     <Compile Update="MVVM\Views\LoginView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\Views\UserControlTest.xaml.cs">
+    <Compile Update="Assets\Components\CustomModal\ModalView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -69,7 +69,7 @@
     <Page Update="MVVM\Views\LoginView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\Views\UserControlTest.xaml">
+    <Page Update="Assets\Components\CustomModal\ModalView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
