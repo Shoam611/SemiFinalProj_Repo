@@ -8,8 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition/>
+            <ColumnDefinition MaxWidth="350"/>
         </Grid.ColumnDefinitions>
         <local:GameView />
         <local:ChatThreadView Grid.Column="1"/>

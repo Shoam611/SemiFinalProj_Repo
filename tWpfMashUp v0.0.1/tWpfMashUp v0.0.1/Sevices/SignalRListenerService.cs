@@ -154,7 +154,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnGameDenied(int obj)
         {
-            Modal.ShowModal("Game request was denied by the other user");
+            Modal.ShowModal("Game request was denied by eather you or the other user");
         }
 
         #endregion
