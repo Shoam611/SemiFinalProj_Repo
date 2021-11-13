@@ -51,7 +51,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
             connection.On<Chat>("GameInvite", OnGameInvite);
             connection.On<int>("GameStarting", OnGameAccepted);
-            connection.On<Chat>("GameDenied", OnGameDenied);
+            connection.On<int>("GameDenied", OnGameDenied);
 
             try
             {
@@ -129,15 +129,15 @@ namespace tWpfMashUp_v0._0._1.Sevices
             MessageRecived?.Invoke(this, new MessageRecivedEventArgs { ChatId = chat.Id, Massage = msg });
         }
 
+        #endregion
+
+        #region Invites
         private void OnGameInvite(Chat chat)
         {
             var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
             var contact = chat.Users.First(u => u.Id != me.Id);
             UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact, ChatId = chat.Id });
         }
-        #endregion
-
-        #region Invites
 
         private void OnGameAccepted(int chatId)
         {
@@ -152,9 +152,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             GameStarting?.Invoke(this, new EventArgs());
         }
 
-        private void OnGameDenied(Chat obj)
+        private void OnGameDenied(int obj)
         {
-            throw new NotImplementedException();
+            Modal.ShowModal("Game request was denied by the other user");
         }
 
         #endregion

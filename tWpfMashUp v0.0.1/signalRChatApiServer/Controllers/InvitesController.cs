@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories.Infra;
 
@@ -62,7 +58,10 @@ namespace signalRChatApiServer.Controllers
 
                 foreach (var user in chat.Users)
                 {
-                    chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", chat);
+                    try
+                    {
+                    chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", chat.Id);
+                    }catch { }
                 }
             }
         }
