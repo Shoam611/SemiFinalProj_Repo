@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -67,6 +68,7 @@ namespace tWpfMashUp_v0._0._1
 
         internal async Task<string> InitWithButtons(string caption, string title, string[] vals)
         {
+            
             tbCaption.Text = caption;
             tbTitle.Text= title;
             BuildBottomButtons(vals);
