@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition MaxWidth="350"/>
+            <ColumnDefinition MaxWidth="320"/>
         </Grid.ColumnDefinitions>
         <local:GameView />
         <local:ChatThreadView Grid.Column="1"/>

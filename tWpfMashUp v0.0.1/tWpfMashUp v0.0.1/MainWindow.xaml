@@ -10,7 +10,7 @@
         Background="Transparent"
         WindowStyle="None"
         AllowsTransparency="True"
-        MinWidth="300" MinHeight="500"
+        MinWidth="350" MinHeight="500"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
         Height="500" Width="600">
 
