@@ -1,4 +1,6 @@
-﻿namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
+﻿using Castle.Core;
+
+namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
 {
     public interface IBoard
     {
@@ -8,6 +10,6 @@
 
         bool Move(SoldierModel soldier, StackModel stack);
 
-        void ShowAvailableMoves();
+        void ShowAvailableMoves(Pair<int, int> rollRes, SoldierModel selectedSolider);
     }
 }

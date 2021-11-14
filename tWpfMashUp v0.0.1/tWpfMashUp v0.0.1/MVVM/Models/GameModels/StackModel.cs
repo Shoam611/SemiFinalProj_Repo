@@ -8,12 +8,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
     public class StackModel
     {
+        //a triangle in the background,
         public Polygon Triangle { get; set; }
+        // a stackpanel in foreground
         public StackPanel UiStack { get; set; }
+        // a stack for data(no ui connection)
         public Stack<SoldierModel> SoliderStack { get; private set; }
-        public StackLocation Location { get; set; }
+        //a grid matrix location indicator
+        public MatrixLocation Location { get; set; }
 
-        public StackModel(StackLocation location) => Location = location;
+        public StackModel(MatrixLocation location) => Location = location;
 
         public void Clear()
         {
@@ -43,10 +47,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             return solider;
         }
 
-        public struct StackLocation
-        {
-            public int Row;
-            public int Col;
-        }
+       
     }
 }

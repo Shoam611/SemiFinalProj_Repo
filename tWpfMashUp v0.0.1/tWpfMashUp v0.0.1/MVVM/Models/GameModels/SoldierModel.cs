@@ -8,7 +8,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public bool IsOwnSolider { get; set; }
 
-        public StackModel.StackLocation Location { get; private set; }
+        public MatrixLocation Location { get; private set; }
         
 
         public SoldierModel()
@@ -16,6 +16,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             Soldier = new Ellipse();
         }
 
-        internal void SetLocation(StackModel.StackLocation location) => Location = location;
+        internal void SetLocation(MatrixLocation location) => Location = location;
     }
 }
