@@ -51,8 +51,4 @@
     <Resource Include="Assets\Images\HomeLogo.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MVVM\Models\GameModels\" />
-  </ItemGroup>
-
 </Project>
