@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views"
              mc:Ignorable="d" 
+             Content="{Binding GameGrid}"
              DataContext="{Binding Source={StaticResource Locator},Path=Game}"
              Background="{StaticResource ResourceKey=BrightBrush}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions >
             <RowDefinition Height="75"/>
             <RowDefinition/>
@@ -37,7 +38,7 @@
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <!--Top Left-->
+                --><!--Top Left--><!--
 
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Fill="#eee" />
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Fill="{StaticResource DimBrush}"/>
@@ -45,7 +46,7 @@
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Fill="{StaticResource DimBrush}"/>
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" Fill="Red"/>
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" Fill="Black"/>
-                <!--Buttom Left-->
+                --><!--Buttom Left--><!--
                 <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Fill="Black"/>
                 <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Fill="Red"/>
                 <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Fill="Black"/>
@@ -61,14 +62,14 @@
                 <StackPanel/>
                 </Border>
 
-                <!--Top Right-->
+                --><!--Top Right--><!--
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="7" Fill="Red"/>
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="8" Fill="Black"/>
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="9" Fill="Red"/>
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="10" Fill="Black"/>
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="11" Fill="Red"/>
                 <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="12" Fill="Black"/>
-                <!--Buttom Right-->
+                --><!--Buttom Right--><!--
                 <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="7" Fill="Black"/>
                 <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="8" Fill="Red"/>
                 <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="9" Fill="Black"/>
@@ -77,6 +78,7 @@
                 <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="12" Fill="Red"/>
 
             </Grid >
+     
         </Border>
 
         <Grid Panel.ZIndex="2" x:Name="StacksGrid" Grid.Row="1">
@@ -100,7 +102,8 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" />
+            <StackPanel Grid.Row="0" Grid.Column="0" >
+            </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" />
             <StackPanel Grid.Row="0" Grid.Column="2" />
             <StackPanel Grid.Row="0" Grid.Column="3" />
@@ -130,5 +133,5 @@
 
         </Grid>
 
-    </Grid>
+    </Grid>-->
 </UserControl>
