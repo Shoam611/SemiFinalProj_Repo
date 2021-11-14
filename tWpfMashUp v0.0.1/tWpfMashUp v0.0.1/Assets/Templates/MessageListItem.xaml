@@ -22,7 +22,7 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Content="{Binding Name}"
+                                    <Label Content="{Binding Name, Converter={local:SentByMeNameConverter}}"
                                               Foreground="White"
                                               FontWeight="Normal"
                                               VerticalAlignment="Center"

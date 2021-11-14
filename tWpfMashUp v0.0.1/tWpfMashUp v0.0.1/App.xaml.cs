@@ -41,7 +41,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddTransient<NavigationService>();
             services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
-            services.AddTransient<GameLogicService>();
+            services.AddTransient<InvitesService>();
         }
         private static void Start(IServiceProvider services)
         {

@@ -10,12 +10,12 @@ using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
-    public class GameLogicService
+    public class InvitesService
     {
         private readonly StoreService storeService;
         private readonly SignalRListenerService signalRListenerService;
 
-        public GameLogicService(StoreService storeService, SignalRListenerService signalRListenerService)
+        public InvitesService(StoreService storeService, SignalRListenerService signalRListenerService)
         {
             this.storeService = storeService;
             this.signalRListenerService = signalRListenerService;
@@ -27,24 +27,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             bool res;
             if (mb == "Accept") res = true; 
             else res = false;
-                //DenyGameInviteAsync(eventArgs.ChatId, false);
+                
             AcceptGameInviteAsync(eventArgs.ChatId, res); ;
         }
-
-        //private async void DenyGameInviteAsync(int chatId, bool isAccepted)
-        //{
-        //    var me = storeService.Get(CommonKeys.LoggedUser.ToString()) as User;
-        //    var url = $@"http://localhost:14795/Invites?chatId={chatId}&accepted={isAccepted}";
-        //    using (var client = new HttpClient())
-        //    {
-        //        try
-        //        {
-        //            var response = await client.GetAsync(url);
-        //            response.EnsureSuccessStatusCode();
-        //        }
-        //        catch { }
-        //    }
-        //}
 
         private async void AcceptGameInviteAsync(int chatId, bool isAccepted)
         {
@@ -59,9 +44,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
                 catch { }
             }
-            //server will push web socket to the two users
-            //from the background the two users will pop to the game
-            //impliment through chat?
         }
 
         public async Task CallServerForOtherUserInvite()

@@ -19,7 +19,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly SignalRListenerService signalRListinerService;
         private readonly AuthenticationService authenticationService;
         private readonly ChatsService chatsService;
-        private readonly GameLogicService gameService;
+        private readonly InvitesService gameService;
 
         //Full Props
         private User loggedUser;
@@ -46,7 +46,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ObservableCollection<User> OfflineContacts { get; set; }
 
         public ChatAppViewModel(StoreService store, ChatsService chatsService,
-            AuthenticationService authenticationService, SignalRListenerService signalRListinerService, GameLogicService gameService)
+            AuthenticationService authenticationService, SignalRListenerService signalRListinerService, InvitesService gameService)
         {
             this.storeService = store;
             this.gameService = gameService;
