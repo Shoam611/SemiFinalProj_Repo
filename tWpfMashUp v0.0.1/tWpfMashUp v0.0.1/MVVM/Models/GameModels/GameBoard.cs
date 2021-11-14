@@ -22,9 +22,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public GameBoard(Grid gameGrid) => GameGrid = gameGrid;
 
-        public GameBoard Build() => this.BuildGameBoardDefenitions(12, 2)
-                                    .FillGameboardMatrix()
+        public GameBoard Build() => this
                                     .Clear()
+                                    .BuildGameBoardDefenitions(12, 2)
+                                    .FillGameboardMatrix()
                                     .PlaceSolidersInInitialState();
 
         public void AddStackToGameGridAndMatrix(StackModel stck,int row,int col)

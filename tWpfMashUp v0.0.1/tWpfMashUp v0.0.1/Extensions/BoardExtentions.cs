@@ -53,7 +53,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
                 for (int j = 0; j < gb.MatrixRowsCount + 1; j += 2) //rows
                 {
                     if (i == gb.MatrixColumnsCount / 2) continue;
-                    var loc = new StackModel.StackLocation
+                    var loc = new MatrixLocation
                     {
                         Col = i < gb.StacksMatrix.GetLength(0) / 2 ? i : i - 1,
                         Row = j < gb.StacksMatrix.GetLength(1) / 2 ? j : j - 1
