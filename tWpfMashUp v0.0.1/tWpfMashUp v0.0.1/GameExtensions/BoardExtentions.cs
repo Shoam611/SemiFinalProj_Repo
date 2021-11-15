@@ -88,17 +88,30 @@ namespace tWpfMashUp_v0._0._1.Extensions
             Panel.SetZIndex(stck.Triangle, 1);
             Panel.SetZIndex(stck.UiStack, 2);
         }
-        /// <summary>
-        /// expect an empty grid, create a layout for an initial game
-        /// </summary>
-        /// <param name="gb"></param>
-        /// <returns>gameboard object with a default full matrix with soliders instances</returns>
+
         public static GameBoard PlaceSolidersInInitialState(this GameBoard gb)
         {
             for (int i = 0; i < gb.MatrixColumnsCount; i++)
             {
                 for (int j = 0; j < gb.MatrixRowsCount; j++)
                 {
+                    if (i == 4)// on the fourth column
+                    {
+                        for (int count = 0; count < 3; count++)
+                        {
+                            var sold = new SoliderModel
+                            {
+                                IsOwnSolider = j == 0,
+                                Soldier = new Ellipse
+                                {
+                                    Stretch = Stretch.UniformToFill,
+                                    Fill = new SolidColorBrush(j == 0 ? Colors.White : Colors.Black)
+                                }
+                            };
+                            gb.AddSoliderToGameBoard(sold, i, j);
+                        }
+                        if (j == 1) { i += 2; j = 0; }
+                    }
                     if (i % 6 == 0)//if on the first or the 7th column
                     {
                         for (int count = 0; count < 5; count++)
@@ -114,24 +127,9 @@ namespace tWpfMashUp_v0._0._1.Extensions
                             };
                             gb.AddSoliderToGameBoard(sold, i, j);
                         }
+                        if (j == 1) { i += 3; j = 0; }
                     }
-                    if (i == 4)
-                    {
-                        for (int count = 0; count < 3; count++)
-                        {
-                            var sold = new SoliderModel
-                            {
-                                IsOwnSolider = j == 0,
-                                Soldier = new Ellipse
-                                {
-                                    Stretch = Stretch.UniformToFill,
-                                    Fill = new SolidColorBrush( j==0 ? Colors.White : Colors.Black)
-                                }
-                            };
-                            gb.AddSoliderToGameBoard(sold, i, j);
-                        }
-                    }
-                    if (i == gb.MatrixColumnsCount - 1)
+                    if (i == gb.MatrixColumnsCount - 1)//last collumn
                     {
                         for (int count = 0; count < 2; count++)
                         {
@@ -148,14 +146,13 @@ namespace tWpfMashUp_v0._0._1.Extensions
                         }
                     }
                 }
-
             }
             return gb;
         }
 
         public static void AddSoliderToGameBoard(this GameBoard gb, SoliderModel solider, int col, int row)
         {
-            gb.StacksMatrix[col, row].Add(solider);
+            gb.StacksMatrix[col, row].Push(solider);
         }
     }
 }

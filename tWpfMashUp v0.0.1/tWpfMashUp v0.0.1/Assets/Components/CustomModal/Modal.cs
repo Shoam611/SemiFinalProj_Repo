@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using tWpfMashUp_v0._0._1.MVVM.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
 {
     public static class Modal
     {
         private static string value;
-        private static TaskCompletionSource<string> chooseOpt;
         //caption and title optional
         public static void ShowModal(string caption, string title = " ")
         {
@@ -35,7 +32,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
         public static string ShowModal(string caption, string title, string Button1, string Button2, string Button3)
         {
             PopupWindow popupWindow = new PopupWindow();
-            popupWindow.ModalClosing += OnClosingHandler; // fetch back data
+           /* popupWindow.ModalClosing += OnClosingHandler;*/ // fetch back data
             popupWindow.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
             {
                 Caption = caption;
@@ -46,9 +43,5 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             return value;
         }
 
-        private static void OnClosingHandler(object sender, EventArgs e)
-        {
-           
-        }
     }
 }
