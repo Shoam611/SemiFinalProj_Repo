@@ -13,7 +13,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         // a stackpanel in foreground
         public StackPanel UiStack { get; set; }
         // a stack for data(no ui connection)
-        public Stack<SoldierModel> SoliderStack { get; private set; }
+        public Stack<SoliderModel> SoliderStack { get; private set; }
         //a grid matrix location indicator
         public MatrixLocation Location { get; set; }
 
@@ -27,11 +27,11 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
      
         public StackModel Build()
         {
-          SoliderStack = new Stack<SoldierModel>();
+          SoliderStack = new Stack<SoliderModel>();
           return this;
         }
 
-        public void Add(SoldierModel solider)
+        public void Add(SoliderModel solider)
         {
             //validate not empty or null
             SoliderStack.Push(solider);
@@ -39,7 +39,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             UiStack.Children.Add(solider.Soldier);
         }
       
-        public SoldierModel Remove()
+        public SoliderModel Remove()
         {
             //validate not empty or null
             var solider = SoliderStack.Peek();

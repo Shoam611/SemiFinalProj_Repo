@@ -14,7 +14,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public int MatrixColumnsCount { get => StacksMatrix.GetLength(0); }
         public int MatrixRowsCount { get => StacksMatrix.GetLength(1); }
         
-        public SoldierModel FocusedSolider { get; set; }
+        public SoliderModel FocusedSolider { get; set; }
         public bool IsBlocked { get; set; }
 
         public bool IsMyTurn { get; set; }
@@ -37,12 +37,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             Panel.SetZIndex(stck.UiStack, 2);
         }
        
-        public bool Move(SoldierModel soldier, StackModel stack)
+        public bool Move(SoliderModel soldier, StackModel stack)
         {
             throw new NotImplementedException();
         }
 
-        public void ShowAvailableMoves(Pair<int,int> rollRes,SoldierModel selectedSolider)
+        public void ShowAvailableMoves(Pair<int,int> rollRes,SoliderModel selectedSolider)
         {
             throw new NotImplementedException();
         }

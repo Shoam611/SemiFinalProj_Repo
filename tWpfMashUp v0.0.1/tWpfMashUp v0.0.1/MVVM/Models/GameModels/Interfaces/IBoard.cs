@@ -8,8 +8,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
 
         GameBoard Build();
 
-        bool Move(SoldierModel soldier, StackModel stack);
+        bool Move(SoliderModel soldier, StackModel stack);
 
-        void ShowAvailableMoves(Pair<int, int> rollRes, SoldierModel selectedSolider);
+        void ShowAvailableMoves(Pair<int, int> rollRes, SoliderModel selectedSolider);
     }
 }

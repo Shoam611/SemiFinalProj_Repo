@@ -62,7 +62,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
                         .BuildPoligon(i, j)
                         .BuildStackPanel()
                         .Build();
-                    gb.AddStackToGameBoardMatrix(stck,i,j);
+                    gb.AddStackToGameBoardMatrix(stck, i, j);
                 }
             }
             return gb;
@@ -82,7 +82,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
 
         public static void AddStackToGameBoardMatrix(this GameBoard gb, StackModel stck, int col, int row)
         {
-            gb.StacksMatrix[stck.Location.Col,stck.Location.Row] = stck;
+            gb.StacksMatrix[stck.Location.Col, stck.Location.Row] = stck;
             gb.GameGrid.AddToGrid(stck.Triangle, col, row);
             gb.GameGrid.AddToGrid(stck.UiStack, col, row);
             Panel.SetZIndex(stck.Triangle, 1);
@@ -97,14 +97,49 @@ namespace tWpfMashUp_v0._0._1.Extensions
         {
             for (int i = 0; i < gb.MatrixColumnsCount; i++)
             {
-                //for the pattern - in opposing side to any solider pice there is an identical
-                //amount of pieces in the different color
-                //so same action should be made to the other row but with different color piece solider
+                for (int j = 0; j < gb.MatrixRowsCount; j++)
+                {
+                    if (i % 6 == 0)//if on the first or the 7th column
+                    {
+                        for (int count = 0; count < 5; count++)
+                        {
+                            var sold = new SoliderModel
+                            {
+                                IsOwnSolider = j == 0 ? i != 0 : i == 0,
+                                Soldier = new Ellipse
+                                {
+                                    Stretch = Stretch.UniformToFill,
+                                    Fill = new SolidColorBrush((j == 0 ? i != 0 : i == 0) ? Colors.White : Colors.Black)
+                                }
+                            };
+                            gb.AddSoliderToGameBoard(sold, i, j);
+                        }
+                    }
+                    if (i == 4)
+                    {
+                        for (int count = 0; count < 3; count++)
+                        {
+                            var sold = new SoliderModel
+                            {
+                                IsOwnSolider = j == 0,
+                                Soldier = new Ellipse
+                                {
+                                    Stretch = Stretch.UniformToFill,
+                                    Fill = new SolidColorBrush( j==0 ? Colors.White : Colors.Black)
+                                }
+                            };
+                            gb.AddSoliderToGameBoard(sold, i, j);
+                        }
+                    }
+                }
+
             }
             return gb;
         }
 
-        public static void AddSoliderToGameBoard(this GameBoard gb, SoldierModel solider, int row, int col) =>
+        public static void AddSoliderToGameBoard(this GameBoard gb, SoliderModel solider, int col, int row)
+        {
             gb.StacksMatrix[col, row].Add(solider);
+        }
     }
 }

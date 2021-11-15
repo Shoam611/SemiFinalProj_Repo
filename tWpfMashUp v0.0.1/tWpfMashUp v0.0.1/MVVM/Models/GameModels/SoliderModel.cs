@@ -2,7 +2,7 @@
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
-    public class SoldierModel
+    public class SoliderModel
     {
         public Ellipse Soldier { get; set; }
 
@@ -11,7 +11,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public MatrixLocation Location { get; private set; }
         
 
-        public SoldierModel()
+        public SoliderModel()
         {
             Soldier = new Ellipse();
         }
