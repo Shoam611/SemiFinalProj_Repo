@@ -16,7 +16,10 @@
                                      VerticalAlignment="Center"
                                      Padding="5"
                                      Foreground="#CFCFCF"
-                                     x:Name="TxtBox"/>
+                                     x:Name="TxtBox"
+                                     MaxLength="256"
+                                     MaxLines="3"
+                                     TextWrapping="Wrap"/>
                         </Grid>
                     </Border>
                 </ControlTemplate>
