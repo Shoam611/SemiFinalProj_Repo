@@ -131,6 +131,22 @@ namespace tWpfMashUp_v0._0._1.Extensions
                             gb.AddSoliderToGameBoard(sold, i, j);
                         }
                     }
+                    if (i == gb.MatrixColumnsCount - 1)
+                    {
+                        for (int count = 0; count < 2; count++)
+                        {
+                            var sold = new SoliderModel
+                            {
+                                IsOwnSolider = j == 1,
+                                Soldier = new Ellipse
+                                {
+                                    Stretch = Stretch.UniformToFill,
+                                    Fill = new SolidColorBrush(j == 1 ? Colors.White : Colors.Black)
+                                }
+                            };
+                            gb.AddSoliderToGameBoard(sold, i, j);
+                        }
+                    }
                 }
 
             }
