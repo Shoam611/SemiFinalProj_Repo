@@ -2,6 +2,8 @@
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System;
 
 namespace tWpfMashUp_v0._0._1.Extensions
 {
@@ -14,8 +16,8 @@ namespace tWpfMashUp_v0._0._1.Extensions
             grid.ColumnDefinitions.Clear();
             return grid;
         }
-     
-        public static Grid BuildGridDefenitions(this Grid grid,int cols,int rows)
+
+        public static Grid BuildGridDefenitions(this Grid grid, int cols, int rows)
         {
             for (int i = 0; i < cols + 1; i++)
             {
@@ -33,7 +35,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
             return grid;
         }
 
-        public static void AddToGrid(this Grid grid, FrameworkElement elem, int col=0, int row=0)
+        public static void AddToGrid(this Grid grid, FrameworkElement elem, int col = 0, int row = 0)
         {
             Grid.SetRow(elem, row);
             Grid.SetColumn(elem, col);
@@ -44,7 +46,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
         {
             for (int i = 0; i < grid.ColumnDefinitions.Count + 1; i++) //cols
             {
-                for (int j = 0; j < grid.RowDefinitions.Count +1; j += 2) //rows
+                for (int j = 0; j < grid.RowDefinitions.Count + 1; j += 2) //rows
                 {
                     if (i == grid.ColumnDefinitions.Count / 2) continue;
                     var triangle = new Polygon().BuildPoligon(i, j);
@@ -78,6 +80,49 @@ namespace tWpfMashUp_v0._0._1.Extensions
             VerticalAlignment = j < 1 ? VerticalAlignment.Top : VerticalAlignment.Bottom,
             IsHitTestVisible = false
         };
+        public static Border BuildElipses(this Border border, int number)
+        {
+            var grid = new Grid();
+            for (int i = 0; i < 3; i++)
+            {
+                grid.RowDefinitions.Add(new RowDefinition());
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            if (number % 2 == 1) grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 1, 1);
+            if (number > 1)
+            {
+                grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 0, 0);
+                grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 2, 2);
+            }
+            if (number > 3)
+            {
+                grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 0, 2);
+                grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 2, 0);
+            }
+            if (number == 6)
+            {
+                grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 1, 0);
+                grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 1, 2);
+            }
+            
+            grid.VerticalAlignment=VerticalAlignment.Stretch;
+            grid.HorizontalAlignment=HorizontalAlignment.Stretch;
 
+            border.Parent.GetValue(Grid.ActualHeightProperty);
+            Binding binding2 = new Binding("ActualHeight");
+            binding2.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor,typeof(Grid),1);
+            border.SetBinding(Border.MaxWidthProperty, binding2);
+
+            border.Width = Double.NaN;
+            Binding binding = new Binding("ActualWidth");
+            binding.RelativeSource = new RelativeSource(RelativeSourceMode.Self);
+            border.SetBinding(Border.HeightProperty, binding);
+
+            border.Background = new SolidColorBrush(Colors.Gray);
+            border.Padding = new Thickness(3);
+            border.CornerRadius = new CornerRadius(4);
+            border.Child = grid;
+            return border;
+        }
     }
 }

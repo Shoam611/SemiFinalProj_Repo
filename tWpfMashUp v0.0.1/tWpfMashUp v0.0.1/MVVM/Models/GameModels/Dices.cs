@@ -1,15 +1,31 @@
-﻿namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Shapes;
+using tWpfMashUp_v0._0._1.Extensions;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
+
+namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
     public class Dices : IDicesRoller
     {
         private readonly Random rnd = new Random();
         public List<int> RollsResultsValue { get; private set; }
-        public List<Rectangle> RollsResults { get; private set; }
-        public StackPanel Stackpanel;
-        Button rollbtn;
+        public List<Border> RollsResults { get; private set; }
+        public Grid Grid;
+
+        public Dices(Grid panel)
+        {
+            this.Grid = panel;
+            Grid.ColumnDefinitions.Add(new ColumnDefinition());
+            Grid.ColumnDefinitions.Add(new ColumnDefinition());
+            Grid.ColumnDefinitions.Add(new ColumnDefinition());
+            Grid.ColumnDefinitions.Add(new ColumnDefinition());
+        }
 
         public List<int> Roll()
         {
+            Grid.Children.Clear();
             RollsResultsValue = new();
 
             for (int i = 0; i < 2; i++)
@@ -22,7 +38,6 @@
             {
                 RollsResultsValue.Add(RollsResultsValue[0]);
                 RollsResultsValue.Add(RollsResultsValue[0]);
-                return RollsResultsValue;
             }
             DisplayResult();
             return RollsResultsValue;
@@ -30,10 +45,12 @@
 
         public int DisplayResult()
         {
-            
+
             for (int i = 0; i < RollsResultsValue.Count; i++)
             {
-                Stackpanel.Children.Add(new Rectangle());
+                var brdr = new Border();
+                Grid.AddToGrid(brdr ,i);
+                brdr.BuildElipses(RollsResultsValue[i]);
             }
             return RollsResultsValue.Count;
         }
@@ -41,7 +58,7 @@
         public void ClearDices()
         {
             RollsResultsValue.Clear();
-            Stackpanel.Children.Clear();
+            Grid.Children.Clear();
         }
     }
 }

@@ -8,9 +8,9 @@
            
                 <ControlTemplate TargetType="RadioButton">
                 <Border  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
-                         Padding="3" Background="{StaticResource DimBrush}" CornerRadius="5">
+                        Padding="5"  Background="{StaticResource DimBrush}" CornerRadius="8">
                         <Border HorizontalAlignment="Left" Background="Transparent">
-                            <Rectangle   Fill="{StaticResource ResourceKey=PrimeryBrush}" 
+                            <Rectangle Fill="{StaticResource ResourceKey=PrimeryBrush}" 
                                      MaxHeight="{TemplateBinding Height}" MaxWidth="{TemplateBinding Height}"
                                      MinHeight="{TemplateBinding Height}" MinWidth="{TemplateBinding Height}" />
                         </Border>
