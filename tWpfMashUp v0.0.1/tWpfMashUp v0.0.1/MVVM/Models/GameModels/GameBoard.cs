@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 using tWpfMashUp_v0._0._1.Sevices;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -20,7 +21,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public StackModel[,] StacksMatrix { get; set; }
         public int MatrixColumnsCount { get => StacksMatrix.GetLength(0); }
         public int MatrixRowsCount { get => StacksMatrix.GetLength(1); }
-        public bool IsMyTurn { get; set; }
+        
+        private bool isMyTurn;
+        public bool IsMyTurn 
+        {
+            get => isMyTurn;
+            set 
+            {
+                isMyTurn = value;
+                var msg =value? "It Is Now Your Turn" : "It is now opponent turn";
+                Modal.ShowModal(msg," ");
+            }
+        }
 
         public SoliderModel FocusedSolider { get; set; }
         public StackModel FocusedStack { get; set; }
@@ -112,6 +124,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 //CallServer to Push Update async/add action to store?
                 pickStackForSolider.TrySetResult(FocusedSolider);
                 pickStackForSolider = null;
+                IsMyTurn = false;
                 gameService.UpdateServerMove(actionUpdate);
             }
         }
@@ -120,6 +133,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         {
             var solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
             StacksMatrix[e.Destenation.Col, e.Destenation.Row].Push(solider);
+            IsMyTurn = true;
         }
 
         public void MarkAvailableMoves(Pair<int, int> rollRes, SoliderModel selectedSolider)

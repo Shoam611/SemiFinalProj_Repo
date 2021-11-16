@@ -50,6 +50,7 @@ namespace tWpfMashUp_v0._0._1
                 Margin = new Thickness(0, 10, 10, 0),
                 Style = App.Current.FindResource("RoundButton") as Style
             };
+            cnvs.MouseDown += OnExit;
             btn.Click += OnExit;
             var border = cnvs.Children[0] as Border;
             var grid = border.Child as Grid;
@@ -60,6 +61,7 @@ namespace tWpfMashUp_v0._0._1
 
         private void OnExit(object sender, RoutedEventArgs e)
         {
+            cnvs.MouseDown -= OnExit;
             ModalClosing?.Invoke(this, new EventArgs());
         }
 
