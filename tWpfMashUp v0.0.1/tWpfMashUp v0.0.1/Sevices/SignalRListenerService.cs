@@ -14,6 +14,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
     public delegate void UserInvitedEventHandler(object sender, UserInvitedEventArgs eventArgs);
     public delegate void OpponentPlayedEventHandler(object sender, OpponentPlayedEventArgs e);
+    public delegate void GameStartingEventHandler(object sender, GameStartingEventArgs e);
 
     public class SignalRListenerService
     {
@@ -28,7 +29,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event EventHandler ChatForUserRecived;
         public event MessageRecivedEventHandler MessageRecived;
         public event UserInvitedEventHandler UserInvitedToGame;
-        public event EventHandler GameStarting;
+        public event GameStartingEventHandler GameStarting;
         public event OpponentPlayedEventHandler OpponentPlayed;
         #endregion
 
@@ -51,7 +52,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<Message>("MassageRecived", OnMassageRecived);
 
             connection.On<Chat>("GameInvite", OnGameInvite);
-            connection.On<int>("GameStarting", OnGameAccepted);
+            connection.On<int,bool>("GameStarting", OnGameAccepted);
             connection.On<int>("GameDenied", OnGameDenied);
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
@@ -144,17 +145,16 @@ namespace tWpfMashUp_v0._0._1.Sevices
             UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact, ChatId = chat.Id });
         }
 
-        private void OnGameAccepted(int chatId)
+        private void OnGameAccepted(int chatId,bool isStarting)
         {
             //set chat as currnt chat.
             var localChat = (store.Get(CommonKeys.Chats.ToString()) as List<Chat>).First(c => c.Id == chatId);
             store.Add(CommonKeys.CurrentChat.ToString(), localChat);
-
             var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            Debug.WriteLine($"{isStarting} { me.UserName}");
             store.Add(CommonKeys.WithUser.ToString(), localChat.Users.First(u => u.Id != me.Id));
-            //push update on eveny to ui.
-            //emit event to viewmodel to change view
-            GameStarting?.Invoke(this, new EventArgs());
+            store.Add(CommonKeys.IsMyTurn.ToString(), isStarting);
+            GameStarting?.Invoke(this, new GameStartingEventArgs { IsStarting = isStarting });
         }
 
         private void OnGameDenied(int obj)

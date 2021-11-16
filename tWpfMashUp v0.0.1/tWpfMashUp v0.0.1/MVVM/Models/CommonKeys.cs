@@ -7,7 +7,7 @@
         CurrentChat,
         HubConnectionString,
         Contacts,
-        Chats
-
+        Chats,
+        IsMyTurn
     }
 }

@@ -12,6 +12,5 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public int DestenationRow { get; set; }
         public int ChatId { get; set; }
         public int UserId { get; set; }
-        //public Pair<MatrixLocation, MatrixLocation> ActionUpdate { get; set; }
     }
 }

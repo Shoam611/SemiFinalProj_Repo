@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories.Infra;
+using System;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -39,9 +40,12 @@ namespace signalRChatApiServer.Controllers
 
                 if (chat.InviteStatus == InviteStatus.Accepted)
                 {
+                    var rnd = new Random().Next(0, 2);
+                    var temp = 0;
                     foreach (var user in chat.Users)
                     {
-                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat.Id);
+                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat.Id,temp==rnd);
+                        temp++;
                     }
                     chat.InviteStatus = InviteStatus.Empty;
                     reposatory.UpdateChat(chat);

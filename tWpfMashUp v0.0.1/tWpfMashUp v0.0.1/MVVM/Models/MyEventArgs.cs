@@ -30,5 +30,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models
         public MatrixLocation Source { get; set; }
         public MatrixLocation Destenation { get; set; }
     }
+    public class GameStartingEventArgs:EventArgs
+    {
+        public bool IsStarting { get; set; }
+    }
 
 }

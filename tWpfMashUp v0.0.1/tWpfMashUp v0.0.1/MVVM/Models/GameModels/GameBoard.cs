@@ -10,6 +10,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
     public class GameBoard : IGameBoard
     {
+        private StoreService store;
         private GameService gameService;
         private SignalRListenerService signalRListener;
         private TaskCompletionSource<SoliderModel> pickStackForSolider;
@@ -24,23 +25,25 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public SoliderModel FocusedSolider { get; set; }
         public StackModel FocusedStack { get; set; }
 
-        public GameBoard(SignalRListenerService signalRListener,GameService gameService)
+        public GameBoard(SignalRListenerService signalRListener,GameService gameService,StoreService store)
         {
+            this.store = store;
             this.gameService = gameService;
             this.signalRListener = signalRListener;
             signalRListener.OpponentPlayed += UpdateOpponentMove;
         }
 
         public GameBoard Build(Grid gameGrid) =>
-                                    SetGrid(gameGrid)
+                                    SetInitialVaulues(gameGrid)
                                     .Clear()
                                     .BuildGameBoardDefenitions(12, 2)
                                     .FillGameboardMatrix()
                                     .PlaceSolidersInInitialState()
                                     .BuildMatirxMovementAbility();
 
-        GameBoard SetGrid(Grid grid)
+        GameBoard SetInitialVaulues(Grid grid)
         {
+            IsMyTurn = store.Get(CommonKeys.IsMyTurn.ToString());
             GameGrid = grid;
             return this;
         }
@@ -66,7 +69,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         private async void Stack_OnClicked(object sender, EventArgs e)
         {
-            if (/*IsMyTurn &&*/ ((StackModel)sender).Count > 0 && (((StackModel)sender).HasMineSoliders()))  //inform User??
+            if (IsMyTurn && ((StackModel)sender).Count > 0 && (((StackModel)sender).HasMineSoliders()))  //inform User??
             {
                 FocusedStack = (StackModel)sender;
                 FocusedSolider = FocusedStack.Peek();
