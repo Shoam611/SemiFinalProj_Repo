@@ -8,8 +8,9 @@ using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
-    public class Dices : IDices
+    public class Dices : IDicesRoller
     {
+        Button rollbtn;
         public List<int> RollsResultsValue { get; private set; }
         public List<Rectangle> RollsResults { get; private set; }
         StackPanel stackpanel = {//holds all dices// }
@@ -31,7 +32,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public int DisplayResult()
         {
-            for
+            for i=0 i< Result.Count
         }
 
     }
