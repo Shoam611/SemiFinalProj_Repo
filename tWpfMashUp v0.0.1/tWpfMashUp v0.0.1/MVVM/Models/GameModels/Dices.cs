@@ -10,30 +10,46 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
     public class Dices : IDicesRoller
     {
-        Button rollbtn;
+        private readonly Random rnd = new Random();
         public List<int> RollsResultsValue { get; private set; }
         public List<Rectangle> RollsResults { get; private set; }
-        StackPanel stackpanel = {//holds all dices// }
+        public StackPanel Stackpanel;
+        Button rollbtn;
+
         public List<int> Roll()
         {
-            //= new List
+            RollsResultsValue = new();
+
             for (int i = 0; i < 2; i++)
             {
-                //roll rnd = new Rando
-                //add to ress
-                RollsResultsValue.Add(rnd);
+                var res = rnd.Next(1, 7);
+
+                RollsResultsValue.Add(res);
             }
-            if(/*[0] == [1]*/)
+            if (RollsResultsValue[0] == RollsResultsValue[1])
             {
-                //add tow more rolls
+                RollsResultsValue.Add(RollsResultsValue[0]);
+                RollsResultsValue.Add(RollsResultsValue[0]);
+                return RollsResultsValue;
             }
-            DisplayResult()
+            DisplayResult();
+            return RollsResultsValue;
         }
 
         public int DisplayResult()
         {
-            for i=0 i< Result.Count
+            
+            for (int i = 0; i < RollsResultsValue.Count; i++)
+            {
+                Stackpanel.Children.Add(new Rectangle());
+            }
+            return RollsResultsValue.Count;
         }
 
+        public void ClearDices()
+        {
+            RollsResultsValue.Clear();
+            Stackpanel.Children.Clear();
+        }
     }
 }
