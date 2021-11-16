@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/Assets/Templates/ContectListItem.xaml" />
                 <ResourceDictionary Source="/Assets/Templates/MessageListItem.xaml" />
                 <ResourceDictionary Source="/Assets/Templates/ScrollBar.xaml"/>
+                <ResourceDictionary Source="/Assets/Templates/TurnIndicatorRadioBotton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

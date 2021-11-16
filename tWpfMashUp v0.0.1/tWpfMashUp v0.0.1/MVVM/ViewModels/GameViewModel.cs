@@ -17,42 +17,55 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public RelayCommand GoToChatCommand { get; set; }
         public RelayCommand LoadedCommand { get; set; }
-        public bool IsMyTurn { get; set; }
         public Grid Grid { get; set; }
         public Grid TopTabGrid { get; set; }
         public Grid GameGrid { get; set; }
         public Canvas MaskingCanvas { get; set; }
-        private IGameBoard gameBoard; 
-
+        private IGameBoard gameBoard;
+        RadioButton TurnIndicator;
         public GameViewModel(IGameBoard GameBoard)
         {
-           
-            InitGrids();
-            LoadedCommand = new RelayCommand(o => OnLoadedHandler());
+            MaskingCanvas = new Canvas { Background = new SolidColorBrush(Color.FromArgb(85, 10,10, 10)) };
             gameBoard = GameBoard;
+            InitGrids();
+            GameBoard.OnTurnChanged += (e) =>
+            {
+                TurnIndicator.IsChecked = e;
+                MaskingCanvas.Visibility = !e ? Visibility.Visible : Visibility.Collapsed;
+            };
+            Panel.SetZIndex(MaskingCanvas, 7);
+            LoadedCommand = new RelayCommand(o => OnLoadedHandler());
         }
 
         private void InitGrids()
         {
             Grid = new Grid();
-            Grid.RowDefinitions.Add(new RowDefinition {Height=new GridLength(0.1,GridUnitType.Star) });
-            TopTabGrid = new Grid {Background = Application.Current.FindResource("AccentBrush") as SolidColorBrush };
-            Grid.AddToGrid(TopTabGrid);
-            var elem = new RadioButton();
-            elem.Content = "Is Your Turn";
-            TopTabGrid.Children.Add(elem);
-            Grid.RowDefinitions.Add(new RowDefinition());
             GameGrid = new Grid();
-            Grid.AddToGrid(GameGrid,0,1);
+            TopTabGrid = new Grid { Background = Application.Current.FindResource("AccentBrush") as SolidColorBrush };
+            TurnIndicator = new RadioButton
+            {
+                Height = 30,
+                Width = 90,
+                Style = App.Current.FindResource("ToggleBtn") as Style
+            };
+            Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0.1, GridUnitType.Star) });
+            Grid.RowDefinitions.Add(new RowDefinition());
+            Grid.AddToGrid(TopTabGrid);
+
+       
+            TopTabGrid.Children.Add(TurnIndicator);
+            Grid.AddToGrid(GameGrid, 0, 1);
         }
 
         private void OnLoadedHandler()
         {
             gameBoard = gameBoard.Build(GameGrid);
+            
+            Grid.AddToGrid(MaskingCanvas,0,1);
+
             var middleBoard = new StackPanel { Background = (SolidColorBrush)Application.Current.FindResource("AccentBrush") };
-            Grid.SetColumn(middleBoard, 6);
             Grid.SetRowSpan(middleBoard, 3);
-            GameGrid.Children.Add(middleBoard);
+            GameGrid.AddToGrid(middleBoard, 6, 0);
         }
     }
 }

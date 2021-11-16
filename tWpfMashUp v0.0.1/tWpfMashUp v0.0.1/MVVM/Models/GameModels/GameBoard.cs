@@ -2,13 +2,13 @@
 using Castle.Core;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using tWpfMashUp_v0._0._1.Sevices;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
-using tWpfMashUp_v0._0._1.Sevices;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
+    public delegate void TurnChangedEventHandler(bool value);
     public class GameBoard : IGameBoard
     {
         private StoreService store;
@@ -26,16 +26,15 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public bool IsMyTurn 
         {
             get => isMyTurn;
-            set 
-            {
+            set { 
                 isMyTurn = value;
-                var msg =value? "It Is Now Your Turn" : "It is now opponent turn";
-                Modal.ShowModal(msg," ");
+                OnTurnChanged?.Invoke(value);
             }
         }
 
         public SoliderModel FocusedSolider { get; set; }
         public StackModel FocusedStack { get; set; }
+        public event TurnChangedEventHandler OnTurnChanged;
 
         public GameBoard(SignalRListenerService signalRListener,GameService gameService,StoreService store)
         {

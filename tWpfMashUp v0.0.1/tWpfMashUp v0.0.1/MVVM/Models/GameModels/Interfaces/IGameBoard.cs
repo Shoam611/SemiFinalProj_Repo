@@ -12,6 +12,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
         int MatrixColumnsCount { get; }
         int MatrixRowsCount { get; }
         StackModel[,] StacksMatrix { get; set; }
+        public event TurnChangedEventHandler OnTurnChanged;
 
         void AddStackToGameGridAndMatrix(StackModel stck, int row, int col);
         GameBoard Build(Grid gameGrid);
