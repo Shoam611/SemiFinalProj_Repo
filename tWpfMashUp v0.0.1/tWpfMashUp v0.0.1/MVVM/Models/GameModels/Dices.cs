@@ -1,31 +1,47 @@
 ﻿namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
-    //public class Dices : IDicesRoller
-    //{
-    //    Button rollbtn;
-    //    public List<int> RollsResultsValue { get; private set; }
-    //    public List<Rectangle> RollsResults { get; private set; }
-    //    StackPanel stackpanel = {//holds all dices// }
-    //    public List<int> Roll()
-    //    {
-    //        //= new List
-    //        for (int i = 0; i < 2; i++)
-    //        {
-    //            //roll rnd = new Rando
-    //            //add to ress
-    //            RollsResultsValue.Add(rnd);
-    //        }
-    //        if(/*[0] == [1]*/)
-    //        {
-    //            //add tow more rolls
-    //        }
-    //        DisplayResult()
-    //    }
+    public class Dices : IDicesRoller
+    {
+        private readonly Random rnd = new Random();
+        public List<int> RollsResultsValue { get; private set; }
+        public List<Rectangle> RollsResults { get; private set; }
+        public StackPanel Stackpanel;
+        Button rollbtn;
 
-    //    public int DisplayResult()
-    //    {
-    //        for i=0 i< Result.Count
-    //    }
+        public List<int> Roll()
+        {
+            RollsResultsValue = new();
 
-    //}
+            for (int i = 0; i < 2; i++)
+            {
+                var res = rnd.Next(1, 7);
+
+                RollsResultsValue.Add(res);
+            }
+            if (RollsResultsValue[0] == RollsResultsValue[1])
+            {
+                RollsResultsValue.Add(RollsResultsValue[0]);
+                RollsResultsValue.Add(RollsResultsValue[0]);
+                return RollsResultsValue;
+            }
+            DisplayResult();
+            return RollsResultsValue;
+        }
+
+        public int DisplayResult()
+        {
+            
+            for (int i = 0; i < RollsResultsValue.Count; i++)
+            {
+                Stackpanel.Children.Add(new Rectangle());
+            }
+            return RollsResultsValue.Count;
+        }
+
+        public void ClearDices()
+        {
+            RollsResultsValue.Clear();
+            Stackpanel.Children.Clear();
+        }
+    }
 }
