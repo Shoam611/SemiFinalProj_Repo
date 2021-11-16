@@ -83,6 +83,28 @@ namespace tWpfMashUp_v0._0._1.Extensions
         public static Border BuildElipses(this Border border, int number)
         {
             var grid = new Grid();
+            AddEllipsesToGrid(number, grid);
+            grid.VerticalAlignment = VerticalAlignment.Stretch;
+            grid.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            Binding binding2 = new Binding("ActualHeight");
+            binding2.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(Grid), 1);
+            border.SetBinding(Border.MaxWidthProperty, binding2);
+
+            border.Width = Double.NaN;
+            Binding binding = new Binding("ActualWidth");
+            binding.RelativeSource = new RelativeSource(RelativeSourceMode.Self);
+            border.SetBinding(Border.HeightProperty, binding);
+
+            border.Background = new SolidColorBrush(Colors.Gray);
+            border.Padding = new Thickness(3);
+            border.CornerRadius = new CornerRadius(4);
+            border.Child = grid;
+            return border;
+        }
+
+        private static void AddEllipsesToGrid(int number, Grid grid)
+        {
             for (int i = 0; i < 3; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition());
@@ -104,25 +126,6 @@ namespace tWpfMashUp_v0._0._1.Extensions
                 grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 1, 0);
                 grid.AddToGrid(new Ellipse { Fill = new SolidColorBrush(Colors.White) }, 1, 2);
             }
-            
-            grid.VerticalAlignment=VerticalAlignment.Stretch;
-            grid.HorizontalAlignment=HorizontalAlignment.Stretch;
-
-            border.Parent.GetValue(Grid.ActualHeightProperty);
-            Binding binding2 = new Binding("ActualHeight");
-            binding2.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor,typeof(Grid),1);
-            border.SetBinding(Border.MaxWidthProperty, binding2);
-
-            border.Width = Double.NaN;
-            Binding binding = new Binding("ActualWidth");
-            binding.RelativeSource = new RelativeSource(RelativeSourceMode.Self);
-            border.SetBinding(Border.HeightProperty, binding);
-
-            border.Background = new SolidColorBrush(Colors.Gray);
-            border.Padding = new Thickness(3);
-            border.CornerRadius = new CornerRadius(4);
-            border.Child = grid;
-            return border;
         }
     }
 }

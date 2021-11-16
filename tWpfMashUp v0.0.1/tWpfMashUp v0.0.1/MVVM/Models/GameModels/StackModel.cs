@@ -67,9 +67,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public SoliderModel Pop()
         {
             //validate not empty or null
-            var solider = SoliderStack.Pop();
-            UiStack.Children.Remove(solider.Soldier);
-            return solider;
+            if (SoliderStack.Count > 0)
+            {
+                var solider = SoliderStack.Pop();
+                UiStack.Children.Remove(solider.Soldier);
+                return solider;
+            }
+            else return null;
         }
 
         internal bool HasMineSoliders() => SoliderStack.Peek().IsOwnSolider;

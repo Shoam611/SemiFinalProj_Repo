@@ -5,12 +5,14 @@ using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Sevices;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
+using System.Collections.Generic;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
     public delegate void TurnChangedEventHandler(bool value);
     public class GameBoard : IGameBoard
     {
+        private List<int> rollsValues;
         private StoreService store;
         private GameService gameService;
         private SignalRListenerService signalRListener;
@@ -28,13 +30,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             get => isMyTurn;
             set { 
                 isMyTurn = value;
-                OnTurnChanged?.Invoke(value);
+                TurnChanged?.Invoke(value);
             }
         }
 
         public SoliderModel FocusedSolider { get; set; }
         public StackModel FocusedStack { get; set; }
-        public event TurnChangedEventHandler OnTurnChanged;
+        public event TurnChangedEventHandler TurnChanged;
 
         public GameBoard(SignalRListenerService signalRListener,GameService gameService,StoreService store)
         {
@@ -42,6 +44,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             this.gameService = gameService;
             this.signalRListener = signalRListener;
             signalRListener.OpponentPlayed += UpdateOpponentMove;
+            rollsValues = new List<int>();
+        }
+
+        public void UpdateRollsResult(List<int> newVals)
+        {
+           rollsValues = newVals;
         }
 
         public GameBoard Build(Grid gameGrid) =>
@@ -80,7 +88,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         private async void Stack_OnClicked(object sender, EventArgs e)
         {
-            if (IsMyTurn && ((StackModel)sender).Count > 0 && (((StackModel)sender).HasMineSoliders()))  //inform User??
+            if (IsMyTurn && ((StackModel)sender).Count > 0 && (((StackModel)sender).HasMineSoliders()) && rollsValues.Count>0 )  //inform User??
             {
                 FocusedStack = (StackModel)sender;
                 FocusedSolider = FocusedStack.Peek();
@@ -107,6 +115,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 StackModel.HasFirstSelected = false;
                 FocusedSolider = null;
                 FocusedStack = null;
+              
             }
         }
 
@@ -123,8 +132,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 //CallServer to Push Update async/add action to store?
                 pickStackForSolider.TrySetResult(FocusedSolider);
                 pickStackForSolider = null;
-                IsMyTurn = false;
-                gameService.UpdateServerMove(actionUpdate);
+                rollsValues.RemoveAt(0);
+                if (rollsValues.Count==0)
+                {
+                    IsMyTurn = false;
+                    gameService.UpdateServerMove(actionUpdate);
+                }
             }
         }
 

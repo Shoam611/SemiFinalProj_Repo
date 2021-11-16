@@ -55,10 +55,15 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             return RollsResultsValue.Count;
         }
 
+        public bool HasValue()
+        {
+            return RollsResultsValue != null && RollsResultsValue.Count < 0;
+        }
+
         public void ClearDices()
         {
-            RollsResultsValue.Clear();
-            Grid.Children.Clear();
+            RollsResultsValue?.Clear();
+            Grid.Children?.Clear();
         }
     }
 }
