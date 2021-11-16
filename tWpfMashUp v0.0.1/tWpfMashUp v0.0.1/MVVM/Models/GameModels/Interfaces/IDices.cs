@@ -2,7 +2,7 @@
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
 {
-    public interface ICube
+    public interface IDices
     {
         Pair<int,int> Roll();
         int DisplayResult();

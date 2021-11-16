@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.MVVM.Views"
              mc:Ignorable="d" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-             Content="{Binding GameGrid}"
+             Content="{Binding Grid}"
              DataContext="{Binding Source={StaticResource Locator},Path=Game}"
              Background="{StaticResource ResourceKey=BrightBrush}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -15,129 +15,5 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" PassEventArgsToCommand="False" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <!--<Grid>
-        <Grid.RowDefinitions >
-            <RowDefinition Height="75"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Button Content="Forfeit " Command="{Binding GoToChatCommand}" Height="50" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12"/>
-        <Border Panel.ZIndex="1" x:Name="bgGrid" Grid.Row="1" BorderThickness="8" BorderBrush="{StaticResource AccentBrush}" Background="{StaticResource ComplimentaryBrush}">
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="0.6*"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefiniti0,on/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="4*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-
-                --><!--Top Left--><!--
-
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Fill="#eee" />
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Fill="{StaticResource DimBrush}"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Fill="{StaticResource BrightBrush}"  />
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Fill="{StaticResource DimBrush}"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="5" Fill="Black"/>
-                --><!--Buttom Left--><!--
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Fill="Red"/>
-
-
-                <Border  Grid.Row="0" Grid.RowSpan="3" Grid.Column="6" 
-                         Background="{StaticResource ComplimentaryBrush}" BorderBrush="{StaticResource AccentBrush}" 
-                         BorderThickness="7,0,7,0" >
-                    
-                <StackPanel/>
-                </Border>
-
-                --><!--Top Right--><!--
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="7" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="8" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="9" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="10" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="11" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,0 30,200 60,0" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="12" Fill="Black"/>
-                --><!--Buttom Right--><!--
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="7" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="8" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="9" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="10" Fill="Red"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="11" Fill="Black"/>
-                <Polygon Stretch="Fill" Points="0,200 30,0 60,200"  HorizontalAlignment="Center" Grid.Row="2" Grid.Column="12" Fill="Red"/>
-
-            </Grid >
-     
-        </Border>
-
-        <Grid Panel.ZIndex="2" x:Name="StacksGrid" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" Grid.Column="0" >
-            </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="1" />
-            <StackPanel Grid.Row="0" Grid.Column="2" />
-            <StackPanel Grid.Row="0" Grid.Column="3" />
-            <StackPanel Grid.Row="0" Grid.Column="4" />
-            <StackPanel Grid.Row="0" Grid.Column="5" />
-            <StackPanel Grid.Row="1" Grid.Column="0" />
-            <StackPanel Grid.Row="1" Grid.Column="1" />
-            <StackPanel Grid.Row="1" Grid.Column="2" />
-            <StackPanel Grid.Row="1" Grid.Column="3" />
-            <StackPanel Grid.Row="1" Grid.Column="4" />
-            <StackPanel Grid.Row="1" Grid.Column="5" />
-
-            <StackPanel Grid.RowSpan="2" Grid.Column="6" />
-
-            <StackPanel Grid.Row="0" Grid.Column="7" />
-            <StackPanel Grid.Row="0" Grid.Column="8" />
-            <StackPanel Grid.Row="0" Grid.Column="9" />
-            <StackPanel Grid.Row="0" Grid.Column="10"/>
-            <StackPanel Grid.Row="0" Grid.Column="11"/>
-            <StackPanel Grid.Row="0" Grid.Column="12"/>
-            <StackPanel Grid.Row="1" Grid.Column="7" />
-            <StackPanel Grid.Row="1" Grid.Column="8" />
-            <StackPanel Grid.Row="1" Grid.Column="9" />
-            <StackPanel Grid.Row="1" Grid.Column="10"/>
-            <StackPanel Grid.Row="1" Grid.Column="11"/>
-            <StackPanel Grid.Row="1" Grid.Column="12"/>
-
-        </Grid>
-
-    </Grid>-->
+   
 </UserControl>

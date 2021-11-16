@@ -33,7 +33,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
             return grid;
         }
 
-        public static void AddToGrid(this Grid grid, FrameworkElement elem, int col, int row)
+        public static void AddToGrid(this Grid grid, FrameworkElement elem, int col=0, int row=0)
         {
             Grid.SetRow(elem, row);
             Grid.SetColumn(elem, col);
