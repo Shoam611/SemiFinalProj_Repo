@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Linq;
-using System.Collections;
+using Castle.Core;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
-using System.Windows;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
-using System.Windows.Controls;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
     public delegate void UserInvitedEventHandler(object sender, UserInvitedEventArgs eventArgs);
+    public delegate void OpponentPlayedEventHandler(object sender, OpponentPlayedEventArgs e);
+    public delegate void GameStartingEventHandler(object sender, GameStartingEventArgs e);
 
     public class SignalRListenerService
     {
@@ -28,7 +29,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event EventHandler ChatForUserRecived;
         public event MessageRecivedEventHandler MessageRecived;
         public event UserInvitedEventHandler UserInvitedToGame;
-        public event EventHandler GameStarting;
+        public event GameStartingEventHandler GameStarting;
+        public event OpponentPlayedEventHandler OpponentPlayed;
         #endregion
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
@@ -50,8 +52,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<Message>("MassageRecived", OnMassageRecived);
 
             connection.On<Chat>("GameInvite", OnGameInvite);
-            connection.On<int>("GameStarting", OnGameAccepted);
+            connection.On<int,bool>("GameStarting", OnGameAccepted);
             connection.On<int>("GameDenied", OnGameDenied);
+
+            connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
 
             try
             {
@@ -59,6 +63,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
+
+
         #region Connection
         private void OnConnected(string hubConnectionString)
         {
@@ -139,17 +145,16 @@ namespace tWpfMashUp_v0._0._1.Sevices
             UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact, ChatId = chat.Id });
         }
 
-        private void OnGameAccepted(int chatId)
+        private void OnGameAccepted(int chatId,bool isStarting)
         {
             //set chat as currnt chat.
             var localChat = (store.Get(CommonKeys.Chats.ToString()) as List<Chat>).First(c => c.Id == chatId);
             store.Add(CommonKeys.CurrentChat.ToString(), localChat);
-
             var me = store.Get(CommonKeys.LoggedUser.ToString()) as User;
+            Debug.WriteLine($"{isStarting} { me.UserName}");
             store.Add(CommonKeys.WithUser.ToString(), localChat.Users.First(u => u.Id != me.Id));
-            //push update on eveny to ui.
-            //emit event to viewmodel to change view
-            GameStarting?.Invoke(this, new EventArgs());
+            store.Add(CommonKeys.IsMyTurn.ToString(), isStarting);
+            GameStarting?.Invoke(this, new GameStartingEventArgs { IsStarting = isStarting });
         }
 
         private void OnGameDenied(int obj)
@@ -161,7 +166,14 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         #region Game
 
-
+        private void OnPlayerPlayed(ActionUpdateModel obj)
+        {
+            OpponentPlayed?.Invoke(this, new OpponentPlayedEventArgs
+            {
+                Source = new MatrixLocation { Row = obj.SourceRow, Col = obj.SourceCol },
+                Destenation = new MatrixLocation { Row = obj.DestenationRow, Col = obj.DestenationCol }
+            });
+        }
 
         #endregion
     }

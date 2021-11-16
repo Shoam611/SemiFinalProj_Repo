@@ -51,6 +51,9 @@
     <Page Update="Assets\Templates\MessegeTextBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Assets\Templates\TurnIndicatorRadioBotton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
