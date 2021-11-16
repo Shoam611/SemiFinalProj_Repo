@@ -3,6 +3,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -18,6 +19,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         //a grid matrix location indicator
         public MatrixLocation Location { get; set; }
 
+        public int Count { get => SoliderStack.Count; }
         public event EventHandler OnClicked;
         public event EventHandler OnSelected;
 
@@ -36,6 +38,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             Triangle.IsHitTestVisible = true;
             UiStack.MouseDown += OnMouseDown;
             Triangle.MouseDown += OnMouseDown;
+            //UiStack.SizeChanged += (s, e) =>{};
             return this;
         }
 
@@ -47,16 +50,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             }
             else
             {
-                OnClicked?.Invoke(this, new EventArgs());HasFirstSelected = true;
+                OnClicked?.Invoke(this, new EventArgs());/* HasFirstSelected = true;*/
             }
         }
 
         public void Push(SoliderModel solider)
         {
             //validate not empty or null
+            //if active make regular;
             SoliderStack.Push(solider);
             solider.SetLocation(Location);
-            UiStack.Children.Add(solider.Soldier);
+            if(Location.Row == 1) UiStack.Children.Insert(0,solider.Soldier);
+           else  UiStack.Children.Add(solider.Soldier);
         }
 
         public SoliderModel Pop()
@@ -67,6 +72,22 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             return solider;
         }
 
+        internal bool HasMineSoliders() => SoliderStack.Peek().IsOwnSolider;
+
+        public SoliderModel Peek() => SoliderStack.Peek();
+
+        public void MarkSoliderAsActive(bool isActive)
+        {
+            var solider = SoliderStack.Peek();
+            byte c = solider.IsOwnSolider ? (byte)255 : (byte)0;
+            solider.Soldier.Fill = new SolidColorBrush(Color.FromArgb(isActive? (byte)125 : (byte)255, c, c, c));
+        }
+        public void MarkStackAsOption(bool isOption)
+        {
+            UiStack.IsHitTestVisible = isOption;
+            Triangle.IsHitTestVisible = isOption;
+            //change triangle bg
+        }
 
     }
 }

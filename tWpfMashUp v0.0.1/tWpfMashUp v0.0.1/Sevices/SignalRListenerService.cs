@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Linq;
-using System.Collections;
+using Castle.Core;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
-using System.Windows;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
-using System.Windows.Controls;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
     public delegate void UserInvitedEventHandler(object sender, UserInvitedEventArgs eventArgs);
+    public delegate void OpponentPlayedEventHandler(object sender, OpponentPlayedEventArgs e);
 
     public class SignalRListenerService
     {
@@ -29,6 +29,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event MessageRecivedEventHandler MessageRecived;
         public event UserInvitedEventHandler UserInvitedToGame;
         public event EventHandler GameStarting;
+        public event OpponentPlayedEventHandler OpponentPlayed;
         #endregion
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
@@ -53,12 +54,16 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<int>("GameStarting", OnGameAccepted);
             connection.On<int>("GameDenied", OnGameDenied);
 
+            connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
+
             try
             {
                 if (connection.State != HubConnectionState.Connected) await connection.StartAsync();
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
+
+
         #region Connection
         private void OnConnected(string hubConnectionString)
         {
@@ -161,7 +166,14 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         #region Game
 
-
+        private void OnPlayerPlayed(ActionUpdateModel obj)
+        {
+            OpponentPlayed?.Invoke(this, new OpponentPlayedEventArgs
+            {
+                Source = new MatrixLocation { Row = obj.SourceRow, Col = obj.SourceCol },
+                Destenation = new MatrixLocation { Row = obj.DestenationRow, Col = obj.DestenationCol }
+            });
+        }
 
         #endregion
     }

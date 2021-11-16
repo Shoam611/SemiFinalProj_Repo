@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using tWpfMashUp_v0._0._1.MVVM.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 
 namespace tWpfMashUp_v0._0._1
 {
@@ -34,6 +36,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddScoped<GameViewModel>();
             
             services.AddSingleton<StoreService>();
+            services.AddSingleton<GameService>();
             
             services.AddScoped<AuthenticationService>();
             services.AddScoped<SignalRListenerService>();
@@ -42,6 +45,7 @@ namespace tWpfMashUp_v0._0._1
             services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
             services.AddTransient<InvitesService>();
+            services.AddTransient<IGameBoard,GameBoard> ();
         }
         private static void Start(IServiceProvider services)
         {

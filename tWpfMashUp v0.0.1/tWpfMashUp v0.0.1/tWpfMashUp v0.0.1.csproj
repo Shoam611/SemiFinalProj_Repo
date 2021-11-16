@@ -6,6 +6,8 @@
     <RootNamespace>tWpfMashUp_v0._0._1</RootNamespace>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <StartupObject />
+    <Win32Resource />
   </PropertyGroup>
 
   <ItemGroup>

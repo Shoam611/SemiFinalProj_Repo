@@ -105,7 +105,8 @@ namespace tWpfMashUp_v0._0._1.Extensions
                                 Soldier = new Ellipse
                                 {
                                     Stretch = Stretch.UniformToFill,
-                                    Fill = new SolidColorBrush(j == 0 ? Colors.White : Colors.Black)
+                                    Fill = new SolidColorBrush(j == 0 ? Colors.White : Colors.Black),
+                                    MaxWidth = 75
                                 }
                             };
                             gb.AddSoliderToGameBoard(sold, i, j);
@@ -121,6 +122,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
                                 IsOwnSolider = j == 0 ? i != 0 : i == 0,
                                 Soldier = new Ellipse
                                 {
+                                    MaxWidth = 75,
                                     Stretch = Stretch.UniformToFill,
                                     Fill = new SolidColorBrush((j == 0 ? i != 0 : i == 0) ? Colors.White : Colors.Black)
                                 }
@@ -138,6 +140,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
                                 IsOwnSolider = j == 1,
                                 Soldier = new Ellipse
                                 {
+                                    MaxWidth = 75,
                                     Stretch = Stretch.UniformToFill,
                                     Fill = new SolidColorBrush(j == 1 ? Colors.White : Colors.Black)
                                 }
