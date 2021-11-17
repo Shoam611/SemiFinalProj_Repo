@@ -83,7 +83,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             foreach (var stack in StacksMatrix)
             {
                 stack.OnClicked += Stack_OnClicked;
-                stack.OnSelected += async (s,e) =>await Stack_OnSelected(s,e);
+                stack.OnSelected +=(s,e) =>Stack_OnSelected(s,e);
             }
             return this;
         }
@@ -125,7 +125,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             }
         }
 
-        private async Task Stack_OnSelected(object sender, EventArgs e)
+        private void Stack_OnSelected(object sender, EventArgs e)
         {
 
             if ((StackModel)sender == FocusedStack)
@@ -156,7 +156,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 pickStackForSolider = null;
 
                 var move = new Pair<MatrixLocation, MatrixLocation>(FocusedStack.Location, newStack.Location);
-                await  gameService.UpdateServerMove(move);
+                    gameService.UpdateServerMove(move);
                 if (rollsValues.Count == 0)
                 {
                     IsMyTurn = false;

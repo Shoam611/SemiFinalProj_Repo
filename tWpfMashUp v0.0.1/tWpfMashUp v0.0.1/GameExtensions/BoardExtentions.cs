@@ -101,11 +101,11 @@ namespace tWpfMashUp_v0._0._1.Extensions
                         {
                             var sold = new SoliderModel
                             {
-                                IsOwnSolider = j == 0,
+                                IsOwnSolider = j ==1 ,
                                 Soldier = new Ellipse
                                 {
                                     Stretch = Stretch.UniformToFill,
-                                    Fill = new SolidColorBrush(j == 0 ? Colors.White : Colors.Black),
+                                    Fill = new SolidColorBrush(j == 1 ? Colors.White : Colors.Black),
                                     MaxWidth = 75
                                 }
                             };
@@ -113,18 +113,18 @@ namespace tWpfMashUp_v0._0._1.Extensions
                         }
                         if (j == 1) { i += 2; j = 0; }
                     }
-                    if (i % 6 == 0)//if on the first or the 7th column
+                    if (i % 6 == 0)//first or sth
                     {
                         for (int count = 0; count < 5; count++)
                         {
                             var sold = new SoliderModel
                             {
-                                IsOwnSolider = j == 0 ? i != 0 : i == 0,
+                                IsOwnSolider = j == 0 ? i == 0 : i != 0,
                                 Soldier = new Ellipse
                                 {
                                     MaxWidth = 75,
                                     Stretch = Stretch.UniformToFill,
-                                    Fill = new SolidColorBrush((j == 0 ? i != 0 : i == 0) ? Colors.White : Colors.Black)
+                                    Fill = new SolidColorBrush((j == 0 ? i == 0 : i != 0) ? Colors.White : Colors.Black)
                                 }
                             };
                             gb.AddSoliderToGameBoard(sold, i, j);
@@ -137,7 +137,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
                         {
                             var sold = new SoliderModel
                             {
-                                IsOwnSolider = j == 1,
+                                IsOwnSolider = j == 0,
                                 Soldier = new Ellipse
                                 {
                                     MaxWidth = 75,
