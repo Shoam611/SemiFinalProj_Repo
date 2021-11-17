@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Linq;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -61,8 +62,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             //if active make regular;
             SoliderStack.Push(solider);
             solider.SetLocation(Location);
-            if(Location.Row == 1) UiStack.Children.Insert(0,solider.Soldier);
-           else  UiStack.Children.Add(solider.Soldier);
+            if (Location.Row == 1) try { UiStack.Children.Insert(0, solider.Soldier); } finally { }
+           else UiStack.Children.Add(solider.Soldier);
         }
 
         public SoliderModel Pop()
@@ -71,13 +72,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (SoliderStack.Count > 0)
             {
                 var solider = SoliderStack.Pop();
+                
                 UiStack.Children.Remove(solider.Soldier);
                 return solider;
             }
             else return null;
         }
 
-        internal bool HasMineSoliders() => SoliderStack.Peek().IsOwnSolider;
+        internal bool HasMineSoliders()
+        {
+            return SoliderStack.Any() ? SoliderStack.Peek().IsOwnSolider : false;
+        }
 
         public SoliderModel Peek() => SoliderStack.Peek();
 

@@ -50,7 +50,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch { Modal.ShowModal("Unknon error has accured"); }
         }
 
-        internal async Task UpdateTurnChanged()
+        internal async Task UpdateTurnChangedAsync()
         {
             var userId = (store.Get(CommonKeys.WithUser.ToString()) as User).Id;
             var url = $@"http://localhost:14795/Game?userId={userId}";

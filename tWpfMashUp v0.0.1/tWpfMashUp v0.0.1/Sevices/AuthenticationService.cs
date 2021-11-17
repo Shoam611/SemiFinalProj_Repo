@@ -14,7 +14,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class AuthenticationService
     {
         private readonly StoreService storeService;
-
+        //Shoam-siso-pc
         public event EventHandler LoggingIn;
 
         public AuthenticationService(StoreService storeService)

@@ -1,27 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
 {
-    
+
     internal delegate void ModalLoadedEventHandler(out string title, out string caption);
     internal delegate void ModalLoadedWithButtonsEventHandler(out string[] vals, out string title, out string caption);
 
 
     public partial class PopupWindow : Window
     {
-        internal event EventHandler ModalClosing;
         internal event ModalLoadedEventHandler ModalLoaded;
         internal event ModalLoadedWithButtonsEventHandler ModalLoadedWithButtons;
 

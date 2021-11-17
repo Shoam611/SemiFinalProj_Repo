@@ -28,7 +28,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public Canvas MaskingCanvas { get; set; }
         public List<int> TurnCounter { get; set; }
-        bool allowRoll;
         private IGameBoard gameBoard;
         RadioButton TurnIndicator;
         public GameViewModel(IGameBoard GameBoard,StoreService store)
