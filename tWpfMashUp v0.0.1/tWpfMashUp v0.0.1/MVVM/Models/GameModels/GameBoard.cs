@@ -8,6 +8,8 @@ using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System.Windows.Media;
+using System.Windows;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -15,12 +17,15 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
     public class GameBoard : IGameBoard
     {
+        int inHouseCount;
+        int totalSolidersCount;
         private List<MoveOption> options;
         private List<int> rollsValues;
         private StoreService store;
         private GameService gameService;
         private SignalRListenerService signalRListener;
         private TaskCompletionSource<SoliderModel> pickStackForSolider;
+        Grid takeOutGriid;
         public event TurnChangedEventHandler TurnChanged;
 
         public Grid GameGrid { get; private set; }
@@ -31,6 +36,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public int MatrixRowsCount { get => StacksMatrix.GetLength(1); }
 
         private bool isMyTurn;
+        private bool allowTakeOuts;
+
         public bool IsMyTurn
         {
             get => isMyTurn;
@@ -52,6 +59,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
             options = new List<MoveOption>();
             rollsValues = new List<int>();
+            inHouseCount = 0;
         }
 
         public void UpdateRollsResult(List<int> newVals)
@@ -94,12 +102,34 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                                     .BuildGameBoardDefenitions(12, 2)
                                     .FillGameboardMatrix()
                                     .PlaceSolidersInInitialState()
-                                    .BuildMatirxMovementAbility();
+                                    .BuildMatirxMovementAbility()
+                                    .BuildBoardoutStack();
+
+        private GameBoard BuildBoardoutStack()
+        {
+            takeOutGriid = new Grid { Background = new SolidColorBrush(Color.FromArgb(125, 250, 250, 250)) };
+            Grid.SetRowSpan(takeOutGriid, 3);
+            Grid.SetColumnSpan(takeOutGriid, 6);
+            Panel.SetZIndex(takeOutGriid, 3);
+            takeOutGriid.Height = Double.NaN; takeOutGriid.Width = Double.NaN;
+            GameGrid.Children.Add(takeOutGriid);
+            return this;
+        }
+        private void RemoveSolider(MoveOption opt)
+        {
+            takeOutGriid.Visibility = Visibility.Collapsed;
+            StacksMatrix[FocusedSolider.Location.Col, FocusedSolider.Location.Row].Pop();
+            rollsValues.Remove(opt.DicerollValue);
+            options.Remove(opt);
+            takeOutGriid.Visibility = Visibility.Visible;
+        }
 
         private GameBoard SetInitialVaulues(Grid grid)
         {
             IsMyTurn = store.Get(CommonKeys.IsMyTurn.ToString());
             GameGrid = grid;
+            inHouseCount = 5;
+            totalSolidersCount = 15;
             return this;
         }
 
@@ -137,7 +167,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 MarkAvailableMoves(rollsValues, FocusedSolider.Location);
                 foreach (var opt in options)
                 {
-                    StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(true);
+                    if (opt.Location.Col == 12)
+                    {
+                        takeOutGriid.Visibility = Visibility.Visible;
+                        takeOutGriid.MouseDown += (s, e) => { RemoveSolider(opt); };
+                    }
+                    else
+                        StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(true);
                 }
                 try
                 {
@@ -147,6 +183,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             }
             else { }
         }
+
 
         private async Task<SoliderModel> GetSelectionAsync()
         {
@@ -178,6 +215,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 foreach (var opt in options) StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
                 options.Clear();
             }
+
             else if (((StackModel)sender).IsOption)
             {
                 if (pickStackForSolider != null)
@@ -187,17 +225,21 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                         var newStack = (StackModel)sender;
                         FocusedStack.Pop();
                         newStack.Push(FocusedSolider);
-                        //start to unstable at prev version
                         newStack.MarkSoliderAsActive(false);
                         foreach (var opt in options) StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
-                        var toremove = options.FirstOrDefault(o => o.Location.Equals(newStack.Location));
-                        if (toremove != null) rollsValues.Remove(toremove.DicerollValue);
+
+                        var toRemove = options.FirstOrDefault(o => o.Location.Equals(newStack.Location));
+                        if (toRemove != null) rollsValues.Remove(toRemove.DicerollValue);
                         options.Clear();
-                        //end to unstable at prev version
+
+                        if (newStack.Location.Row == 1 && newStack.Location.Col >= 6) inHouseCount++;
+                        if (inHouseCount == totalSolidersCount) allowTakeOuts = true;
                         pickStackForSolider.TrySetResult(FocusedSolider);
                         pickStackForSolider = null;
+
                         var move = new Pair<MatrixLocation, MatrixLocation>(FocusedStack.Location, newStack.Location);
                         gameService.UpdateServerMove(move);
+
                         if (rollsValues.Count == 0 || !HasAvailableMoves())
                         {
                             IsMyTurn = false;
@@ -217,29 +259,28 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public void MarkAvailableMoves(List<int> rollRes, MatrixLocation selectedLocation)
         {
             options.Clear();
+
             foreach (var res in rollRes)
             {
-                if (selectedLocation.Row == 0)
+                if (allowTakeOuts)
                 {
-                    if (selectedLocation.Col >= res)
+                    if (selectedLocation.Row == 0) continue;
+                    if (selectedLocation.Col + res == MatrixColumnsCount)
                     {
-                        var op = selectedLocation.Col - res;
-                        if (StacksMatrix[op, 0].Count == 0 || StacksMatrix[op, 0].HasMineSoliders())
-                        {
-                            // StacksMatrix[op, 0].MarkStackAsOption(true);
-                            options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 0 }, DicerollValue = res });
-                            continue;
-                        }
+                        options.Add(new MoveOption { Location = new MatrixLocation { Col = 12, Row = 1 }, DicerollValue = res });
+                        continue;
                     }
-                    if (selectedLocation.Col < res)
+                    if (selectedLocation.Col + res > MatrixColumnsCount)
                     {
-                        var op = res - (selectedLocation.Col + 1);
-                        if (StacksMatrix[op, 1].Count == 0 || StacksMatrix[op, 1].HasMineSoliders())
+                        bool hasOneBefore = false;
+                        for (int i = 6; i < selectedLocation.Col; i++)
                         {
-                            //StacksMatrix[op, 1].MarkStackAsOption(true);
-                            options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 1 }, DicerollValue = res });
-                            continue;
+                            if (StacksMatrix[i, 1].HasMineSoliders())
+                            { hasOneBefore = true; break; }
                         }
+                        if (hasOneBefore) continue;
+                        options.Add(new MoveOption { Location = new MatrixLocation { Col = 12, Row = 1 }, DicerollValue = res });
+                        continue;
                     }
                 }
                 if (selectedLocation.Row == 1)
@@ -249,13 +290,34 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                         var op = res + selectedLocation.Col;
                         if (StacksMatrix[op, 1].Count == 0 || StacksMatrix[op, 1].HasMineSoliders())
                         {
-                            // StacksMatrix[op, 1].MarkStackAsOption(true);
+                            options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 1 }, DicerollValue = res });
+                            continue;
+                        }
+                    }
+                }
+                if (selectedLocation.Row == 0)
+                {
+                    if (selectedLocation.Col >= res)
+                    {
+                        var op = selectedLocation.Col - res;
+                        if (StacksMatrix[op, 0].Count == 0 || StacksMatrix[op, 0].HasMineSoliders())
+                        {
+                            options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 0 }, DicerollValue = res });
+                            continue;
+                        }
+                    }
+                    if (selectedLocation.Col < res)
+                    {
+                        var op = res - (selectedLocation.Col + 1);
+                        if (StacksMatrix[op, 1].Count == 0 || StacksMatrix[op, 1].HasMineSoliders())
+                        {
                             options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 1 }, DicerollValue = res });
                             continue;
                         }
                     }
                 }
             }
+
             if (options.Count == 0)
                 Modal.ShowModal("No Available moves for this one :( \n Cklickagain to deselect...");
         }

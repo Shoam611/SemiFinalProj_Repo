@@ -18,18 +18,20 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     {
         Dices dices;
         Button rollBtn;
-        public RelayCommand GoToChatCommand { get; set; }
-        public RelayCommand LoadedCommand { get; set; }
+        RadioButton TurnIndicator;
+        private StoreService store;
+        private IGameBoard gameBoard;
         public Grid Grid { get; set; }
         public Grid TopTabGrid { get; set; }
         public Grid GameGrid { get; set; }
-
-        private StoreService store;
-
         public Canvas MaskingCanvas { get; set; }
+        
+        public RelayCommand GoToChatCommand { get; set; }
+        public RelayCommand LoadedCommand { get; set; }
+
         public List<int> TurnCounter { get; set; }
-        private IGameBoard gameBoard;
-        RadioButton TurnIndicator;
+
+    
         public GameViewModel(IGameBoard GameBoard,StoreService store)
         {
             this.store = store;
