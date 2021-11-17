@@ -112,6 +112,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(10)
             };
+
             forfeitBtn.Click += ForfeitBtnClick;
 
             //allowRoll = (bool)store.Get(CommonKeys.IsMyTurn.ToString());
@@ -127,6 +128,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var mb = await Modal.ShowModal("Are you sure you want to forfeit the game?", "Forfeit", "Yes", "No");
             if (mb == "Yes")
             {
+                Grid.Clear();
                 gameService.CallServerToEndGame();
             }
         }
