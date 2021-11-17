@@ -142,7 +142,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
                                 {
                                     MaxWidth = 75,
                                     Stretch = Stretch.UniformToFill,
-                                    Fill = new SolidColorBrush(j == 1 ? Colors.White : Colors.Black)
+                                    Fill = new SolidColorBrush(j == 0 ? Colors.White : Colors.Black)
                                 }
                             };
                             gb.AddSoliderToGameBoard(sold, i, j);

@@ -130,16 +130,19 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
             if ((StackModel)sender == FocusedStack)
             {
-                pickStackForSolider = null;
+                pickStackForSolider.TrySetResult(FocusedSolider);
                 FocusedStack.MarkSoliderAsActive(false);
+                pickStackForSolider = null;
                 FocusedStack = null;
                 foreach (var opt in options) StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
                 options.Clear();
             }
             else if (pickStackForSolider != null &&
-                (((StackModel)sender).Count == 0 ||
-                    ((StackModel)sender).HasMineSoliders())
-               && ((StackModel)sender).IsOption
+                (
+                ((StackModel)sender).Count == 0 ||
+                ((StackModel)sender).HasMineSoliders()
+                ) &&
+               ((StackModel)sender).IsOption
                )
             {
                 var newStack = (StackModel)sender;
@@ -169,7 +172,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         {
             var solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
             StacksMatrix[e.Destenation.Col, e.Destenation.Row].Push(solider);
-            //IsMyTurn = true;
         }
 
         public void MarkAvailableMoves(List<int> rollRes, MatrixLocation selectedLocation)
@@ -191,7 +193,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     if (selectedLocation.Col < res)
                     {
                         var op = res - (selectedLocation.Col + 1);
-                        if (StacksMatrix[op, 0].Count == 0 || StacksMatrix[op, 0].HasMineSoliders())
+                        if (StacksMatrix[op, 1].Count == 0 || StacksMatrix[op, 1].HasMineSoliders())
                         {
                             StacksMatrix[op, 1].MarkStackAsOption(true);
                             options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 1 }, DicerollValue = res });
@@ -201,10 +203,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 }
                 if (selectedLocation.Row == 1)
                 {
-                    if (selectedLocation.Col + res <= MatrixColumnsCount)
+                    if (selectedLocation.Col + res < MatrixColumnsCount)
                     {
                         var op = res + selectedLocation.Col;
-                        if (StacksMatrix[op, 0].Count == 0 || StacksMatrix[op, 0].HasMineSoliders())
+                        if (StacksMatrix[op, 1].Count == 0 || StacksMatrix[op, 1].HasMineSoliders())
                         {
                             StacksMatrix[op, 1].MarkStackAsOption(true);
                             options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 1 }, DicerollValue = res });
