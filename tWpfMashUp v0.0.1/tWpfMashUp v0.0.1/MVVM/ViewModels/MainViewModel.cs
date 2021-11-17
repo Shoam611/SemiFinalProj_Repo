@@ -32,7 +32,15 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             View = new LoginView();
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
             this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
+            this.signalRListener.GameEnded += SignalRListener_GameEnded; ;
+
             //Modal = new UserControlTest();
+        }
+
+        private void SignalRListener_GameEnded(object sender, EventArgs e)
+        {
+            tWpfMashUp_v0._0._1.Assets.Components.CustomModal.Modal.ShowModal("Game Ended", "Game Ended");
+            SetViewTransition("Chat");
         }
 
         private void OnMouseDown(MouseButtonEventArgs e)

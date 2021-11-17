@@ -32,6 +32,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event GameStartingEventHandler GameStarting;
         public event OpponentPlayedEventHandler OpponentPlayed;
         public event EventHandler OpponentFinnishedPlay;
+        public event EventHandler GameEnded;
         #endregion
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
@@ -58,6 +59,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
             connection.On("PlayerFinnishedPlay", OnPlayerFinnishedPlay);
+            connection.On("GameEnded", OnPlayerForfeit);
 
             try
             {
@@ -65,9 +67,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
-
-       
-
 
         #region Connection
         private void OnConnected(string hubConnectionString)
@@ -182,6 +181,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             OpponentFinnishedPlay?.Invoke(this, new EventArgs());
         }
+
+        private void OnPlayerForfeit()
+        {
+            GameEnded?.Invoke(this, new EventArgs());
+        }
+
         #endregion
     }
 }

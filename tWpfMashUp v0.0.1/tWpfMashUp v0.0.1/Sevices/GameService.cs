@@ -64,5 +64,21 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch { Modal.ShowModal("Unknon error has accured"); }
         }
+
+        public async Task CallServerToEndGame()
+        {
+            var chatId = (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
+            var url = $@"http://localhost:14795/Game/Forfeit?chatId={chatId}";
+            try
+            {
+                using (HttpClient client = new())
+                {
+                    var res = await client.GetAsync(url);
+                    res.EnsureSuccessStatusCode();
+                }
+            }
+            catch { Modal.ShowModal("Unknon error has accured"); }
+
+        }
     }
 }
