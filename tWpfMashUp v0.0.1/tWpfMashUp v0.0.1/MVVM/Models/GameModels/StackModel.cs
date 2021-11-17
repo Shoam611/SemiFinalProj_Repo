@@ -9,6 +9,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
     public class StackModel
     {
+        private Brush tColor;
         public static bool HasFirstSelected;
         //a triangle in the background,
         public Polygon Triangle { get; set; }
@@ -22,7 +23,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public int Count { get => SoliderStack.Count; }
         public event EventHandler OnClicked;
         public event EventHandler OnSelected;
-
+        public bool IsOption { get;private set; }
         public StackModel(MatrixLocation location) => Location = location;
 
         public void Clear()
@@ -38,7 +39,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             Triangle.IsHitTestVisible = true;
             UiStack.MouseDown += OnMouseDown;
             Triangle.MouseDown += OnMouseDown;
-            //UiStack.SizeChanged += (s, e) =>{};
+            tColor = Triangle.Fill;
             return this;
         }
 
@@ -82,15 +83,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public void MarkSoliderAsActive(bool isActive)
         {
+            IsOption = isActive;
             var solider = SoliderStack.Peek();
             byte c = solider.IsOwnSolider ? (byte)255 : (byte)0;
             solider.Soldier.Fill = new SolidColorBrush(Color.FromArgb(isActive? (byte)125 : (byte)255, c, c, c));
         }
+       
         public void MarkStackAsOption(bool isOption)
         {
-            UiStack.IsHitTestVisible = isOption;
-            Triangle.IsHitTestVisible = isOption;
-            //change triangle bg
+            this.IsOption = isOption;
+            Triangle.Fill = isOption ? new SolidColorBrush(Colors.White) : tColor;
         }
 
     }

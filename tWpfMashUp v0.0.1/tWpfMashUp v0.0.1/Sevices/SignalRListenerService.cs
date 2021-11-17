@@ -31,6 +31,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event UserInvitedEventHandler UserInvitedToGame;
         public event GameStartingEventHandler GameStarting;
         public event OpponentPlayedEventHandler OpponentPlayed;
+        public event EventHandler OpponentFinnishedPlay;
         #endregion
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
@@ -56,6 +57,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<int>("GameDenied", OnGameDenied);
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
+            connection.On("PlayerFinnishedPlay", OnPlayerFinnishedPlay);
 
             try
             {
@@ -63,6 +65,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
+
+       
 
 
         #region Connection
@@ -174,7 +178,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 Destenation = new MatrixLocation { Row = obj.DestenationRow, Col = obj.DestenationCol }
             });
         }
-
+        private void OnPlayerFinnishedPlay()
+        {
+            OpponentFinnishedPlay?.Invoke(this, new EventArgs());
+        }
         #endregion
     }
 }

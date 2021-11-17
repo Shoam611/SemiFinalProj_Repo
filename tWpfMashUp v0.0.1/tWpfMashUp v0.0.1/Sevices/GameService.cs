@@ -1,5 +1,6 @@
 ﻿using Castle.Core;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -24,7 +25,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             var chatId = (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
             var userId = (store.Get(CommonKeys.LoggedUser.ToString()) as User).Id;
-            var actionUpdateobj = new ActionUpdateModel
+
+            var act = new ActionUpdateModel
             {
                 SourceRow = actionUpdate.First.Row,
                 SourceCol = actionUpdate.First.Col,
@@ -33,7 +35,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 ChatId = chatId,
                 UserId = userId
             };
-            string actionUpdateString = JsonConvert.SerializeObject(actionUpdateobj);
+            string actionUpdateString = JsonConvert.SerializeObject(act);
             Debug.WriteLine(actionUpdateString);
             var url = $@"http://localhost:14795/Game";
             try
@@ -42,6 +44,21 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 {
                     var content = new StringContent(actionUpdateString, Encoding.UTF8, "application/json");
                     var res = await client.PostAsync(url, content);
+                    res.EnsureSuccessStatusCode();
+                }
+            }
+            catch { Modal.ShowModal("Unknon error has accured"); }
+        }
+
+        internal async Task UpdateTurnChanged()
+        {
+            var userId = (store.Get(CommonKeys.WithUser.ToString()) as User).Id;
+            var url = $@"http://localhost:14795/Game?userId={userId}";
+            try
+            {
+                using (HttpClient client = new())
+                {
+                    var res = await client.GetAsync(url);
                     res.EnsureSuccessStatusCode();
                 }
             }

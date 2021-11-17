@@ -10,5 +10,6 @@ namespace signalRChatApiServer.Repositories.Infra
         void UpdateUser(User user);
         User Authenticate(string username, string password);
         bool IsUserExist(string username);
+        User GetUser(int userId);
     }
 }
