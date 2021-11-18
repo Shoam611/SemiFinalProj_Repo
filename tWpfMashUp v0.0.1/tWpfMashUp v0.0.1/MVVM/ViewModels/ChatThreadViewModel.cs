@@ -12,7 +12,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly MessagesService messagesService;
         private readonly StoreService storeService;
         private readonly SignalRListenerService listenerService;
-        // private readonly ChatsService chatService;
 
         private string currentContact;
         public string CurrentContact { get => currentContact; set { currentContact = value; onProppertyChange(); } }
@@ -28,7 +27,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ChatThreadViewModel(MessagesService messagesService, ChatsService chatService, StoreService storeService, SignalRListenerService listenerService)
         {
             CurrentContact = "";
-            // this.chatService = chatService;
             this.storeService = storeService;
             this.listenerService = listenerService;
             this.messagesService = messagesService;
@@ -40,8 +38,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.listenerService.ChatForUserRecived += OnCurrentContactChanged;
             this.listenerService.GameStarting += (s, e) => OnGameStarting();
         }
-
-
 
         private void OnGameStarting()
         {
@@ -69,7 +65,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void OnMessageRecived(object sender, MessageRecivedEventArgs eventArgs)
         {
-            if (!storeService.HasKey(CommonKeys.CurrentChat.ToString())) return; //data already in store for when i want it
+            if (!storeService.HasKey(CommonKeys.CurrentChat.ToString())) return;
             var currentChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;
             var currentChatId = currentChat.Id;
             if (eventArgs.ChatId == currentChatId)

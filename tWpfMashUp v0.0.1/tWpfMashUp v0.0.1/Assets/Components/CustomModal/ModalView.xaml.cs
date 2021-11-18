@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1
@@ -64,7 +64,6 @@ namespace tWpfMashUp_v0._0._1
             cnvs.MouseDown -= OnExit;
             ModalClosing?.Invoke(this, new EventArgs());
         }
-
 
         internal async Task<string> InitWithButtons(string caption, string title, string[] vals)
         {

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
-using tWpfMashUp_v0._0._1.MVVM.Models;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Sevices;
+using System.Collections.ObjectModel;
+using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -44,7 +44,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public ChatAppViewModel(StoreService store, ChatsService chatsService,
             AuthenticationService authenticationService, SignalRListenerService signalRListinerService, InvitesService gameService)
         {
-            this.storeService = store;
+            storeService = store;
             this.gameService = gameService;
             this.chatsService = chatsService;
             this.authenticationService = authenticationService;

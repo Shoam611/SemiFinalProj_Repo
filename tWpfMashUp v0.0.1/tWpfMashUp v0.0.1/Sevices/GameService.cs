@@ -17,7 +17,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public GameService(StoreService storeService, SignalRListenerService signalRListenerService)
         {
-            this.store = storeService;
+            store = storeService;
             this.signalRListenerService = signalRListenerService;
         }
         public async Task UpdateServerMove(Pair<MatrixLocation, MatrixLocation> actionUpdate)
@@ -34,6 +34,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 ChatId = chatId,
                 UserId = userId
             };
+
             string actionUpdateString = JsonConvert.SerializeObject(act);
             Debug.WriteLine(actionUpdateString);
             var url = $@"http://localhost:14795/Game";

@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Globalization;
+﻿using System;
 using System.Windows;
-using tWpfMashUp_v0._0._1.MVVM.Models;
+using System.Globalization;
 using tWpfMashUp_v0._0._1.Sevices;
+using tWpfMashUp_v0._0._1.MVVM.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace tWpfMashUp_v0._0._1.Assets.Converters
 {
@@ -18,15 +18,13 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
             {
                 return Application.Current.FindResource("BrightBrush");
             }
+
             else
             {
                 return Application.Current.FindResource("PrimeryBrush");
             }
         }
 
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

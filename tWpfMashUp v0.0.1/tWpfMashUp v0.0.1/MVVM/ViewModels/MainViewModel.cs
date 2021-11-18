@@ -2,15 +2,15 @@
 using System.Windows;
 using System.Windows.Input;
 using tWpfMashUp_v0._0._1.Core;
-using tWpfMashUp_v0._0._1.MVVM.Views;
 using tWpfMashUp_v0._0._1.Sevices;
+using tWpfMashUp_v0._0._1.MVVM.Views;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
-        private readonly AuthenticationService authenticationService;
         private readonly SignalRListenerService signalRListener;
+        private readonly AuthenticationService authenticationService;
         public RelayCommand MinimizeCommand { get; set; }
         public RelayCommand MaximizeCommand { get; set; }
         public RelayCommand CloseCommand { get; set; }
@@ -28,18 +28,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             CloseCommand = new RelayCommand(o => Application.Current.Shutdown());
             MouseDownCommand = new RelayCommand(o => OnMouseDown(o as MouseButtonEventArgs));
             this.authenticationService = authenticationService;
-            this.signalRListener = signalRListiner;
+            signalRListener = signalRListiner;
             View = new LoginView();
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
-            this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
-            this.signalRListener.GameEnded += SignalRListener_GameEnded; ;
-
-            //Modal = new UserControlTest();
+            signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
+            signalRListener.GameEnded += SignalRListener_GameEnded; ;
         }
 
         private void SignalRListener_GameEnded(object sender, EventArgs e)
         {
-            tWpfMashUp_v0._0._1.Assets.Components.CustomModal.Modal.ShowModal("Game Ended", "Game Ended");
+            Assets.Components.CustomModal.Modal.ShowModal("Game Ended", "Game Ended");
             SetViewTransition("Chat");
         }
 

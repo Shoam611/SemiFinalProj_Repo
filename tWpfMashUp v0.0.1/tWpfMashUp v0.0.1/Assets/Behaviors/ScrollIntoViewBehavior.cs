@@ -1,12 +1,11 @@
-﻿using Microsoft.Xaml.Behaviors;
+﻿using System.Windows.Controls;
+using Microsoft.Xaml.Behaviors;
 using System.Collections.Specialized;
-using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.Assets.Behaviors
 {
     public class ScrollIntoViewBehavior : Behavior<ListView>
     {
-
         protected override void OnAttached()
         {
             ListView listview = AssociatedObject;
@@ -26,7 +25,6 @@ namespace tWpfMashUp_v0._0._1.Assets.Behaviors
             {
                 listview.ScrollIntoView(e.NewItems[0]);
             }
-            //listview.ScrollIntoView(e.NewItems[0]);
         }
 
     }

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:tWpfMashUp_v0._0._1.Assets.Components.CustomModal"
         mc:Ignorable="d"
          ResizeMode="NoResize"
         WindowStyle="None"   
@@ -14,15 +13,18 @@
     <Grid Background="Transparent">
 
         <Border Background="{StaticResource PrimeryBrush}" CornerRadius="15"  ClipToBounds="True">
+            
             <Border.Clip>
                 <RectangleGeometry RadiusY="15" RadiusX="15" Rect="0,0,350,200" />
             </Border.Clip>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
+                
                 <Grid x:Name="TopGrid" Background="{StaticResource AccentBrush}" MouseDown="Grid_MouseDown">
                     <TextBlock x:Name="tbTitle" HorizontalAlignment="Left" Margin="15,0,0,0" 
                                VerticalAlignment="Center" FontSize="19" Foreground="White" TextWrapping="Wrap" 
@@ -34,7 +36,6 @@
 
                 <Grid Grid.Row="2"  Background="{StaticResource ComplimentaryBrush}"  VerticalAlignment="Stretch" 
                     HorizontalAlignment="Stretch" x:Name="Panel">
-
                 </Grid>
             </Grid>
         </Border>

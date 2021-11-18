@@ -20,18 +20,3 @@
     <SolidColorBrush x:Key="ActiveBrush" Color="{StaticResource Active}" />
 
 </ResourceDictionary>
-<!--
-    mains:
-    Color="#292b2f" - Primery
-    Color="#2f3136" - Accent
-    Color="#36393f" - Complimentary    
-    bright ? #39993e : #53535e
-    
-    from chat thread Color="#2f3139"
-    
-    from chat app
-    online/new message circle Color ="#3bff6f" - green/active
-    passive Color ="CornflowerBlue" - blue/passive
-    contatct active bg Color = "#252525" - Active
-    contatct passive bg Color ="#323b40" - Passive 
-    -->

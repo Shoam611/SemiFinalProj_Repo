@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-       xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:local="clr-namespace:tWpfMashUp_v0._0._1"
+       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" 
         ResizeMode="CanResizeWithGrip"
         Background="Transparent"
@@ -19,7 +18,7 @@
             <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!--<local:UserControlTest Panel.ZIndex="4" Content="{Binding Modal}" Grid.Row="1"/>-->
+        
         <ContentControl Panel.ZIndex="4" Content="{Binding Modal}" Grid.Row="1" />
        
         <Border Padding="3" Background="#252525" Panel.ZIndex="1">

@@ -9,8 +9,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
     public class LoginViewModel : ObservableObject
     {
         private readonly AuthenticationService authService;
-
-
         public RelayCommand SighUpCommand { get; set; }
         public RelayCommand AuthenticateCommand { get; set; }
         public RelayCommand PasswordChangedCommand { get; set; }
@@ -47,6 +45,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             }
         }
 
-        void HandlePasswordChanged(RoutedEventArgs args) => Password = (args.Source as PasswordBox).Password;
+        private void HandlePasswordChanged(RoutedEventArgs args) => Password = (args.Source as PasswordBox).Password;
     }
 }

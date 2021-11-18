@@ -1,17 +1,16 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class ChatsService
     {
         private readonly StoreService store;
-        //public event EventHandler CurrentChatChanged;
         public ChatsService(StoreService store) => this.store = store;
 
         public async Task<Chat> GetChatAsync(int userToId)
@@ -34,7 +33,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             if (chat == null)
             {
-                Modal.ShowModal("Cannot create Chat, Chat already exist ");
+                Modal.ShowModal("Cannot Create Chat, Chat Already Exists!");
                 return null;
             }
 
@@ -81,5 +80,4 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch { }
         }
     }
-
 }

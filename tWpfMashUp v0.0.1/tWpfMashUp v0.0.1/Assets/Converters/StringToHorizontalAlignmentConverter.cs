@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Globalization;
+﻿using System;
 using System.Windows;
-using tWpfMashUp_v0._0._1.MVVM.Models;
+using System.Globalization;
 using tWpfMashUp_v0._0._1.Sevices;
+using tWpfMashUp_v0._0._1.MVVM.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace tWpfMashUp_v0._0._1.Assets.Converters
 {
@@ -15,9 +15,6 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
             var user = (string)store.Get(CommonKeys.LoggedUser.ToString()).UserName;
             return (string)value == user ? HorizontalAlignment.Left : HorizontalAlignment.Right;
         }
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

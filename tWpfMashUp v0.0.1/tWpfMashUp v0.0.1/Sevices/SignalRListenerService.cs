@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using Microsoft.AspNetCore.SignalR.Client;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -36,7 +36,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public SignalRListenerService(StoreService store, MessagesService messagesService)
         {
-
             this.store = store;
             this.messagesService = messagesService;
             connection = new HubConnectionBuilder().WithUrl("http://localhost:14795/ChatHub").Build();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+
 namespace tWpfMashUp_v0._0._1.Core
 {
     public class RelayCommand : ICommand
@@ -13,6 +14,7 @@ namespace tWpfMashUp_v0._0._1.Core
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
+
         public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             this.canExecute = canExecute;
@@ -20,14 +22,8 @@ namespace tWpfMashUp_v0._0._1.Core
             IsEnabled = true;
         }
 
-        public void Execute(object parameter)
-        {
-            execute(parameter);
-        }
+        public void Execute(object parameter) => execute(parameter);
 
-        public bool CanExecute(object parameter)
-        {
-            return canExecute == null || canExecute(parameter);
-        }
+        public bool CanExecute(object parameter) => canExecute == null || canExecute(parameter);
     }
 }

@@ -8,7 +8,6 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
     internal delegate void ModalLoadedEventHandler(out string title, out string caption);
     internal delegate void ModalLoadedWithButtonsEventHandler(out string[] vals, out string title, out string caption);
 
-
     public partial class PopupWindow : Window
     {
         internal event ModalLoadedEventHandler ModalLoaded;
@@ -17,7 +16,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
         internal PopupWindow()
         {
             InitializeComponent();
-            this.Loaded += LoadedHandler;
+            Loaded += LoadedHandler;
         }
 
         private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
@@ -34,8 +33,8 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 tbTitle.Text = Title;
                 BuildBottomButtons(vals);
             }
-            else
-            if (ModalLoaded != null && ModalLoaded.GetInvocationList().Any())
+
+            else if (ModalLoaded != null && ModalLoaded.GetInvocationList().Any())
             {
                 string Title = " "; string Caption = " ";
                 ModalLoaded?.Invoke(out Title, out Caption);
@@ -43,7 +42,6 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 tbTitle.Text = Title;
                 BuildExitButton();
             }
-
         }
 
         private void BuildExitButton()
@@ -58,7 +56,6 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 Margin = new Thickness(0, 10, 10, 0),
                 Style = App.Current.FindResource("RoundButton") as Style
             };
-            btn.Click += btnSaveData_Click;
             TopGrid.Children.Add(btn);
         }
 
@@ -71,19 +68,11 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 {
                     Panel.ColumnDefinitions.Add(new ColumnDefinition());
                     Button btn = new Button { Content = val, Width = 50, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
-                    btn.Click += btnSaveData_Click;
                     Grid.SetColumn(btn, i);
                     Panel.Children.Add(btn);
                     i++;
                 }
             }
         }
-
-        private void btnSaveData_Click(object sender, RoutedEventArgs e)
-        {
-            //ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
-            //this.Close();
-        }
-
     }
 }

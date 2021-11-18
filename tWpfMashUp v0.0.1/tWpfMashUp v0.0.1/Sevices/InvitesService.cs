@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
 using System.Net.Http;
-using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
@@ -58,6 +58,5 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch { Modal.ShowModal("Failed to call server"); }
         }
-
     }
 }

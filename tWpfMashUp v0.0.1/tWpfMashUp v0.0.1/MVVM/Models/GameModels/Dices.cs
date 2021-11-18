@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 
@@ -15,7 +15,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public Dices(Grid panel)
         {
-            this.Grid = panel;
+            Grid = panel;
             Grid.ColumnDefinitions.Add(new ColumnDefinition());
             Grid.ColumnDefinitions.Add(new ColumnDefinition());
             Grid.ColumnDefinitions.Add(new ColumnDefinition());

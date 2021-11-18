@@ -1,36 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System.Windows;
 using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
+using System.Collections.Generic;
+using tWpfMashUp_v0._0._1.Sevices;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
-using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class GameViewModel
     {
-        Dices dices;
-        Button rollBtn;
-        Button forfeitBtn;
+        private Dices dices;
+        private Button rollBtn;
+        private Button forfeitBtn;
         public RelayCommand GoToChatCommand { get; set; }
         public RelayCommand LoadedCommand { get; set; }
         public Grid Grid { get; set; }
         public Grid TopTabGrid { get; set; }
         public Grid GameGrid { get; set; }
 
-        private StoreService store;
-        private GameService gameService;
+        private readonly StoreService store;
+        private readonly GameService gameService;
 
         public Canvas MaskingCanvas { get; set; }
         public List<int> TurnCounter { get; set; }
         private IGameBoard gameBoard;
-        RadioButton TurnIndicator;
+        private RadioButton TurnIndicator;
         public GameViewModel(IGameBoard GameBoard, StoreService store, GameService gameService)
         {
             this.store = store;
@@ -123,7 +123,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void ForfeitBtnClick(object sender, RoutedEventArgs e)
         {
-            var mb = await Modal.ShowModal("Are you sure you want to forfeit the game?", "Forfeit", "Yes", "No");
+            var mb = await Modal.ShowModal("Are You Sure You Want To Forfeit The Game?", "Forfeit", "No Way Out Of This", "I Can Still Win!");
             if (mb == "Yes")
             {
                 Grid.Clear();

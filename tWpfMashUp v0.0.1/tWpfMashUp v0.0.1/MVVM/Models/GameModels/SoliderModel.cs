@@ -10,7 +10,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public MatrixLocation Location { get; private set; }
 
-
         public SoliderModel()
         {
             Soldier = new Ellipse();

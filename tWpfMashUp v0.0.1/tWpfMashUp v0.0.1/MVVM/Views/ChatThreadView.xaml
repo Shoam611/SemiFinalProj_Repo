@@ -9,6 +9,7 @@
              xmlns:bhv="clr-namespace:tWpfMashUp_v0._0._1.Assets.Behaviors"
              DataContext="{Binding Source={StaticResource Locator},Path=ChatThread}"
              d:DesignHeight="450" d:DesignWidth="500">
+    
     <Grid Grid.Column="1" Background="{StaticResource PrimeryBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -33,7 +34,6 @@
                                RenderOptions.BitmapScalingMode="Fant"
                                Margin="5,0,5,0"
                                Source="/Assets/Icons/video-camera.png" />
-
                 </StackPanel>
             </Grid>
         </Border>

@@ -16,7 +16,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
         {
             this.storeService = storeService;
         }
-
         public async Task<bool> CallServerToAddMessage(string message)
         {
             var url = @"http://localhost:14795/Messages";

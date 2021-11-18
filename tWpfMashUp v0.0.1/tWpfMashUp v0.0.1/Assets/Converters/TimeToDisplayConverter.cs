@@ -10,7 +10,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
             // Get the time passed in
             var time = (DateTime)value;
 
-            // If it is today...
+            // If it is today
             if (time.Date == DateTime.UtcNow.Date)
                 // Return just time
                 return time.ToLocalTime().ToString("hh:mm tt");

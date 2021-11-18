@@ -7,9 +7,6 @@ namespace tWpfMashUp_v0._0._1.Core
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void onProppertyChange([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+        protected void onProppertyChange([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

@@ -1,19 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System;
 using System.Text;
+using System.Net.Http;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Extentions;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.Sevices
 {
     public class AuthenticationService
     {
         private readonly StoreService storeService;
-        //Shoam-siso-pc
         public event EventHandler LoggingIn;
 
         public AuthenticationService(StoreService storeService)
@@ -39,7 +38,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
                         {
                             Modal.ShowModal("User already exists!");
                             return false;
-                            //if returned false - user already exist;
                         }
                         return true;
                     }
@@ -116,5 +114,4 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch { Modal.ShowModal("Failed To Call Server"); }
         }
     }
-
 }
