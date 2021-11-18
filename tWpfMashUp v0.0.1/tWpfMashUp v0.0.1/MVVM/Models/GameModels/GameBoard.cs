@@ -290,7 +290,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
                         if (newStack.Location.Row == 1 && newStack.Location.Col >= 6 && FocusedStack.Location.Col<6 )
                             inHouseCount++;
-                        if (inHouseCount == TotalSolidersCount) allowTakeOuts = true;
+                  
                         pickStackForSolider.TrySetResult(FocusedSolider);
                         pickStackForSolider = null;
 
