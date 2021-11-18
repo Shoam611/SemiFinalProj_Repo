@@ -20,6 +20,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
     {
         int inHouseCount;
         int totalSolidersCount;
+        int TotalSolidersCount 
+        { 
+            get => totalSolidersCount;
+            set { totalSolidersCount = value;if (totalSolidersCount == 0) AnnounceAsWinner(); } 
+        }
+
+
+        private bool allowTakeOuts=>inHouseCount == TotalSolidersCount;
         private List<MoveOption> options;
         private List<int> rollsValues;
         private StoreService store;
@@ -37,7 +45,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public int MatrixRowsCount { get => StacksMatrix.GetLength(1); }
 
         private bool isMyTurn;
-        private bool allowTakeOuts;
 
         public bool IsMyTurn
         {
@@ -140,7 +147,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 options.Clear();
                 //remove from counting
                 inHouseCount--;
-                totalSolidersCount--;
+                TotalSolidersCount--;
                 //make turn continue // exception here
                 pickStackForSolider.TrySetResult(FocusedSolider);
                 pickStackForSolider = null;
@@ -161,7 +168,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             IsMyTurn = store.Get(CommonKeys.IsMyTurn.ToString());
             GameGrid = grid;
             inHouseCount = 5;
-            totalSolidersCount = 15;
+            TotalSolidersCount = 15;
             return this;
         }
 
@@ -283,7 +290,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
                         if (newStack.Location.Row == 1 && newStack.Location.Col >= 6 && FocusedStack.Location.Col<6 )
                             inHouseCount++;
-                        if (inHouseCount == totalSolidersCount) allowTakeOuts = true;
+                        if (inHouseCount == TotalSolidersCount) allowTakeOuts = true;
                         pickStackForSolider.TrySetResult(FocusedSolider);
                         pickStackForSolider = null;
 
@@ -371,6 +378,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
             if (options.Count == 0)
                 Modal.ShowModal("No Available moves for this one :( \n Cklickagain to deselect...");
+        }
+        
+        private void AnnounceAsWinner()
+        {
+            Modal.ShowModal("Winnerwinner chicken dinner", "Congrats");
+            gameService.AnnounceAsWinner();
         }
     }
 }

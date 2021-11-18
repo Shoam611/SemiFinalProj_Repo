@@ -21,6 +21,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             this.store = storeService;
             this.signalRListenerService = signalRListenerService;
         }
+
         public async Task UpdateServerMove(Pair<MatrixLocation, MatrixLocation> actionUpdate)
         {
             var chatId = (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
@@ -63,6 +64,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
             }
             catch { Modal.ShowModal("Unknon error has accured"); }
+        }
+
+        internal void AnnounceAsWinner()
+        {
+
         }
     }
 }

@@ -22,6 +22,7 @@ namespace signalRChatApiServer.Controllers
             this.chatReposatory = reposatory;
             this.chathub = chathub;
         }
+      
         [HttpPost]
         public async Task Post(ActionUpdateModel obj)
         {
@@ -31,13 +32,21 @@ namespace signalRChatApiServer.Controllers
             var user = chat.Users.First(u => u.Id != obj.UserId);
             await chathub.Clients.Client(user.HubConnectionString).SendAsync("OpponentPlayed", obj);
         }
+        
         [HttpGet]
         public async Task Get(int userId)
         {
             User user = usersReposatory.GetUser(userId);
            await chathub.Clients.Client(user.HubConnectionString).SendAsync("PlayerFinnishedPlay");
         }
-
+        [HttpGet]
+        [Route("announcevictory")]
+        public void AnnounceWinner(int userId,int chatId)
+        {
+            var chat = chatReposatory.GetChat(chatId);
+            var user = chat.Users.First(u => u.Id != userId);
+            chathub.Clients.Client(user.HubConnectionString).SendAsync("GameOver");
+        }
        
     }
 }

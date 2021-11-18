@@ -37,7 +37,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.store = store;
             gameBoard = GameBoard;
             InitGrids();
-            GameBoard.TurnChanged += OnTurnChanged;
+            this.gameBoard.TurnChanged += OnTurnChanged;
 
             MaskingCanvas = new Canvas { Background = new SolidColorBrush(Color.FromArgb(85, 10, 10, 10)) };
             Panel.SetZIndex(MaskingCanvas, 7);
