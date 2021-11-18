@@ -88,7 +88,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public void MarkSoliderAsActive(bool isActive)
         {
-            IsOption = isActive;
             var solider = SoliderStack.Peek();
             byte c = solider.IsOwnSolider ? (byte)255 : (byte)0;
             solider.Soldier.Fill = new SolidColorBrush(Color.FromArgb(isActive? (byte)125 : (byte)255, c, c, c));
