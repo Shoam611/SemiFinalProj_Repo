@@ -40,7 +40,7 @@ namespace signalRChatApiServer.Controllers
         }
 
         [HttpGet]
-        [Route("announcevictory")]
+        [Route("GameOver")]
         public void AnnounceWinner(int userId,int chatId)
         {
             var chat = chatRepository.GetChat(chatId);

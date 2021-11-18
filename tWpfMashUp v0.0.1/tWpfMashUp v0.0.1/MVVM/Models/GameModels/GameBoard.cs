@@ -384,7 +384,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         private void AnnounceAsWinner()
         {
             Modal.ShowModal("Winnerwinner chicken dinner", "Congrats");
-            gameService.AnnounceAsWinner();
+            gameService.AnnounceAsWinnerAsync();
         }
     }
 }
