@@ -10,6 +10,7 @@ using System.Linq;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Input;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -25,7 +26,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         private GameService gameService;
         private SignalRListenerService signalRListener;
         private TaskCompletionSource<SoliderModel> pickStackForSolider;
-        Grid takeOutGriid;
+        Grid takeOutGrid;
         public event TurnChangedEventHandler TurnChanged;
 
         public Grid GameGrid { get; private set; }
@@ -103,25 +104,56 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                                     .FillGameboardMatrix()
                                     .PlaceSolidersInInitialState()
                                     .BuildMatirxMovementAbility()
-                                    .BuildBoardoutStack();
+                                    .BuildBoardoutGrid();
 
-        private GameBoard BuildBoardoutStack()
+        private GameBoard BuildBoardoutGrid()
         {
-            takeOutGriid = new Grid { Background = new SolidColorBrush(Color.FromArgb(125, 250, 250, 250)) };
-            Grid.SetRowSpan(takeOutGriid, 3);
-            Grid.SetColumnSpan(takeOutGriid, 6);
-            Panel.SetZIndex(takeOutGriid, 3);
-            takeOutGriid.Height = Double.NaN; takeOutGriid.Width = Double.NaN;
-            GameGrid.Children.Add(takeOutGriid);
+            takeOutGrid = new Grid { Background = new SolidColorBrush(Color.FromArgb(125, 250, 250, 250)) };
+            Grid.SetRowSpan(takeOutGrid, 3);
+            Grid.SetColumnSpan(takeOutGrid, 6);
+            Panel.SetZIndex(takeOutGrid, 3);
+            takeOutGrid.Visibility = Visibility.Collapsed;
+            takeOutGrid.Height = Double.NaN; takeOutGrid.Width = Double.NaN;
+            GameGrid.Children.Add(takeOutGrid);
             return this;
         }
-        private void RemoveSolider(MoveOption opt)
+        private void RemoveSolider(MoveOption option)
         {
-            takeOutGriid.Visibility = Visibility.Collapsed;
-            StacksMatrix[FocusedSolider.Location.Col, FocusedSolider.Location.Row].Pop();
-            rollsValues.Remove(opt.DicerollValue);
-            options.Remove(opt);
-            takeOutGriid.Visibility = Visibility.Visible;
+            if (pickStackForSolider != null)
+            {
+
+                //take out of the view
+                FocusedStack.Pop();
+                //make grid disapear
+                foreach (var opt in options)
+                {
+                    if (opt.Location.Col == 12)
+                    {
+                        takeOutGrid.Visibility = Visibility.Collapsed;
+                        continue;
+                    }
+                    StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
+                }
+                //spend the dice roll move
+                rollsValues.Remove(option.DicerollValue);
+                //since move was made clear options, and deselect stack and solider;
+                options.Clear();
+                //remove from counting
+                inHouseCount--;
+                totalSolidersCount--;
+                //make turn continue // exception here
+                pickStackForSolider.TrySetResult(FocusedSolider);
+                pickStackForSolider = null;
+                //create a move update
+                var move = new Pair<MatrixLocation, MatrixLocation>(FocusedStack.Location, new MatrixLocation { Col = 12, Row = 1 });
+                gameService.UpdateServerMove(move);
+                if (rollsValues.Count == 0 || !HasAvailableMoves())
+                {
+                    IsMyTurn = false;
+                    //implented bug for testing
+                    gameService.UpdateTurnChangedAsync();
+                }
+            }
         }
 
         private GameBoard SetInitialVaulues(Grid grid)
@@ -169,8 +201,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 {
                     if (opt.Location.Col == 12)
                     {
-                        takeOutGriid.Visibility = Visibility.Visible;
-                        takeOutGriid.MouseDown += (s, e) => { RemoveSolider(opt); };
+                        takeOutGrid.Visibility = Visibility.Visible;
+                        MouseButtonEventHandler handler = (s, e) => { };
+                        handler = (s, e) => { RemoveSolider(opt); try { takeOutGrid.MouseDown -= handler; } finally { } };
+                        takeOutGrid.MouseDown += handler;
                     }
                     else
                         StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(true);
@@ -183,7 +217,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             }
             else { }
         }
-
 
         private async Task<SoliderModel> GetSelectionAsync()
         {
@@ -202,7 +235,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         private void Stack_OnSelected(object sender, EventArgs e)
         {
-
+            //De-selecting
             if ((StackModel)sender == FocusedStack)
             {
                 if (pickStackForSolider != null)
@@ -212,10 +245,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 }
                 FocusedStack.MarkSoliderAsActive(false);
                 FocusedStack = null;
-                foreach (var opt in options) StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
+                foreach (var opt in options)
+                {
+                    if (opt.Location.Col == 12)
+                    {
+                        takeOutGrid.Visibility = Visibility.Collapsed;
+                        continue;
+                    }
+                    StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
+                }
                 options.Clear();
             }
-
+            //Selecting
             else if (((StackModel)sender).IsOption)
             {
                 if (pickStackForSolider != null)
@@ -226,13 +267,22 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                         FocusedStack.Pop();
                         newStack.Push(FocusedSolider);
                         newStack.MarkSoliderAsActive(false);
-                        foreach (var opt in options) StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
+                        foreach (var opt in options)
+                        {
+                            if (opt.Location.Col == 12)
+                            {
+                                takeOutGrid.Visibility = Visibility.Collapsed;
+                                continue;
+                            }
+                            StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
+                        }
 
                         var toRemove = options.FirstOrDefault(o => o.Location.Equals(newStack.Location));
                         if (toRemove != null) rollsValues.Remove(toRemove.DicerollValue);
                         options.Clear();
 
-                        if (newStack.Location.Row == 1 && newStack.Location.Col >= 6) inHouseCount++;
+                        if (newStack.Location.Row == 1 && newStack.Location.Col >= 6 && FocusedStack.Location.Col<6 )
+                            inHouseCount++;
                         if (inHouseCount == totalSolidersCount) allowTakeOuts = true;
                         pickStackForSolider.TrySetResult(FocusedSolider);
                         pickStackForSolider = null;
@@ -253,7 +303,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         private void UpdateOpponentMove(object sender, OpponentPlayedEventArgs e)
         {
             var solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
-            StacksMatrix[e.Destenation.Col, e.Destenation.Row].Push(solider);
+            if (e.Destenation.Col < 12)
+                StacksMatrix[e.Destenation.Col, e.Destenation.Row].Push(solider);
         }
 
         public void MarkAvailableMoves(List<int> rollRes, MatrixLocation selectedLocation)
