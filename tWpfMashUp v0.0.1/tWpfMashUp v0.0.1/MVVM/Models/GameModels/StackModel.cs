@@ -58,7 +58,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public void Push(SoliderModel solider)
         {
-            //validate not empty or null
+            if (solider == null) return;
             //if active make regular;
             SoliderStack.Push(solider);
             solider.SetLocation(Location);

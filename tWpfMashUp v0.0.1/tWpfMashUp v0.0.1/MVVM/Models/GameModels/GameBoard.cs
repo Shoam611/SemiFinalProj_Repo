@@ -70,6 +70,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             inHouseCount = 0;
         }
 
+
         public void UpdateRollsResult(List<int> newVals)
         {
             rollsValues = newVals;
