@@ -16,8 +16,8 @@ namespace signalRChatApiServer.Controllers
     {
         private readonly IHubContext<ChatHub> chathub;
         readonly IMassegesReposatory repository;
-        readonly IChatsReposatory chatrepository;
-        public MessagesController(IMassegesReposatory repository, IHubContext<ChatHub> chathub, IChatsReposatory chatrepository)
+        readonly IChatsRepository chatrepository;
+        public MessagesController(IMassegesReposatory repository, IHubContext<ChatHub> chathub, IChatsRepository chatrepository)
         {
             this.chathub = chathub;
             this.chatrepository = chatrepository;

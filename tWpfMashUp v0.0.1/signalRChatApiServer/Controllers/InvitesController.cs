@@ -11,10 +11,10 @@ namespace signalRChatApiServer.Controllers
     [Route("[controller]")]
     public class InvitesController : Controller
     {
-        private IChatsReposatory reposatory;
+        private IChatsRepository reposatory;
         private IHubContext<ChatHub> chathub;
 
-        public InvitesController(IHubContext<ChatHub> chathub, IChatsReposatory reposatory)
+        public InvitesController(IHubContext<ChatHub> chathub, IChatsRepository reposatory)
         {
             this.reposatory = reposatory;
             this.chathub = chathub;

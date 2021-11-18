@@ -2,7 +2,7 @@
 
 namespace signalRChatApiServer.Repositories.Infra
 {
-    public interface IChatsReposatory
+    public interface IChatsRepository
     {
         int AddChat(Chat chat);
         Chat CreateChatWithUser(int userId, int toUser);

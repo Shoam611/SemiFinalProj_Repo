@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
+using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Repositories.Infra;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -13,30 +12,30 @@ namespace signalRChatApiServer.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
-        private IChatsReposatory chatReposatory;
-        private IUsersReposatory usersReposatory;
-        private IHubContext<ChatHub> chathub;
+        private IChatsRepository chatRepository;
+        private IUsersRepository usersRepository;
+        private IHubContext<ChatHub> chatHub;
 
-        public GameController(IChatsReposatory reposatory, IHubContext<ChatHub> chathub, IUsersReposatory usersReposatory)
+        public GameController(IChatsRepository chatRepository, IHubContext<ChatHub> chatHub, IUsersRepository usersRepository)
         {
-            this.usersReposatory = usersReposatory;
-            this.chatReposatory = reposatory;
-            this.chathub = chathub;
+            this.usersRepository = usersRepository;
+            this.chatRepository = chatRepository;
+            this.chatHub = chatHub;
         }
         [HttpPost]
         public async Task Post(ActionUpdateModel obj)
         {
-            var chat = chatReposatory.GetChat(obj.ChatId);
+            var chat = chatRepository.GetChat(obj.ChatId);
             obj.InverseRows();
             //send to other user
             var user = chat.Users.First(u => u.Id != obj.UserId);
-            await chathub.Clients.Client(user.HubConnectionString).SendAsync("OpponentPlayed", obj);
+            await chatHub.Clients.Client(user.HubConnectionString).SendAsync("OpponentPlayed", obj);
         }
         [HttpGet]
         public async Task Get(int userId)
         {
-            User user = usersReposatory.GetUser(userId);
-            await chathub.Clients.Client(user.HubConnectionString).SendAsync("PlayerFinnishedPlay");
+            User user = usersRepository.GetUser(userId);
+            await chatHub.Clients.Client(user.HubConnectionString).SendAsync("PlayerFinnishedPlay");
         }
         [HttpGet]
         [Route("announcevictory")]
@@ -52,10 +51,10 @@ namespace signalRChatApiServer.Controllers
         [Route("Forfeit")]
         public async Task Get(string chatId)
         {
-            Chat chat = chatReposatory.GetChat(int.Parse(chatId));
+            Chat chat = chatRepository.GetChat(int.Parse(chatId));
             foreach (var user in chat.Users)
             {
-                await chathub.Clients.Client(user.HubConnectionString).SendAsync("GameEnded");
+                await chatHub.Clients.Client(user.HubConnectionString).SendAsync("GameEnded");
             }
         }
     }

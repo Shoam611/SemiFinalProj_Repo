@@ -5,22 +5,17 @@ using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
-using System.Windows.Threading;
-using System;
-using System.Windows;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
-using System.Diagnostics;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ChatAppViewModel : ObservableObject
     {
         //Fields
-        private readonly StoreService storeService;
         private readonly SignalRListenerService signalRListinerService;
         private readonly AuthenticationService authenticationService;
-        private readonly ChatsService chatsService;
         private readonly InvitesService gameService;
+        private readonly StoreService storeService;
+        private readonly ChatsService chatsService;
 
         //Full Props
         private User loggedUser;
@@ -30,7 +25,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); } }
 
         private string displayedUser;
-        public string DisplayedUser { get { return displayedUser; } set { displayedUser = value; onProppertyChange(); } }
+        public string DisplayedUser { get => displayedUser; set { displayedUser = value; onProppertyChange(); } }
 
         private User selectedUser;
         public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); } }
@@ -108,7 +103,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         {
             await authenticationService.FetchAllLoggedUsers();
             App.Current.Dispatcher.Invoke(() => UpdateUsersList());
-
         }
 
         private void UpdateUsersList()
@@ -140,7 +134,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                       OnlineContacts.Add(user);
                       OfflineContacts.Remove(OfflineContacts.FirstOrDefault(u => u.Id == user.Id));
                   });
-
             }
         }
 
@@ -180,7 +173,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                         SelectedUser = user;
                     }
                 }
-                //storeService.InformContactChanged(selectionChangedEventArgs.Source, selectionChangedEventArgs);
             }
             catch { }
         }

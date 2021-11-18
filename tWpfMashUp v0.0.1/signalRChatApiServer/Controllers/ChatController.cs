@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
+using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Repositories.Infra;
 
 namespace signalRChatApiServer.Controllers
@@ -10,11 +10,11 @@ namespace signalRChatApiServer.Controllers
     [Route("[controller]")]
     public class ChatController : Controller
     {
-        private readonly IHubContext<ChatHub> chathub;
-        private readonly IChatsReposatory repository;
-        public ChatController(IChatsReposatory repository, IHubContext<ChatHub> chathub)
+        private readonly IHubContext<ChatHub> chatHub;
+        private readonly IChatsRepository repository;
+        public ChatController(IChatsRepository repository, IHubContext<ChatHub> chatHub)
         {
-            this.chathub = chathub;
+            this.chatHub = chatHub;
             this.repository = repository;
         }
 
@@ -30,7 +30,7 @@ namespace signalRChatApiServer.Controllers
             obj.ChatUsers = null;
 
             foreach (var contact in obj.Users)
-                chathub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", obj);
+                chatHub.Clients.Client(contact.HubConnectionString).SendAsync("ChatCreated", obj);
         }
 
         [HttpPost]

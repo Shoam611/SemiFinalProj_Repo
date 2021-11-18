@@ -1,5 +1,4 @@
-﻿using Castle.Core;
-using System;
+﻿using System;
 
 namespace signalRChatApiServer.Models
 {
