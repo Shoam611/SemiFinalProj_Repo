@@ -71,8 +71,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnGameOver()
         {
-            Modal.ShowModal("BetterLuck Next Time","GameOver!");
-            //navigate back;
+            Modal.ShowModal("Better Luck Next Time","GameOver!");
+            GameEnded?.Invoke(this, new EventArgs());
         }
 
 
