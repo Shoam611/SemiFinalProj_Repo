@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace signalRChatApiServer.Repositories.Infra
 {
-    public interface IUsersReposatory
+    public interface IUsersRepository
     {
         int AddUser(User user);
         List<User> GetAllUsers();

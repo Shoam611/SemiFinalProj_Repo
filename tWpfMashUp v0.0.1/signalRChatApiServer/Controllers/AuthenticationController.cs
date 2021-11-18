@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
-using signalRChatApiServer.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Repositories.Infra;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -15,15 +10,16 @@ namespace signalRChatApiServer.Controllers
     [Route("[controller]")]
     public class AuthenticationController : Controller
     {
-        private readonly IHubContext<ChatHub> chathub;
-        private readonly IUsersReposatory repository;
+        private readonly IHubContext<ChatHub> chatHub;
+        private readonly IUsersRepository repository;
 
-        public AuthenticationController(IUsersReposatory repository, IHubContext<ChatHub> chatHub)
+        public AuthenticationController(IUsersRepository repository, IHubContext<ChatHub> chatHub)
         {
-            this.chathub = chatHub;
+            this.chatHub = chatHub;
             this.repository = repository;
         }
-        //for login
+
+        //For login
         [HttpGet]
         public User Get(string username, string password, string hubstring)
         {
@@ -33,12 +29,13 @@ namespace signalRChatApiServer.Controllers
                 isauth.HubConnectionString = hubstring;
                 isauth.IsConnected = Status.Online;
                 repository.UpdateUser(isauth);
-                chathub.Clients.AllExcept(isauth.HubConnectionString).SendAsync("ContactLoggedIn", isauth);
+                chatHub.Clients.AllExcept(isauth.HubConnectionString).SendAsync("ContactLoggedIn", isauth);
                 return isauth;
             }
             return null;
         }
-        //for sighn up
+
+        //for sign up
         [HttpPost]
         public bool Post(User newUser)
         {

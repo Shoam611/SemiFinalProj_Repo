@@ -23,7 +23,7 @@ namespace signalRChatApiServer.Data
             modelBuilder.Entity<Chat>(b =>
             {
                 b.HasKey(e => e.Id);
-                b.Property(e => e.Id).UseIdentityColumn();//.ValueGeneratedOnAdd();
+                b.Property(e => e.Id).UseIdentityColumn();
             });
 
             modelBuilder.Entity<User>().HasData(
@@ -69,7 +69,6 @@ namespace signalRChatApiServer.Data
                                 );
                             }
                         );
-
         }
     }
 }

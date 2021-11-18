@@ -12,9 +12,9 @@ namespace signalRChatApiServer.Controllers
     public class UsersController : Controller
     {
         private IHubContext<ChatHub> chathub;
-        private IUsersReposatory repository;
+        private IUsersRepository repository;
 
-        public UsersController(IUsersReposatory repository, IHubContext<ChatHub> chatHub)
+        public UsersController(IUsersRepository repository, IHubContext<ChatHub> chatHub)
         {
             chathub = chatHub;
             this.repository = repository;

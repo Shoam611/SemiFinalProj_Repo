@@ -22,8 +22,8 @@ namespace signalRChatApiServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IChatsReposatory, ChatsReposatory>();
-            services.AddTransient<IUsersReposatory, UsersReposatory>();
+            services.AddTransient<IChatsRepository, ChatsReposatory>();
+            services.AddTransient<IUsersRepository, UsersReposatory>();
             services.AddTransient<IMassegesReposatory, MassegesReposatory>();
             string connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TalkBackChatContext>(options => options.UseSqlServer(connectionString));

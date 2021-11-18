@@ -7,7 +7,7 @@ using signalRChatApiServer.Repositories.Infra;
 
 namespace signalRChatApiServer.Repositories.Repos
 {
-    public class ChatsReposatory : IChatsReposatory
+    public class ChatsReposatory : IChatsRepository
     {
         private readonly TalkBackChatContext context;
 
