@@ -4,6 +4,9 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
 using System.Collections.Generic;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
+using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.Sevices;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models;
@@ -15,14 +18,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class GameViewModel
     {
-        private Dices dices;
-        private Button rollBtn;
-        private Button forfeitBtn;
-        public RelayCommand GoToChatCommand { get; set; }
-        public RelayCommand LoadedCommand { get; set; }
+        Dices dices;
+        Button rollBtn;
+        RadioButton TurnIndicator;
+        Button forfeitBtn;
+        private IGameBoard gameBoard;
         public Grid Grid { get; set; }
         public Grid TopTabGrid { get; set; }
         public Grid GameGrid { get; set; }
+        public Canvas MaskingCanvas { get; set; }
+        public RelayCommand GoToChatCommand { get; set; }
+        public RelayCommand LoadedCommand { get; set; }
 
         private readonly StoreService store;
         private readonly GameService gameService;
@@ -31,13 +37,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public List<int> TurnCounter { get; set; }
         private IGameBoard gameBoard;
         private RadioButton TurnIndicator;
+        private StoreService store;
+        private GameService gameService;
+        public List<int> TurnCounter { get; set; }
+        
         public GameViewModel(IGameBoard GameBoard, StoreService store, GameService gameService)
         {
             this.store = store;
             this.gameService = gameService;
             gameBoard = GameBoard;
             InitGrids();
-            GameBoard.TurnChanged += OnTurnChanged;
+            this.gameBoard.TurnChanged += OnTurnChanged;
 
             MaskingCanvas = new Canvas { Background = new SolidColorBrush(Color.FromArgb(85, 10, 10, 10)) };
             Panel.SetZIndex(MaskingCanvas, 7);

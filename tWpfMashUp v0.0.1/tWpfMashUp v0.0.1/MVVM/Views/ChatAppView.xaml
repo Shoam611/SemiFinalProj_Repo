@@ -35,8 +35,20 @@
                         VerticalAlignment="Center" FontWeight="Medium" Width="70" HorizontalAlignment="Left"
                         Foreground="Gray" Margin="8,0,0,0" 
                         Grid.ColumnSpan="2"/>
-            <Button Width="80" HorizontalAlignment="Left" Height="20" Content="Invite to game"
+
+            <ComboBox Grid.Column="1" >
+                <Button Width="80" HorizontalAlignment="Left" Height="20" Content="Invite to game"
                         Style="{StaticResource RoundButton}" Command="{Binding OnInviteToGameCommand}" Grid.Column="1" Margin="5,20,0,20" />
+
+                <Button Width="80" HorizontalAlignment="Left" Height="20" Content="Log out"
+                        Style="{StaticResource RoundButton}" Command="{Binding OnLogOutCommand}" Grid.Column="2" Margin="5,20,0,20" />
+                
+                <Button Width="80" HorizontalAlignment="Left" Height="20" Content="How to Play"
+                        Style="{StaticResource RoundButton}" Command="{Binding OnInformationCommand}" Grid.Column="2" Margin="5,20,0,20" />
+
+                <Button Width="80" HorizontalAlignment="Left" Height="20" Content="About"
+                        Style="{StaticResource RoundButton}" Command="{Binding OnAboutCommand}" Grid.Column="2" Margin="5,20,0,20" />
+            </ComboBox>
 
             <Border VerticalAlignment="Bottom" BorderBrush="{StaticResource PrimeryBrush}" BorderThickness="4" Grid.ColumnSpan="2"/>
 

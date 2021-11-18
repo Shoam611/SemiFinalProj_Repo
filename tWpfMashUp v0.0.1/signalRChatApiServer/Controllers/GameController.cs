@@ -22,7 +22,6 @@ namespace signalRChatApiServer.Controllers
             this.chatRepository = chatRepository;
             this.chatHub = chatHub;
         }
-
         [HttpPost]
         public async Task Post(ActionUpdateModel obj)
         {
@@ -38,6 +37,15 @@ namespace signalRChatApiServer.Controllers
         {
             User user = usersRepository.GetUser(userId);
             await chatHub.Clients.Client(user.HubConnectionString).SendAsync("PlayerFinnishedPlay");
+        }
+
+        [HttpGet]
+        [Route("GameOver")]
+        public void AnnounceWinner(int userId,int chatId)
+        {
+            var chat = chatRepository.GetChat(chatId);
+            var user = chat.Users.First(u => u.Id != userId);
+            chatHub.Clients.Client(user.HubConnectionString).SendAsync("GameOver");
         }
 
         [HttpGet]

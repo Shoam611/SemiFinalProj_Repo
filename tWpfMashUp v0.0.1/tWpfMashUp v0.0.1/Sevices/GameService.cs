@@ -20,6 +20,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             store = storeService;
             this.signalRListenerService = signalRListenerService;
         }
+
         public async Task UpdateServerMove(Pair<MatrixLocation, MatrixLocation> actionUpdate)
         {
             var chatId = (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
@@ -63,6 +64,24 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
             }
             catch { Modal.ShowModal("Unknon error has accured"); }
+        }
+
+        internal async Task AnnounceAsWinnerAsync()
+        {
+            Modal.ShowModal("you are the winner. well done","Game Over!");
+            var chatId = (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
+            var userId = (store.Get(CommonKeys.LoggedUser.ToString()) as User).Id;
+            var url = $@"http://localhost:14795/Game/GameOver?userId={userId}&chatId={chatId}";
+            try
+            {
+                using (HttpClient client = new())
+                {
+                    var res = await client.GetAsync(url);
+                    res.EnsureSuccessStatusCode();
+                }
+            }
+            catch { Modal.ShowModal("Unknon error has accured"); }
+            finally { CallServerToEndGame(); }
         }
 
         public async Task CallServerToEndGame()

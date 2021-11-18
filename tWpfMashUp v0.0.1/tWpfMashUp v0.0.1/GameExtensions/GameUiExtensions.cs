@@ -80,6 +80,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
             VerticalAlignment = j < 1 ? VerticalAlignment.Top : VerticalAlignment.Bottom,
             IsHitTestVisible = false
         };
+
         public static Border BuildElipses(this Border border, int number)
         {
             var grid = new Grid();

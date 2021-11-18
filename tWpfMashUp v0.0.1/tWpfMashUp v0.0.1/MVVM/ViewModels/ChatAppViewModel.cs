@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -36,6 +37,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         //Commands
         public RelayCommand OnSelectionChangedCommand { get; set; }
         public RelayCommand OnInviteToGameCommand { get; set; }
+        public RelayCommand OnLogOutCommand { get; set; }
+        public RelayCommand OnInformationCommand { get; set; }
+        public RelayCommand OnAboutCommand { get; set; }
 
         //Ui Collections
         public ObservableCollection<User> OnlineContacts { get; set; }
@@ -54,10 +58,23 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
             OnInviteToGameCommand = new RelayCommand((o) => InviteToGame());
+            //OnLogOutCommand = new RelayCommand((o) => LogOut());
+            OnInformationCommand = new RelayCommand((o) => ShowInformation());
+            OnAboutCommand = new RelayCommand((o) => AboutTheDevs());
 
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
             this.signalRListinerService.MessageRecived += OnMassageRecived;
+        }
+
+        private void ShowInformation()
+        {
+            Modal.ShowModal("Please visit\nhttps://www.bkgm.com/rules.html", "How to Play?");
+        }
+
+        private void AboutTheDevs()
+        {
+            Modal.ShowModal("This software brought to you by\nLiad Dadon and Shoham Siso.\n1.0v", "About");
         }
 
         private async void InviteToGame() => await gameService.CallServerForOtherUserInvite();

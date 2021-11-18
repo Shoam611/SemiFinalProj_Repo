@@ -37,7 +37,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void SignalRListener_GameEnded(object sender, EventArgs e)
         {
-            Assets.Components.CustomModal.Modal.ShowModal("Game Ended", "Game Ended");
             SetViewTransition("Chat");
         }
 

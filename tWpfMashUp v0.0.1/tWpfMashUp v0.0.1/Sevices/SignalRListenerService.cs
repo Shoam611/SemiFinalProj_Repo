@@ -57,6 +57,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
             connection.On("PlayerFinnishedPlay", OnPlayerFinnishedPlay);
+            connection.On("GameOver", OnGameOver);
             connection.On("GameEnded", OnPlayerForfeit);
 
             try
@@ -65,6 +66,15 @@ namespace tWpfMashUp_v0._0._1.Sevices
             }
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
+
+        private void OnGameOver()
+        {
+            Modal.ShowModal("Better Luck Next Time","GameOver!");
+            GameEnded?.Invoke(this, new EventArgs());
+        }
+
+
+
 
         #region Connection
         private void OnConnected(string hubConnectionString)
