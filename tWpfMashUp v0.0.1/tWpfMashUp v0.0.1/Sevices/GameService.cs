@@ -68,9 +68,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         internal async Task AnnounceAsWinnerAsync()
         {
+            Modal.ShowModal("you are the winner. well done","Game Over!");
             var chatId = (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
             var userId = (store.Get(CommonKeys.LoggedUser.ToString()) as User).Id;
-            var url = $@"http://localhost:14795/Game/GameOver?userId={userId}chatId={chatId}";
+            var url = $@"http://localhost:14795/Game/GameOver?userId={userId}&chatId={chatId}";
             try
             {
                 using (HttpClient client = new())
@@ -80,6 +81,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
                 }
             }
             catch { Modal.ShowModal("Unknon error has accured"); }
+            finally { CallServerToEndGame(); }
         }
 
         public async Task CallServerToEndGame()

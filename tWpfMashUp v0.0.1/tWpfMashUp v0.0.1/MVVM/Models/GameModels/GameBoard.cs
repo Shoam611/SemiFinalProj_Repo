@@ -77,7 +77,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             options.Clear();
             if (!HasAvailableMoves())
             {
-                Modal.ShowModal("You have no available moves, :(");
+                Modal.ShowModal($"It seems like you have no available moves \n for {rollsValues[0]} {rollsValues[1]}","Bad luck");
                 rollsValues.Clear();
                 gameService.UpdateTurnChangedAsync();
                 isMyTurn = false;
@@ -154,6 +154,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 pickStackForSolider = null;
                 //create a move update
                 var move = new Pair<MatrixLocation, MatrixLocation>(FocusedStack.Location, new MatrixLocation { Col = 12, Row = 1 });
+                if (totalSolidersCount == 0)
+                {
+                    gameService.AnnounceAsWinnerAsync();
+                }
                 gameService.UpdateServerMove(move);
                 if (rollsValues.Count == 0 || !HasAvailableMoves())
                 {
@@ -251,8 +255,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     pickStackForSolider.TrySetResult(FocusedSolider);
                     pickStackForSolider = null;
                 }
-                FocusedStack.MarkSoliderAsActive(false);
-                FocusedStack = null;
+                try { FocusedStack.MarkSoliderAsActive(false); } finally { FocusedStack = null; }
+                
                 foreach (var opt in options)
                 {
                     if (opt.Location.Col == 12)
@@ -271,10 +275,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 {
                     if (((StackModel)sender).Count == 0 || ((StackModel)sender).HasMineSoliders())
                     {
+                        FocusedStack.MarkSoliderAsActive(false);
                         var newStack = (StackModel)sender;
                         FocusedStack.Pop();
                         newStack.Push(FocusedSolider);
-                        newStack.MarkSoliderAsActive(false);
                         foreach (var opt in options)
                         {
                             if (opt.Location.Col == 12)
@@ -378,7 +382,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             }
 
             if (options.Count == 0)
-                Modal.ShowModal("No Available moves for this one :( \n Cklickagain to deselect...");
+            {
+                StackModel.HasFirstSelected = false;
+             //   Modal.ShowModal("No Available moves for this one :( \n Cklickagain to deselect...");
+                if (FocusedStack != null && FocusedStack.HasMineSoliders())
+                FocusedStack.MarkSoliderAsActive(false);
+                if(pickStackForSolider != null)
+                {
+                pickStackForSolider.TrySetResult(FocusedSolider);
+                pickStackForSolider = null;
+                }
+                FocusedStack = null; FocusedSolider = null;
+            }
         }
         
         private void AnnounceAsWinner()

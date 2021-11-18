@@ -47,7 +47,6 @@ namespace signalRChatApiServer.Controllers
             var user = chat.Users.First(u => u.Id != userId);
             chatHub.Clients.Client(user.HubConnectionString).SendAsync("GameOver");
         }
-       
 
         [HttpGet]
         [Route("Forfeit")]
