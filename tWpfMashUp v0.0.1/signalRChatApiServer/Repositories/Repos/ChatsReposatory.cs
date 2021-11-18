@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using signalRChatApiServer.Data;
 using System.Collections.Generic;
 using signalRChatApiServer.Models;
@@ -27,7 +26,8 @@ namespace signalRChatApiServer.Repositories.Repos
                     }).FirstOrDefault();
         }
 
-        public int AddChat(Chat chat) //when openning a room
+        //when openning a room
+        public int AddChat(Chat chat) 
         {
             if (chat == null || chat.Users.Contains(null)) return 0;
             var e = context.Chats.Add(chat);

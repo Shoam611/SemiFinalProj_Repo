@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using tWpfMashUp_v0._0._1.MVVM.ViewModels;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
 {
@@ -15,8 +13,8 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             var loc = App.Current.Resources["Locator"] as ViewModelLocator;
             loc.Main.Modal = view;
             view.ModalClosing += (s, e) => loc.Main.Modal = null;
-            view.Init(caption,title);
-          
+            view.Init(caption, title);
+
         }
         //caption title and two buttons
         public async static Task<string> ShowModal(string caption, string title, string Button1, string Button2)
@@ -24,7 +22,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             var view = new ModalView();
             var loc = App.Current.Resources["Locator"] as ViewModelLocator;
             loc.Main.Modal = view;
-           value =  await view.InitWithButtons(caption,title,new string[] { Button1, Button2 });
+            value = await view.InitWithButtons(caption, title, new string[] { Button1, Button2 });
             loc.Main.Modal = null;
             return value;
         }
@@ -32,7 +30,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
         public static string ShowModal(string caption, string title, string Button1, string Button2, string Button3)
         {
             PopupWindow popupWindow = new PopupWindow();
-           /* popupWindow.ModalClosing += OnClosingHandler;*/ // fetch back data
+            /* popupWindow.ModalClosing += OnClosingHandler;*/ // fetch back data
             popupWindow.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
             {
                 Caption = caption;

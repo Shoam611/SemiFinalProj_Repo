@@ -44,7 +44,7 @@ namespace signalRChatApiServer.Controllers
                     var temp = 0;
                     foreach (var user in chat.Users)
                     {
-                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat.Id,temp==rnd);
+                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat.Id, temp == rnd);
                         temp++;
                     }
                     chat.InviteStatus = InviteStatus.Empty;
@@ -64,8 +64,9 @@ namespace signalRChatApiServer.Controllers
                 {
                     try
                     {
-                    chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", chat.Id);
-                    }catch { }
+                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", chat.Id);
+                    }
+                    catch { }
                 }
             }
         }

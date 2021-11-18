@@ -1,13 +1,13 @@
-﻿using System;
-using Castle.Core;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using tWpfMashUp_v0._0._1.Sevices;
-using tWpfMashUp_v0._0._1.Extensions;
-using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
+﻿using Castle.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using tWpfMashUp_v0._0._1.Extensions;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -15,18 +15,19 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
     public class GameBoard : IGameBoard
     {
-        private List<MoveOption> options;
-        private List<int> rollsValues;
-        private StoreService store;
-        private GameService gameService;
-        private SignalRListenerService signalRListener;
-        private TaskCompletionSource<SoliderModel> pickStackForSolider;
         public event TurnChangedEventHandler TurnChanged;
 
+        private TaskCompletionSource<SoliderModel> pickStackForSolider;
+        private readonly SignalRListenerService signalRListener;
+        private readonly List<MoveOption> options;
+        private readonly GameService gameService;
+        private readonly StoreService store;
+        private List<int> rollsValues;
+
         public Grid GameGrid { get; private set; }
-        public SoliderModel FocusedSolider { get; set; }
         public StackModel FocusedStack { get; set; }
         public StackModel[,] StacksMatrix { get; set; }
+        public SoliderModel FocusedSolider { get; set; }
         public int MatrixColumnsCount { get => StacksMatrix.GetLength(0); }
         public int MatrixRowsCount { get => StacksMatrix.GetLength(1); }
 
@@ -40,7 +41,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 TurnChanged?.Invoke(value);
             }
         }
-
 
         public GameBoard(SignalRListenerService signalRListener, GameService gameService, StoreService store)
         {
@@ -86,7 +86,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 }
             }
             return false;
-
         }
 
         public GameBoard Build(Grid gameGrid) =>

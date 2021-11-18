@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 

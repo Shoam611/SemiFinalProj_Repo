@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Windows.Shapes;
-using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Linq;
+using System.Windows.Shapes;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -12,19 +12,23 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
     {
         private Brush tColor;
         public static bool HasFirstSelected;
+
         //a triangle in the background,
         public Polygon Triangle { get; set; }
+
         // a stackpanel in foreground
         public StackPanel UiStack { get; set; }
+
         // a stack for data(no ui connection)
         public Stack<SoliderModel> SoliderStack { get; private set; }
+
         //a grid matrix location indicator
         public MatrixLocation Location { get; set; }
 
         public int Count { get => SoliderStack.Count; }
         public event EventHandler OnClicked;
         public event EventHandler OnSelected;
-        public bool IsOption { get;private set; }
+        public bool IsOption { get; private set; }
         public StackModel(MatrixLocation location) => Location = location;
 
         public void Clear()
@@ -52,18 +56,19 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             }
             else
             {
-                OnClicked?.Invoke(this, new EventArgs());/* HasFirstSelected = true;*/
+                OnClicked?.Invoke(this, new EventArgs());
             }
         }
 
         public void Push(SoliderModel solider)
         {
             if (solider == null) return;
+
             //if active make regular;
             SoliderStack.Push(solider);
             solider.SetLocation(Location);
             if (Location.Row == 1) try { UiStack.Children.Insert(0, solider.Soldier); } finally { }
-           else UiStack.Children.Add(solider.Soldier);
+            else UiStack.Children.Add(solider.Soldier);
         }
 
         public SoliderModel Pop()
@@ -72,17 +77,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (SoliderStack.Count > 0)
             {
                 var solider = SoliderStack.Pop();
-                
+
                 UiStack.Children.Remove(solider.Soldier);
                 return solider;
             }
             else return null;
         }
 
-        internal bool HasMineSoliders()
-        {
-            return SoliderStack.Any() ? SoliderStack.Peek().IsOwnSolider : false;
-        }
+        internal bool HasMineSoliders() => SoliderStack.Any() ? SoliderStack.Peek().IsOwnSolider : false;
 
         public SoliderModel Peek() => SoliderStack.Peek();
 
@@ -91,9 +93,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             IsOption = isActive;
             var solider = SoliderStack.Peek();
             byte c = solider.IsOwnSolider ? (byte)255 : (byte)0;
-            solider.Soldier.Fill = new SolidColorBrush(Color.FromArgb(isActive? (byte)125 : (byte)255, c, c, c));
+            solider.Soldier.Fill = new SolidColorBrush(Color.FromArgb(isActive ? (byte)125 : (byte)255, c, c, c));
         }
-       
+
         public void MarkStackAsOption(bool isOption)
         {
             this.IsOption = isOption;

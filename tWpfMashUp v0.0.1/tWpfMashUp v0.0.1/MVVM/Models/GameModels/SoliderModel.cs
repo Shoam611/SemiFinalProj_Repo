@@ -9,7 +9,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public bool IsOwnSolider { get; set; }
 
         public MatrixLocation Location { get; private set; }
-        
+
 
         public SoliderModel()
         {

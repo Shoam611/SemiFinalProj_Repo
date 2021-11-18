@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using signalRChatApiServer.Models;
-using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace signalRChatApiServer.Data
 {

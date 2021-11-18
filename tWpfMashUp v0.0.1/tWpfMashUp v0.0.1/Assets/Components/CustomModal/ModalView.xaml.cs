@@ -12,7 +12,7 @@ namespace tWpfMashUp_v0._0._1
         internal event EventHandler ModalClosing;
         private TaskCompletionSource<string> pickButton;
         private string selection;
-       
+
         public ModalView()
         {
             InitializeComponent();
@@ -68,9 +68,9 @@ namespace tWpfMashUp_v0._0._1
 
         internal async Task<string> InitWithButtons(string caption, string title, string[] vals)
         {
-            
+
             tbCaption.Text = caption;
-            tbTitle.Text= title;
+            tbTitle.Text = title;
             BuildBottomButtons(vals);
             try
             {

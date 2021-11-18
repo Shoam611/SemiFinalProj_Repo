@@ -1,9 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace tWpfMashUp_v0._0._1.Extensions
 {

@@ -6,7 +6,7 @@ namespace tWpfMashUp_v0._0._1.Core
     {
         private readonly Action<object> execute;
         private readonly Func<object, bool> canExecute;
-        public bool IsEnabled{ get; set; }
+        public bool IsEnabled { get; set; }
 
         public event EventHandler CanExecuteChanged
         {
@@ -17,7 +17,7 @@ namespace tWpfMashUp_v0._0._1.Core
         {
             this.canExecute = canExecute;
             this.execute = execute;
-            IsEnabled =true;
+            IsEnabled = true;
         }
 
         public void Execute(object parameter)

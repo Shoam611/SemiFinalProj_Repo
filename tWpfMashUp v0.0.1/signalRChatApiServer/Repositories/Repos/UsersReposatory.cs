@@ -13,9 +13,12 @@ namespace signalRChatApiServer.Repositories.Repos
         {
             this.context = context;
         }
-        public User GetUser(int id) => context.Users.Find(id);// when sighning in /authenticating
 
-        public List<User> GetAllUsers() => context.Users.ToList();//when fetching
+        // when signing in / authenticating
+        public User GetUser(int id) => context.Users.Find(id);
+
+        //when fetching
+        public List<User> GetAllUsers() => context.Users.ToList();
 
         public User Authenticate(string username, string password) => (from user in context.Users
                                                                        where user.UserName == username && password == user.Password
@@ -38,7 +41,5 @@ namespace signalRChatApiServer.Repositories.Repos
             tempUser.HubConnectionString = user.HubConnectionString;
             context.SaveChanges();
         }
-
-
     }
 }

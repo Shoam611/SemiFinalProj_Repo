@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
@@ -101,7 +100,7 @@ namespace tWpfMashUp_v0._0._1.Extensions
                         {
                             var sold = new SoliderModel
                             {
-                                IsOwnSolider = j ==1 ,
+                                IsOwnSolider = j == 1,
                                 Soldier = new Ellipse
                                 {
                                     Stretch = Stretch.UniformToFill,

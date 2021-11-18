@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows;
-using tWpfMashUp_v0._0._1.Sevices;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using tWpfMashUp_v0._0._1.MVVM.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System;
+using System.Windows;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
+using tWpfMashUp_v0._0._1.MVVM.ViewModels;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1
 {
@@ -28,17 +27,17 @@ namespace tWpfMashUp_v0._0._1
         private void ConfigServices(HostBuilderContext context, IServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
-            
+
             services.AddScoped<MainViewModel>();
             services.AddScoped<LoginViewModel>();
             services.AddScoped<ChatAppViewModel>();
             services.AddScoped<ChatThreadViewModel>();
-            
+
             services.AddTransient<GameViewModel>();
-            
+
             services.AddSingleton<StoreService>();
             services.AddSingleton<GameService>();
-            
+
             services.AddScoped<AuthenticationService>();
             services.AddScoped<SignalRListenerService>();
 
@@ -46,13 +45,13 @@ namespace tWpfMashUp_v0._0._1
             services.AddTransient<MessagesService>();
             services.AddTransient<ChatsService>();
             services.AddTransient<InvitesService>();
-            services.AddTransient<IGameBoard,GameBoard> ();
+            services.AddTransient<IGameBoard, GameBoard>();
         }
         private static void Start(IServiceProvider services)
         {
             ServiceProvider = services;
             ServiceProvider.GetService<MainWindow>().Show();
-        }        
+        }
         protected async override void OnExit(ExitEventArgs e)
         {
             using (host) await host.StopAsync(TimeSpan.FromSeconds(2));

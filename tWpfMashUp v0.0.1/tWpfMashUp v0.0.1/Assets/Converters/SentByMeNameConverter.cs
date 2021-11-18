@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Globalization;
-using System.Windows;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Sevices;
 

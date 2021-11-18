@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using Castle.Core;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
 using System.Collections.Generic;
-using tWpfMashUp_v0._0._1.MVVM.Models;
-using Microsoft.AspNetCore.SignalR.Client;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 
 namespace tWpfMashUp_v0._0._1.Sevices
@@ -54,7 +53,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<Message>("MassageRecived", OnMassageRecived);
 
             connection.On<Chat>("GameInvite", OnGameInvite);
-            connection.On<int,bool>("GameStarting", OnGameAccepted);
+            connection.On<int, bool>("GameStarting", OnGameAccepted);
             connection.On<int>("GameDenied", OnGameDenied);
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
@@ -148,7 +147,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             UserInvitedToGame?.Invoke(this, new UserInvitedEventArgs { User = contact, ChatId = chat.Id });
         }
 
-        private void OnGameAccepted(int chatId,bool isStarting)
+        private void OnGameAccepted(int chatId, bool isStarting)
         {
             //set chat as currnt chat.
             var localChat = (store.Get(CommonKeys.Chats.ToString()) as List<Chat>).First(c => c.Id == chatId);

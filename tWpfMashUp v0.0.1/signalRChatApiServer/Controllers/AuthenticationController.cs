@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
-using Microsoft.AspNetCore.SignalR;
 using signalRChatApiServer.Repositories.Infra;
 
 namespace signalRChatApiServer.Controllers

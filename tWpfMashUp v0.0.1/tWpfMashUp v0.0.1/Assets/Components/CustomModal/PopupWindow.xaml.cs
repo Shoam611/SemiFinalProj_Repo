@@ -48,8 +48,16 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
 
         private void BuildExitButton()
         {
-            Button btn = new Button { Content = "X", Width = 25, Height = 25, VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 10, 10, 0),
-            Style=App.Current.FindResource("RoundButton") as Style };
+            Button btn = new Button
+            {
+                Content = "X",
+                Width = 25,
+                Height = 25,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new Thickness(0, 10, 10, 0),
+                Style = App.Current.FindResource("RoundButton") as Style
+            };
             btn.Click += btnSaveData_Click;
             TopGrid.Children.Add(btn);
         }

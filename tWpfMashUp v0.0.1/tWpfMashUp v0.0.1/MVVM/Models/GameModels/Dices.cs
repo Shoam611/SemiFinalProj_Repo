@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 
@@ -9,10 +8,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
     public class Dices : IDicesRoller
     {
-        private readonly Random rnd = new Random();
+        public Grid Grid;
+        private readonly Random rnd = new();
         public List<int> RollsResultsValue { get; private set; }
         public List<Border> RollsResults { get; private set; }
-        public Grid Grid;
 
         public Dices(Grid panel)
         {
@@ -45,20 +44,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public int DisplayResult()
         {
-
             for (int i = 0; i < RollsResultsValue.Count; i++)
             {
                 var brdr = new Border();
-                Grid.AddToGrid(brdr ,i);
+                Grid.AddToGrid(brdr, i);
                 brdr.BuildElipses(RollsResultsValue[i]);
             }
             return RollsResultsValue.Count;
         }
 
-        public bool HasValue()
-        {
-            return RollsResultsValue != null && RollsResultsValue.Count < 0;
-        }
+        public bool HasValue() => RollsResultsValue != null && RollsResultsValue.Count < 0;
 
         public void ClearDices()
         {

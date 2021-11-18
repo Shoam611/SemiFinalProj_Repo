@@ -13,8 +13,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         int MatrixRowsCount { get; }
         StackModel[,] StacksMatrix { get; set; }
 
-        void AddStackToGameGridAndMatrix(StackModel stck, int row, int col);
         GameBoard Build(Grid gameGrid);
+        void AddStackToGameGridAndMatrix(StackModel stck, int row, int col);
         void MarkAvailableMoves(Pair<int, int> rollRes, SoliderModel selectedSolider);
     }
 }

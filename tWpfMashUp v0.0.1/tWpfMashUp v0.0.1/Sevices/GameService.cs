@@ -1,6 +1,5 @@
 ﻿using Castle.Core;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -50,7 +49,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch { Modal.ShowModal("Unknon error has accured"); }
         }
 
-        internal async Task UpdateTurnChangedAsync()
+        public async Task UpdateTurnChangedAsync()
         {
             var userId = (store.Get(CommonKeys.WithUser.ToString()) as User).Id;
             var url = $@"http://localhost:14795/Game?userId={userId}";

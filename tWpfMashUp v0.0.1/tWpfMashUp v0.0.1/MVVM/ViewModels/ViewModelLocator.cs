@@ -1,10 +1,9 @@
-﻿using System.Windows.Controls;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
     public class ViewModelLocator
-    {        
+    {
         public MainViewModel Main => App.ServiceProvider.GetRequiredService<MainViewModel>();
         public LoginViewModel Authenticat => App.ServiceProvider.GetRequiredService<LoginViewModel>();
         public ChatAppViewModel Chat => App.ServiceProvider.GetRequiredService<ChatAppViewModel>();
@@ -13,7 +12,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public ViewModelLocator()
         {
-            this.Chat.DisplayedUser="";
+            this.Chat.DisplayedUser = "";
         }
     }
 }

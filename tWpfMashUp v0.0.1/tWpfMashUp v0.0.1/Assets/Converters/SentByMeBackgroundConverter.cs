@@ -14,7 +14,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Converters
             var store = App.ServiceProvider.GetRequiredService<StoreService>();
             var user = store.Get(CommonKeys.LoggedUser.ToString()).UserName;
 
-            if((string)value == user)
+            if ((string)value == user)
             {
                 return Application.Current.FindResource("BrightBrush");
             }

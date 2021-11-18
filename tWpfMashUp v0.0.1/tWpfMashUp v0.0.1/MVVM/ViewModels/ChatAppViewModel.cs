@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Core;
-using System.Collections.Generic;
-using tWpfMashUp_v0._0._1.Sevices;
-using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {

@@ -1,5 +1,4 @@
-﻿using Castle.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces

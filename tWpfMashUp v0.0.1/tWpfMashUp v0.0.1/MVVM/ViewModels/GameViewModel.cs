@@ -1,17 +1,15 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Media;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.Core;
-using System.Collections.Generic;
+using tWpfMashUp_v0._0._1.Extensions;
+using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
-using tWpfMashUp_v0._0._1.Extensions;
-using System;
-using System.Windows.Data;
 using tWpfMashUp_v0._0._1.Sevices;
-using tWpfMashUp_v0._0._1.MVVM.Models;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {

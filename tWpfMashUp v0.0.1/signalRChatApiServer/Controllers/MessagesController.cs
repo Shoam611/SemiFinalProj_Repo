@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using signalRChatApiServer.Hubs;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
-using signalRChatApiServer.Repositories;
 using signalRChatApiServer.Repositories.Infra;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace signalRChatApiServer.Controllers
 {

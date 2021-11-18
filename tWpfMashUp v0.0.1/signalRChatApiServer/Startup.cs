@@ -1,13 +1,11 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using signalRChatApiServer.Data;
 using signalRChatApiServer.Hubs;
-using signalRChatApiServer.Repositories;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using signalRChatApiServer.Repositories.Infra;
 using signalRChatApiServer.Repositories.Repos;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace signalRChatApiServer
 {

@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 
@@ -23,11 +20,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
         }
         private async void OnGameInvitation(object sender, UserInvitedEventArgs eventArgs)
         {
-            var mb = await Modal.ShowModal($"Start a game with {eventArgs.User.UserName} ?","Game Invitation", "Accept", "Deny");
+            var mb = await Modal.ShowModal($"Start a game with {eventArgs.User.UserName} ?", "Game Invitation", "Accept", "Deny");
             bool res;
-            if (mb == "Accept") res = true; 
+            if (mb == "Accept") res = true;
             else res = false;
-                
+
             AcceptGameInviteAsync(eventArgs.ChatId, res); ;
         }
 
