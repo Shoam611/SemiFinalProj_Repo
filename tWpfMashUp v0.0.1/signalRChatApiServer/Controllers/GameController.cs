@@ -31,19 +31,21 @@ namespace signalRChatApiServer.Controllers
             var user = chat.Users.First(u => u.Id != obj.UserId);
             await chatHub.Clients.Client(user.HubConnectionString).SendAsync("OpponentPlayed", obj);
         }
+
         [HttpGet]
         public async Task Get(int userId)
         {
             User user = usersRepository.GetUser(userId);
             await chatHub.Clients.Client(user.HubConnectionString).SendAsync("PlayerFinnishedPlay");
         }
+
         [HttpGet]
         [Route("announcevictory")]
         public void AnnounceWinner(int userId,int chatId)
         {
-            var chat = chatReposatory.GetChat(chatId);
+            var chat = chatRepository.GetChat(chatId);
             var user = chat.Users.First(u => u.Id != userId);
-            chathub.Clients.Client(user.HubConnectionString).SendAsync("GameOver");
+            chatHub.Clients.Client(user.HubConnectionString).SendAsync("GameOver");
         }
        
 

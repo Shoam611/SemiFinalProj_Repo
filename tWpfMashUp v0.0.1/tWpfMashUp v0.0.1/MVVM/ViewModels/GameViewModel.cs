@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 using tWpfMashUp_v0._0._1.Extensions;
-using System;
-using System.Windows.Data;
 using tWpfMashUp_v0._0._1.Sevices;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
@@ -32,8 +30,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private StoreService store;
         private GameService gameService;
         public List<int> TurnCounter { get; set; }
-        private IGameBoard gameBoard;
-        RadioButton TurnIndicator;
         
         public GameViewModel(IGameBoard GameBoard, StoreService store, GameService gameService)
         {
