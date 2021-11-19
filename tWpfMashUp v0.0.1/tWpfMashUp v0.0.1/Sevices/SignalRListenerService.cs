@@ -68,6 +68,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnLoggingOut(User user)
         {
+            user = null;
             LoggingOut?.Invoke(this, new EventArgs());
         }
 
@@ -82,11 +83,14 @@ namespace tWpfMashUp_v0._0._1.Sevices
             List<User> contacts;
             if (!store.HasKey(CommonKeys.Contacts.ToString()))
                 contacts = new List<User>();
-            else contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+            else 
+                contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+
             if (!contacts.Where(u => u.Id == newOnlineUser.Id).Any())
             {
                 contacts.Add(newOnlineUser);
             }
+
             store.Add(CommonKeys.Contacts.ToString(), contacts);
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = newOnlineUser, IsLoggedIn = true });
         }

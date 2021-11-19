@@ -44,8 +44,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.listenerService.ContactLogged += (s, e) => { if (!e.IsLoggedIn && e.User.UserName == CurrentContact) { Messages.Clear(); CurrentContact = ""; } };
         }
 
-   
-
         private void OnGameStarting()
         {
             var cChat = storeService.Get(CommonKeys.CurrentChat.ToString()) as Chat;

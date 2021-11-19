@@ -70,9 +70,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.signalRListinerService.MessageRecived += OnMassageRecived;
         }
 
-        private void LogOut()
+        private async void LogOut()
         {
-            
+            await authenticationService.OnLogOutHandler();
         }
 
         private async void ShowInformation()
@@ -80,7 +80,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var res = await Modal.ShowModal("You are sent to a website gide", "How to Play?", "OK", "Close");
             if (res == "OK")
                 Process.Start(new ProcessStartInfo { FileName = "https://www.bkgm.com/rules.html", UseShellExecute = true });
-
         }
 
         private void AboutTheDevs()

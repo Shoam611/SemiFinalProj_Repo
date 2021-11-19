@@ -32,15 +32,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             View = new LoginView();
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
             this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
-            this.signalRListener.GameEnded += SignalRListener_GameEnded;
+            this.signalRListener.GameEnded += (s, e) => SetViewTransition("Chat");
             this.signalRListener.LoggingOut += (s, e) => SetViewTransition("Auth");
-
-            //Modal = new UserControlTest();
-        }
-
-        private void SignalRListener_GameEnded(object sender, EventArgs e)
-        {
-            SetViewTransition("Chat");
         }
 
         private void OnMouseDown(MouseButtonEventArgs e)
