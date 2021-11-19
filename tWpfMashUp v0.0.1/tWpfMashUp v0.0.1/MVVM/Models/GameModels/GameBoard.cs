@@ -1,11 +1,9 @@
 ﻿using System;
 using Castle.Core;
-
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
-
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Sevices;
@@ -77,23 +75,31 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         }
 
 
-        public void UpdateRollsResult(List<int> newVals)
+        public async Task UpdateRollsResult(List<int> newVals)
         {
             rollsValues = newVals;
             options.Clear();
+          
             if (!HasAvailableMoves())
             {
-                Modal.ShowModal($"It seems like you have no available moves \n for {rollsValues[0]} {rollsValues[1]}", "Bad luck");
-                rollsValues.Clear();
-                gameService.UpdateTurnChangedAsync();
-                isMyTurn = false;
+                SkipTurn(); return;
             }
-            else if (GhostStack.Count != 0)
+            if (GhostStack.Count > 0)
             {
                 FocusedStack = GhostStack;
                 FocusedSolider = GhostStack.Peek();
                 StackModel.HasFirstSelected = true;
                 MarkAvailableMoves(rollsValues, GhostStack.Location);
+                foreach (var opt in options)
+                {
+                    StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(true);
+                }
+                StackModel.HasFirstSelected = true;
+                try
+                {
+                    await GetSelectionAsync();
+                }
+                finally { }
             }
             options.Clear();
         }
@@ -103,28 +109,32 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (GhostStack.Count > 0)
             {
                 MarkAvailableMoves(rollsValues, new MatrixLocation { Col = 12, Row = 0 });
-                if (options.Any())
-                {
-                    return true;
-                }
+                return  options.Any();
+                
             }
-            else 
-                for (int row = 0; row < MatrixRowsCount; row++)
+            for (int row = 0; row < MatrixRowsCount; row++)
+            {
+                for (int col = 0; col < MatrixColumnsCount; col++)
                 {
-                    for (int col = 0; col < MatrixColumnsCount; col++)
+                    if (StacksMatrix[col, row].HasMineSoliders())
                     {
-                        if (StacksMatrix[col, row].HasMineSoliders())
+                        MarkAvailableMoves(rollsValues, new MatrixLocation { Col = col, Row = row });
+                        if (options.Any())
                         {
-                            MarkAvailableMoves(rollsValues, new MatrixLocation { Col = col, Row = row });
-                            if (options.Any())
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
                 }
+            }
             return false;
+        }
 
+        private void SkipTurn()
+        {
+            Modal.ShowModal($"It seems like you have no available moves \n for {rollsValues[0]} {rollsValues[1]}", "Bad luck");
+            rollsValues.Clear();
+            gameService.UpdateTurnChangedAsync();
+            isMyTurn = false;
         }
 
         public IGameBoard Build(Grid gameGrid) =>
@@ -153,9 +163,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (pickStackForSolider != null)
             {
 
-                //take out of the view
                 FocusedStack.Pop();
-                //make grid disapear
                 foreach (var opt in options)
                 {
                     if (opt.Location.Col == 12)
@@ -165,17 +173,12 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     }
                     StacksMatrix[opt.Location.Col, opt.Location.Row].MarkStackAsOption(false);
                 }
-                //spend the dice roll move
                 rollsValues.Remove(option.DicerollValue);
-                //since move was made clear options, and deselect stack and solider;
                 options.Clear();
-                //remove from counting
                 inHouseCount--;
                 TotalSolidersCount--;
-                //make turn continue // exception here
                 pickStackForSolider.TrySetResult(FocusedSolider);
                 pickStackForSolider = null;
-                //create a move update
                 var move = new Pair<MatrixLocation, MatrixLocation>(FocusedStack.Location, new MatrixLocation { Col = 12, Row = 1 });
                 if (totalSolidersCount == 0)
                 {
@@ -301,7 +304,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     if (((StackModel)sender).CanStepInto())
                     {
                         FocusedStack.MarkSoliderAsActive(false);
-                       //make location switches
+                        //make location switches
                         var newStack = (StackModel)sender;
                         if (newStack.HasEnemyNoHouse()) newStack.Pop();
                         FocusedStack.Pop();
@@ -343,19 +346,20 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         private void UpdateOpponentMove(object sender, OpponentPlayedEventArgs e)
         {
             SoliderModel solider;
-            if (e.Source.Col==12)
+            if (e.Source.Col == 12)
             {
                 solider = new SoliderModel();
                 solider.IsOwnSolider = false;
                 solider.Soldier = new System.Windows.Shapes.Ellipse
                 {
                     Stretch = Stretch.UniformToFill,
+                    Width = double.NaN,
                     Fill = new SolidColorBrush(Colors.Black)
                 };
             }
             else
             {
-            solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
+                solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
             }
 
             if (StacksMatrix[e.Destenation.Col, e.Destenation.Row].HasMineSoliders() && StacksMatrix[e.Destenation.Col, e.Destenation.Row].Count == 1)
