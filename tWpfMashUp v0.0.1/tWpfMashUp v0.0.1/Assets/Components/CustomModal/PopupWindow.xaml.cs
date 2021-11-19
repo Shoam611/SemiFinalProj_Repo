@@ -50,7 +50,6 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
         {
             Button btn = new Button { Content = "X", Width = 25, Height = 25, VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 10, 10, 0),
             Style=App.Current.FindResource("RoundButton") as Style };
-            btn.Click += btnSaveData_Click;
             TopGrid.Children.Add(btn);
         }
 
@@ -62,12 +61,8 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 if (!string.IsNullOrWhiteSpace(val))
                 {
                     Panel.ColumnDefinitions.Add(new ColumnDefinition());
-<<<<<<< Updated upstream
-                    Button btn = new Button { Content = val, Width = 50, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
-                    btn.Click += btnSaveData_Click;
-=======
+
                     Button btn = new Button { Content = val, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
->>>>>>> Stashed changes
                     Grid.SetColumn(btn, i);
                     btn.Height = 20;btn.Width = 100;
 
@@ -76,12 +71,5 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 }
             }
         }
-
-        private void btnSaveData_Click(object sender, RoutedEventArgs e)
-        {
-            //ModalClosing?.Invoke(this, new ModalClosingEventArgs { ValueSelected = (sender as Button).Content.ToString() });
-            //this.Close();
-        }
-
     }
 }

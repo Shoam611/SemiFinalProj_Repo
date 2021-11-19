@@ -25,18 +25,15 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public RelayCommand GoToChatCommand { get; set; }
         public RelayCommand LoadedCommand { get; set; }
 
-<<<<<<< Updated upstream
-        private StoreService store;
-        private GameService gameService;
+
         public List<int> TurnCounter { get; set; }
-=======
+
         private readonly StoreService store;
         private readonly GameService gameService;
 
-        public List<int> TurnCounter { get; set; }
         private IGameBoard gameBoard;
         private RadioButton TurnIndicator;
->>>>>>> Stashed changes
+
         
         public GameViewModel(IGameBoard GameBoard, StoreService store, GameService gameService)
         {

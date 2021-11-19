@@ -1,21 +1,18 @@
 ﻿using System;
 using Castle.Core;
-<<<<<<< Updated upstream
-=======
+
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
->>>>>>> Stashed changes
+
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Sevices;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
-using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -38,14 +35,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         Grid takeOutGrid;
         public event TurnChangedEventHandler TurnChanged;
 
-<<<<<<< Updated upstream
-=======
+
         private readonly SignalRListenerService signalRListener;
         private readonly List<MoveOption> options;
         private readonly GameService gameService;
         private readonly StoreService store;
 
->>>>>>> Stashed changes
+
         public Grid GameGrid { get; private set; }
         public SoliderModel FocusedSolider { get; set; }
         public StackModel FocusedStack { get; set; }

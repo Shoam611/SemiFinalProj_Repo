@@ -67,10 +67,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public void Push(SoliderModel solider)
         {
             if (solider == null) return;
-<<<<<<< Updated upstream
-            //if active make regular;
-=======
->>>>>>> Stashed changes
             SoliderStack.Push(solider);
             solider.SetLocation(Location);
             if (Location.Row == 1) try { UiStack.Children.Insert(0, solider.Soldier); } finally { }
@@ -83,13 +79,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (SoliderStack.Count > 0)
             {
                 var solider = SoliderStack.Pop();
-<<<<<<< Updated upstream
-                
-                UiStack.Children.Remove(solider.Soldier);
-=======
+
                 if (UiStack != null)
                     UiStack.Children.Remove(solider.Soldier);
->>>>>>> Stashed changes
+
                 return solider;
             }
             else return null;
@@ -117,9 +110,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             Triangle.Fill = isOption ? new SolidColorBrush(Colors.White) : tColor;
         }
 
-<<<<<<< Updated upstream
-=======
         internal bool HasEnemyNoHouse() => SoliderStack.Count == 1 && !SoliderStack.Peek().IsOwnSolider;
->>>>>>> Stashed changes
     }
 }
