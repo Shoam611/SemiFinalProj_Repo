@@ -1,5 +1,12 @@
 ﻿using System;
 using Castle.Core;
+<<<<<<< Updated upstream
+=======
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Input;
+>>>>>>> Stashed changes
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.Sevices;
@@ -8,9 +15,7 @@ using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
-using System.Windows.Media;
-using System.Windows;
-using System.Windows.Input;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -20,26 +25,31 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
     {
         int inHouseCount;
         int totalSolidersCount;
-        int TotalSolidersCount 
-        { 
+        int TotalSolidersCount
+        {
             get => totalSolidersCount;
-            set { totalSolidersCount = value;if (totalSolidersCount == 0) AnnounceAsWinner(); } 
+            set { totalSolidersCount = value; if (totalSolidersCount == 0) AnnounceAsWinner(); }
         }
 
 
-        private bool allowTakeOuts=>inHouseCount == TotalSolidersCount;
-        private List<MoveOption> options;
+        private bool allowTakeOuts => inHouseCount == TotalSolidersCount;
         private List<int> rollsValues;
-        private StoreService store;
-        private GameService gameService;
-        private SignalRListenerService signalRListener;
         private TaskCompletionSource<SoliderModel> pickStackForSolider;
         Grid takeOutGrid;
         public event TurnChangedEventHandler TurnChanged;
 
+<<<<<<< Updated upstream
+=======
+        private readonly SignalRListenerService signalRListener;
+        private readonly List<MoveOption> options;
+        private readonly GameService gameService;
+        private readonly StoreService store;
+
+>>>>>>> Stashed changes
         public Grid GameGrid { get; private set; }
         public SoliderModel FocusedSolider { get; set; }
         public StackModel FocusedStack { get; set; }
+        public StackModel GhostStack { get; set; }
         public StackModel[,] StacksMatrix { get; set; }
         public int MatrixColumnsCount { get => StacksMatrix.GetLength(0); }
         public int MatrixRowsCount { get => StacksMatrix.GetLength(1); }
@@ -77,35 +87,51 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             options.Clear();
             if (!HasAvailableMoves())
             {
-                Modal.ShowModal($"It seems like you have no available moves \n for {rollsValues[0]} {rollsValues[1]}","Bad luck");
+                Modal.ShowModal($"It seems like you have no available moves \n for {rollsValues[0]} {rollsValues[1]}", "Bad luck");
                 rollsValues.Clear();
                 gameService.UpdateTurnChangedAsync();
                 isMyTurn = false;
+            }
+            else if (GhostStack.Count != 0)
+            {
+                FocusedStack = GhostStack;
+                FocusedSolider = GhostStack.Peek();
+                StackModel.HasFirstSelected = true;
+                MarkAvailableMoves(rollsValues, GhostStack.Location);
             }
             options.Clear();
         }
 
         private bool HasAvailableMoves()
         {
-            for (int row = 0; row < MatrixRowsCount; row++)
+            if (GhostStack.Count > 0)
             {
-                for (int col = 0; col < MatrixColumnsCount; col++)
+                MarkAvailableMoves(rollsValues, new MatrixLocation { Col = 12, Row = 0 });
+                if (options.Any())
                 {
-                    if (StacksMatrix[col, row].HasMineSoliders())
+                    return true;
+                }
+            }
+            else 
+                for (int row = 0; row < MatrixRowsCount; row++)
+                {
+                    for (int col = 0; col < MatrixColumnsCount; col++)
                     {
-                        MarkAvailableMoves(rollsValues, new MatrixLocation { Col = col, Row = row });
-                        if (options.Any())
+                        if (StacksMatrix[col, row].HasMineSoliders())
                         {
-                            return true;
+                            MarkAvailableMoves(rollsValues, new MatrixLocation { Col = col, Row = row });
+                            if (options.Any())
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
-            }
             return false;
 
         }
 
-        public GameBoard Build(Grid gameGrid) =>
+        public IGameBoard Build(Grid gameGrid) =>
                                     SetInitialVaulues(gameGrid)
                                     .Clear()
                                     .BuildGameBoardDefenitions(12, 2)
@@ -125,6 +151,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             GameGrid.Children.Add(takeOutGrid);
             return this;
         }
+
         private void RemoveSolider(MoveOption option)
         {
             if (pickStackForSolider != null)
@@ -174,6 +201,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             GameGrid = grid;
             inHouseCount = 5;
             TotalSolidersCount = 15;
+            GhostStack = new StackModel(new MatrixLocation { Row = 0, Col = 12 }).Build();
+            GhostStack.UiStack = new StackPanel();
             return this;
         }
 
@@ -256,7 +285,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     pickStackForSolider = null;
                 }
                 try { FocusedStack.MarkSoliderAsActive(false); } finally { FocusedStack = null; }
-                
+
                 foreach (var opt in options)
                 {
                     if (opt.Location.Col == 12)
@@ -273,12 +302,15 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             {
                 if (pickStackForSolider != null)
                 {
-                    if (((StackModel)sender).Count == 0 || ((StackModel)sender).HasMineSoliders())
+                    if (((StackModel)sender).CanStepInto())
                     {
                         FocusedStack.MarkSoliderAsActive(false);
+                       //make location switches
                         var newStack = (StackModel)sender;
+                        if (newStack.HasEnemyNoHouse()) newStack.Pop();
                         FocusedStack.Pop();
                         newStack.Push(FocusedSolider);
+                        //demark options
                         foreach (var opt in options)
                         {
                             if (opt.Location.Col == 12)
@@ -293,9 +325,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                         if (toRemove != null) rollsValues.Remove(toRemove.DicerollValue);
                         options.Clear();
 
-                        if (newStack.Location.Row == 1 && newStack.Location.Col >= 6 && FocusedStack.Location.Col<6 )
+                        if (newStack.Location.Row == 1 && newStack.Location.Col >= 6 && FocusedStack.Location.Col < 6)
                             inHouseCount++;
-                  
+
                         pickStackForSolider.TrySetResult(FocusedSolider);
                         pickStackForSolider = null;
 
@@ -314,7 +346,30 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         private void UpdateOpponentMove(object sender, OpponentPlayedEventArgs e)
         {
-            var solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
+            SoliderModel solider;
+            if (e.Source.Col==12)
+            {
+                solider = new SoliderModel();
+                solider.IsOwnSolider = false;
+                solider.Soldier = new System.Windows.Shapes.Ellipse
+                {
+                    Stretch = Stretch.UniformToFill,
+                    Fill = new SolidColorBrush(Colors.Black)
+                };
+            }
+            else
+            {
+            solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
+            }
+
+            if (StacksMatrix[e.Destenation.Col, e.Destenation.Row].HasMineSoliders() && StacksMatrix[e.Destenation.Col, e.Destenation.Row].Count == 1)
+            {
+                GhostStack.Push(StacksMatrix[e.Destenation.Col, e.Destenation.Row].Pop());
+                if (e.Destenation.Row == 1 && e.Destenation.Col >= 6)
+                {
+                    inHouseCount--;
+                }
+            }
             if (e.Destenation.Col < 12)
                 StacksMatrix[e.Destenation.Col, e.Destenation.Row].Push(solider);
         }
@@ -351,7 +406,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     if (selectedLocation.Col + res < MatrixColumnsCount)
                     {
                         var op = res + selectedLocation.Col;
-                        if (StacksMatrix[op, 1].Count == 0 || StacksMatrix[op, 1].HasMineSoliders())
+                        if (StacksMatrix[op, 1].CanStepInto())
                         {
                             options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 1 }, DicerollValue = res });
                             continue;
@@ -363,7 +418,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     if (selectedLocation.Col >= res)
                     {
                         var op = selectedLocation.Col - res;
-                        if (StacksMatrix[op, 0].Count == 0 || StacksMatrix[op, 0].HasMineSoliders())
+                        if (StacksMatrix[op, 0].CanStepInto())
                         {
                             options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 0 }, DicerollValue = res });
                             continue;
@@ -372,7 +427,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                     if (selectedLocation.Col < res)
                     {
                         var op = res - (selectedLocation.Col + 1);
-                        if (StacksMatrix[op, 1].Count == 0 || StacksMatrix[op, 1].HasMineSoliders())
+                        if (StacksMatrix[op, 1].CanStepInto())
                         {
                             options.Add(new MoveOption { Location = new MatrixLocation { Col = op, Row = 1 }, DicerollValue = res });
                             continue;
@@ -384,18 +439,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (options.Count == 0)
             {
                 StackModel.HasFirstSelected = false;
-             //   Modal.ShowModal("No Available moves for this one :( \n Cklickagain to deselect...");
                 if (FocusedStack != null && FocusedStack.HasMineSoliders())
-                FocusedStack.MarkSoliderAsActive(false);
-                if(pickStackForSolider != null)
+                    FocusedStack.MarkSoliderAsActive(false);
+                if (pickStackForSolider != null)
                 {
-                pickStackForSolider.TrySetResult(FocusedSolider);
-                pickStackForSolider = null;
+                    pickStackForSolider.TrySetResult(FocusedSolider);
+                    pickStackForSolider = null;
                 }
                 FocusedStack = null; FocusedSolider = null;
             }
         }
-        
+
         private void AnnounceAsWinner()
         {
             Modal.ShowModal("Winnerwinner chicken dinner", "Congrats");

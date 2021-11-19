@@ -24,7 +24,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
 
         private void LoadedHandler(object sender, RoutedEventArgs e)
         {
-            if (ModalLoadedWithButtons != null)//.GetInvocationList().Any())
+            if (ModalLoadedWithButtons != null)
             {
                 var Caption = "";
                 string Title = "";
@@ -62,9 +62,15 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 if (!string.IsNullOrWhiteSpace(val))
                 {
                     Panel.ColumnDefinitions.Add(new ColumnDefinition());
+<<<<<<< Updated upstream
                     Button btn = new Button { Content = val, Width = 50, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
                     btn.Click += btnSaveData_Click;
+=======
+                    Button btn = new Button { Content = val, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
+>>>>>>> Stashed changes
                     Grid.SetColumn(btn, i);
+                    btn.Height = 20;btn.Width = 100;
+
                     Panel.Children.Add(btn);
                     i++;
                 }

@@ -29,6 +29,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 
         public void Clear()
         {
+
             UiStack.Children.Clear();
             SoliderStack.Clear();
         }
@@ -36,11 +37,18 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public StackModel Build()
         {
             SoliderStack = new Stack<SoliderModel>();
+            if (UiStack != null)
+            {
             UiStack.IsHitTestVisible = true;
-            Triangle.IsHitTestVisible = true;
             UiStack.MouseDown += OnMouseDown;
-            Triangle.MouseDown += OnMouseDown;
-            tColor = Triangle.Fill;
+            }
+
+            if (Triangle != null)
+            {
+                tColor = Triangle.Fill;
+                Triangle.IsHitTestVisible = true;
+                Triangle.MouseDown += OnMouseDown;
+            }
             return this;
         }
 
@@ -59,7 +67,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         public void Push(SoliderModel solider)
         {
             if (solider == null) return;
+<<<<<<< Updated upstream
             //if active make regular;
+=======
+>>>>>>> Stashed changes
             SoliderStack.Push(solider);
             solider.SetLocation(Location);
             if (Location.Row == 1) try { UiStack.Children.Insert(0, solider.Soldier); } finally { }
@@ -72,8 +83,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (SoliderStack.Count > 0)
             {
                 var solider = SoliderStack.Pop();
+<<<<<<< Updated upstream
                 
                 UiStack.Children.Remove(solider.Soldier);
+=======
+                if (UiStack != null)
+                    UiStack.Children.Remove(solider.Soldier);
+>>>>>>> Stashed changes
                 return solider;
             }
             else return null;
@@ -83,6 +99,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         {
             return SoliderStack.Any() ? SoliderStack.Peek().IsOwnSolider : false;
         }
+
+        public bool CanStepInto() => HasMineSoliders() || UiStack.Children.Count <= 1;
 
         public SoliderModel Peek() => SoliderStack.Peek();
 
@@ -99,5 +117,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             Triangle.Fill = isOption ? new SolidColorBrush(Colors.White) : tColor;
         }
 
+<<<<<<< Updated upstream
+=======
+        internal bool HasEnemyNoHouse() => SoliderStack.Count == 1 && !SoliderStack.Peek().IsOwnSolider;
+>>>>>>> Stashed changes
     }
 }

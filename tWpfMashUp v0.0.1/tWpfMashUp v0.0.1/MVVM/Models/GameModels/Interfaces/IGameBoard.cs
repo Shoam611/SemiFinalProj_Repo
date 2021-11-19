@@ -16,7 +16,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
         public event TurnChangedEventHandler TurnChanged;
         void UpdateRollsResult(List<int> newVals);
         void AddStackToGameGridAndMatrix(StackModel stck, int row, int col);
-        GameBoard Build(Grid gameGrid);
+        IGameBoard Build(Grid gameGrid);
         void MarkAvailableMoves(List<int> rollRes, MatrixLocation selectedLocation);
     }
 }
