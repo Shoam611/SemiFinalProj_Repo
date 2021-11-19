@@ -8,6 +8,7 @@ using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using System.Diagnostics;
 using System.IO;
+using System;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -62,10 +63,16 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnInviteToGameCommand = new RelayCommand((o) => InviteToGame());
             OnInformationCommand = new RelayCommand((o) => ShowInformation());
             OnAboutCommand = new RelayCommand((o) => AboutTheDevs());
+            OnLogOutCommand = new RelayCommand((o) => LogOut());
 
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
             this.signalRListinerService.MessageRecived += OnMassageRecived;
+        }
+
+        private void LogOut()
+        {
+            
         }
 
         private async void ShowInformation()

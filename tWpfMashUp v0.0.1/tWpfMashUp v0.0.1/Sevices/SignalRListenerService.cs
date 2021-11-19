@@ -21,6 +21,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         #region events
         public event ContactLoggedEventHandler ContactLogged;
+        public event EventHandler LoggingOut;
         public event EventHandler ChatForUserRecived;
         public event MessageRecivedEventHandler MessageRecived;
         public event UserInvitedEventHandler UserInvitedToGame;
@@ -45,6 +46,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<string>("Connected", OnConnected);
             connection.On<User>("ContactLoggedIn", OnContactLoggedIn);
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
+            connection.On<User>("LoggingOut", OnLoggingOut);
             connection.On<Chat>("ChatCreated", OnChatCreated);
             connection.On<Message>("MassageRecived", OnMassageRecived);
 
@@ -64,14 +66,10 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnGameOver()
+        private void OnLoggingOut(User user)
         {
-            Modal.ShowModal("Better Luck Next Time", "GameOver!");
-            GameEnded?.Invoke(this, new EventArgs());
+            LoggingOut?.Invoke(this, new EventArgs());
         }
-
-
-
 
         #region Connection
         private void OnConnected(string hubConnectionString)
@@ -189,6 +187,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnPlayerForfeit()
         {
+            GameEnded?.Invoke(this, new EventArgs());
+        }
+
+        private void OnGameOver()
+        {
+            Modal.ShowModal("Better Luck Next Time", "GameOver!");
             GameEnded?.Invoke(this, new EventArgs());
         }
 

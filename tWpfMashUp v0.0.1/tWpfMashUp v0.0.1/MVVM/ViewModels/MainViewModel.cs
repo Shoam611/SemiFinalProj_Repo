@@ -32,7 +32,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             View = new LoginView();
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
             this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
-            this.signalRListener.GameEnded += SignalRListener_GameEnded; ;
+            this.signalRListener.GameEnded += SignalRListener_GameEnded;
+            this.signalRListener.LoggingOut += (s, e) => SetViewTransition("Auth");
 
             //Modal = new UserControlTest();
         }
@@ -49,10 +50,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void OnMaximizeCommand()
         {
-            if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
-                Application.Current.MainWindow.WindowState = WindowState.Maximized;
-            else
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            Application.Current.MainWindow.WindowState = Application.Current.MainWindow.WindowState != WindowState.Maximized ? WindowState.Maximized : WindowState.Normal;
         }
 
         public void SetViewTransition(string option)
