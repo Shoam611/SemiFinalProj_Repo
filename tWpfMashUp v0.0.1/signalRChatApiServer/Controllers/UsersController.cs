@@ -26,7 +26,6 @@ namespace signalRChatApiServer.Controllers
         {
             return repository.GetAllUsers();
         }
-
         [HttpPut]
         public void Put(User user)
         {

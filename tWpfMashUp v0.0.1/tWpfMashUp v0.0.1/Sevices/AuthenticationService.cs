@@ -82,8 +82,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task InvokeLogOut()
         {
-             await UpdateServerUserLogOut();
-            LoggingOut?.Invoke(this,new EventArgs());
+            await UpdateServerUserLogOut();
+            LoggingOut?.Invoke(this, new EventArgs());
             storeService.OnLogOut();
         }
 
