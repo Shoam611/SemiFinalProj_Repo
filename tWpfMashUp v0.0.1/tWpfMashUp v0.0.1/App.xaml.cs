@@ -28,10 +28,10 @@ namespace tWpfMashUp_v0._0._1
             services.AddSingleton<MainWindow>();
 
             services.AddScoped<MainViewModel>();
-            services.AddScoped<LoginViewModel>();
             services.AddScoped<ChatAppViewModel>();
             services.AddScoped<ChatThreadViewModel>();
 
+            services.AddTransient<LoginViewModel>();
             services.AddTransient<GameViewModel>();
 
             services.AddSingleton<StoreService>();
