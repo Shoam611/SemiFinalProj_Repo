@@ -362,7 +362,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
                 solider = StacksMatrix[e.Source.Col, e.Source.Row].Pop();
             }
 
-            if (StacksMatrix[e.Destenation.Col, e.Destenation.Row].HasMineSoliders() && StacksMatrix[e.Destenation.Col, e.Destenation.Row].Count == 1)
+            if (e.Destenation.Col < 12 && StacksMatrix[e.Destenation.Col, e.Destenation.Row].HasMineSoliders() && StacksMatrix[e.Destenation.Col, e.Destenation.Row].Count == 1)
             {
                 GhostStack.Push(StacksMatrix[e.Destenation.Col, e.Destenation.Row].Pop());
                 if (e.Destenation.Row == 1 && e.Destenation.Col >= 6)
