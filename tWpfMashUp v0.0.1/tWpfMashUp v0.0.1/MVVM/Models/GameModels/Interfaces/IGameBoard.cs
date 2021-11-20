@@ -1,5 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
 {
@@ -13,9 +15,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces
         int MatrixRowsCount { get; }
         StackModel[,] StacksMatrix { get; set; }
         public event TurnChangedEventHandler TurnChanged;
-        void UpdateRollsResult(List<int> newVals);
+        Task UpdateRollsResult(List<int> newVals);
         void AddStackToGameGridAndMatrix(StackModel stck, int row, int col);
-        GameBoard Build(Grid gameGrid);
+        IGameBoard Build(Grid gameGrid);
         void MarkAvailableMoves(List<int> rollRes, MatrixLocation selectedLocation);
     }
 }

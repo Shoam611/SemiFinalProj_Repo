@@ -23,7 +23,7 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
 
         private void LoadedHandler(object sender, RoutedEventArgs e)
         {
-            if (ModalLoadedWithButtons != null)//.GetInvocationList().Any())
+            if (ModalLoadedWithButtons != null)
             {
                 var Caption = "";
                 string Title = "";
@@ -44,20 +44,19 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             }
         }
 
-        private void BuildExitButton()
-        {
-            Button btn = new Button
-            {
-                Content = "X",
-                Width = 25,
-                Height = 25,
-                VerticalAlignment = VerticalAlignment.Top,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(0, 10, 10, 0),
-                Style = App.Current.FindResource("RoundButton") as Style
-            };
-            TopGrid.Children.Add(btn);
-        }
+        private void BuildExitButton() => TopGrid.Children.Add( new Button
+                                                                {
+                                                                    Content = "X",
+                                                                    Width = 25,
+                                                                    Height = 25,
+                                                                    VerticalAlignment = VerticalAlignment.Top,
+                                                                    HorizontalAlignment = HorizontalAlignment.Right,
+                                                                    Margin = new Thickness(0, 10, 10, 0),
+                                                                    Style = App.Current.FindResource("RoundButton") as Style
+                                                                });
+        
+            
+        
 
         private void BuildBottomButtons(string[] vals)
         {
@@ -67,8 +66,10 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
                 if (!string.IsNullOrWhiteSpace(val))
                 {
                     Panel.ColumnDefinitions.Add(new ColumnDefinition());
-                    Button btn = new Button { Content = val, Width = 50, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
+                    Button btn = new Button { Content = val, Width = 75, Height = 30, VerticalAlignment = VerticalAlignment.Center, Style = App.Current.FindResource("RoundButton") as Style };
                     Grid.SetColumn(btn, i);
+                    btn.Height = 20;btn.Width = 100;
+
                     Panel.Children.Add(btn);
                     i++;
                 }

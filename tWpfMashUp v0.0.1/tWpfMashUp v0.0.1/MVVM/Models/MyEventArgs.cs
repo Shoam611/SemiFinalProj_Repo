@@ -3,6 +3,13 @@ using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models
 {
+
+    public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
+    public delegate void UserInvitedEventHandler(object sender, UserInvitedEventArgs eventArgs);
+    public delegate void OpponentPlayedEventHandler(object sender, OpponentPlayedEventArgs e);
+    public delegate void GameStartingEventHandler(object sender, GameStartingEventArgs e);
+    public delegate void ContactLoggedEventHandler(object sender, ContactLoggedEventArgs e);
+
     public class MessageRecivedEventArgs : EventArgs
     {
         public Message Massage { get; set; }

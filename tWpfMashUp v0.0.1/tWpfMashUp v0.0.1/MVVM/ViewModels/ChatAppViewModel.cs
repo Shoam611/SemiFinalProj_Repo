@@ -6,6 +6,7 @@ using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using System.Diagnostics;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -58,7 +59,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
             OnSelectionChangedCommand = new RelayCommand(o => HandleSelectionChanged(o as SelectionChangedEventArgs));
             OnInviteToGameCommand = new RelayCommand((o) => InviteToGame());
-            //OnLogOutCommand = new RelayCommand((o) => LogOut());
             OnInformationCommand = new RelayCommand((o) => ShowInformation());
             OnAboutCommand = new RelayCommand((o) => AboutTheDevs());
 
@@ -67,14 +67,17 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.signalRListinerService.MessageRecived += OnMassageRecived;
         }
 
-        private void ShowInformation()
+        private async void ShowInformation()
         {
-            Modal.ShowModal("Please visit\nhttps://www.bkgm.com/rules.html", "How to Play?");
+            var res = await Modal.ShowModal("You are sent to a website gide", "How to Play?", "OK", "Close");
+            if (res == "OK")
+                Process.Start(new ProcessStartInfo { FileName = "https://www.bkgm.com/rules.html", UseShellExecute = true });
+
         }
 
         private void AboutTheDevs()
         {
-            Modal.ShowModal("This software brought to you by\nLiad Dadon and Shoham Siso.\n1.0v", "About");
+            Modal.ShowModal("This software brought to you by\nLiad Dadon and Shoham Siso.\nv 1.0", "About");
         }
 
         private async void InviteToGame() => await gameService.CallServerForOtherUserInvite();

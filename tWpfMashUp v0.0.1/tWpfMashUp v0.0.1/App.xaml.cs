@@ -61,7 +61,6 @@ namespace tWpfMashUp_v0._0._1
 }
 //Ergent
 //TODO: Export on server: hub logic to services; ☻ -> later
-
 //TODO: if user has pending request he cannot Recive another one while waiting 
 //TODO: if user is in a game he can not recive more game invites
 //TODO: add turn taking logic for the game

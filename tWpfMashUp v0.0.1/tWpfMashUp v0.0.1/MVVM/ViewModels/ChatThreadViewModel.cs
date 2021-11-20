@@ -37,6 +37,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.listenerService.MessageRecived += OnMessageRecived;
             this.listenerService.ChatForUserRecived += OnCurrentContactChanged;
             this.listenerService.GameStarting += (s, e) => OnGameStarting();
+            this.listenerService.ContactLogged += (s, e) => { if (!e.IsLoggedIn && e.User.UserName == CurrentContact) { Messages.Clear(); CurrentContact = ""; } };
         }
 
         private void OnGameStarting()

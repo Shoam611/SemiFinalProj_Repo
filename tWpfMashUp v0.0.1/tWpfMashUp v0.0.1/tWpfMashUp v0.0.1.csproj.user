@@ -36,6 +36,9 @@
     <Page Update="Assets\Templates\ColorThemes.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Assets\Templates\CustomCombobox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Assets\Templates\ScrollBar.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -49,6 +52,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Templates\MessegeTextBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\Templates\ToggleButtonTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Templates\TurnIndicatorRadioBotton.xaml">

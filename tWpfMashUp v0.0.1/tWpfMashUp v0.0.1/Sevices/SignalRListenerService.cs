@@ -9,12 +9,7 @@ using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 
 namespace tWpfMashUp_v0._0._1.Sevices
-{
-    public delegate void MessageRecivedEventHandler(object sender, MessageRecivedEventArgs eventArgs);
-    public delegate void UserInvitedEventHandler(object sender, UserInvitedEventArgs eventArgs);
-    public delegate void OpponentPlayedEventHandler(object sender, OpponentPlayedEventArgs e);
-    public delegate void GameStartingEventHandler(object sender, GameStartingEventArgs e);
-
+{ 
     public class SignalRListenerService
     {
         #region services
@@ -24,7 +19,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         #endregion
 
         #region events
-        public event EventHandler ContactLogged;
+        public event ContactLoggedEventHandler ContactLogged;
         public event EventHandler ChatForUserRecived;
         public event MessageRecivedEventHandler MessageRecived;
         public event UserInvitedEventHandler UserInvitedToGame;
@@ -69,7 +64,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnGameOver()
         {
-            Modal.ShowModal("Better Luck Next Time","GameOver!");
+            Modal.ShowModal("Better Luck Next Time", "GameOver!");
             GameEnded?.Invoke(this, new EventArgs());
         }
 
