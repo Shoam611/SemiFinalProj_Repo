@@ -14,11 +14,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
     {
         private readonly StoreService storeService;
         public event EventHandler LoggingIn;
+        public event EventHandler LoggingOut;
 
         public AuthenticationService(StoreService storeService)
         {
             this.storeService = storeService;
-            App.Current.Exit += async (s, e) => await OnLogOutHandler();
+            App.Current.Exit += async (s, e) => await InvokeLogOut();
         }
         public async Task<bool> CallServerToSignUp(string username, string password)
         {
@@ -79,10 +80,17 @@ namespace tWpfMashUp_v0._0._1.Sevices
             return false;
         }
 
-        public async Task OnLogOutHandler()
+        public async Task InvokeLogOut()
+        {
+             await UpdateServerUserLogOut();
+            LoggingOut?.Invoke(this,new EventArgs());
+            storeService.OnLogOut();
+        }
+
+        public async Task UpdateServerUserLogOut()
         {
             if (storeService.Get(CommonKeys.LoggedUser.ToString()) is not User loggedUser) return;
-            loggedUser.IsConnected = Status.Offline;
+            loggedUser.Status = Status.Offline;
             var url = @$"http://localhost:14795/Users";
             using HttpClient client = new();
             try

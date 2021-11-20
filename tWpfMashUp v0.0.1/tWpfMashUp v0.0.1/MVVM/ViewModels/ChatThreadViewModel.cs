@@ -23,8 +23,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public string Message { get => message; set { message = value; onProppertyChange(); } }
 
         public RelayCommand AddMessageCommand { get; set; }
-
-        public ChatThreadViewModel(MessagesService messagesService, ChatsService chatService, StoreService storeService, SignalRListenerService listenerService)
+     
+        public ChatThreadViewModel(MessagesService messagesService, ChatsService chatService, StoreService storeService, SignalRListenerService listenerService,AuthenticationService authenticationService)
         {
             CurrentContact = "";
             this.storeService = storeService;
@@ -33,11 +33,19 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             Messages = new ObservableCollection<Message>();
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
 
-            this.storeService.CurrentContactChanged += OnCurrentContactChanged;
-            this.listenerService.MessageRecived += OnMessageRecived;
-            this.listenerService.ChatForUserRecived += OnCurrentContactChanged;
-            this.listenerService.GameStarting += (s, e) => OnGameStarting();
             this.listenerService.ContactLogged += (s, e) => { if (!e.IsLoggedIn && e.User.UserName == CurrentContact) { Messages.Clear(); CurrentContact = ""; } };
+            this.storeService.CurrentContactChanged += OnCurrentContactChanged;
+            this.listenerService.ChatForUserRecived += OnCurrentContactChanged;
+            this.listenerService.MessageRecived += OnMessageRecived;
+            this.listenerService.GameStarting += (s, e) => OnGameStarting();
+            authenticationService.LoggingOut += (s, e) => OnLoggingOut();
+        }
+
+        private void OnLoggingOut()
+        {
+            this.Messages.Clear();
+            this.Message = "";
+            this.CurrentContact = "";
         }
 
         private void OnGameStarting()
@@ -71,7 +79,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var currentChatId = currentChat.Id;
             if (eventArgs.ChatId == currentChatId)
             {
-                if (Messages.Count == 0) //new fix();
+                if (Messages.Count == 0) 
                     Messages = new ObservableCollection<Message>(currentChat.Messages);
                 else Messages.Add(eventArgs.Massage);
             }

@@ -61,18 +61,20 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OnInviteToGameCommand = new RelayCommand((o) => InviteToGame());
             OnInformationCommand = new RelayCommand((o) => ShowInformation());
             OnAboutCommand = new RelayCommand((o) => AboutTheDevs());
+            OnLogOutCommand = new RelayCommand((o) => LogOut());
 
             this.authenticationService.LoggingIn += (s, e) => FetchUserHandler();
             this.signalRListinerService.ContactLogged += OnContactLogged;
             this.signalRListinerService.MessageRecived += OnMassageRecived;
         }
 
+        private async void LogOut() => await authenticationService.InvokeLogOut();
+
         private async void ShowInformation()
         {
             var res = await Modal.ShowModal("You are sent to a website gide", "How to Play?", "OK", "Close");
             if (res == "OK")
                 Process.Start(new ProcessStartInfo { FileName = "https://www.bkgm.com/rules.html", UseShellExecute = true });
-
         }
 
         private void AboutTheDevs()
@@ -117,7 +119,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OfflineContacts.Clear();
             foreach (var u in users)
             {
-                if (u.IsConnected == Status.Online) OnlineContacts.Add(u);
+                if (u.Status == Status.Online) OnlineContacts.Add(u);
                 else OfflineContacts.Add(u);
             }
         }

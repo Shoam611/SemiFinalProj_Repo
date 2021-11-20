@@ -20,6 +20,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         #region events
         public event ContactLoggedEventHandler ContactLogged;
+        public event EventHandler LoggingOut;
         public event EventHandler ChatForUserRecived;
         public event MessageRecivedEventHandler MessageRecived;
         public event UserInvitedEventHandler UserInvitedToGame;
@@ -43,12 +44,13 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<string>("Connected", OnConnected);
             connection.On<User>("ContactLoggedIn", OnContactLoggedIn);
             connection.On<User>("ContactLoggedOut", OnContactLoggedOut);
+            connection.On<User>("LoggingOut", OnLoggingOut);
             connection.On<Chat>("ChatCreated", OnChatCreated);
             connection.On<Message>("MassageRecived", OnMassageRecived);
 
             connection.On<Chat>("GameInvite", OnGameInvite);
-            connection.On<int, bool>("GameStarting", OnGameAccepted);
-            connection.On<int>("GameDenied", OnGameDenied);
+            connection.On<int,bool>("GameStarting", OnGameAccepted);
+            connection.On<string>("GameDenied", OnGameDenied);
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
             connection.On("PlayerFinnishedPlay", OnPlayerFinnishedPlay);
@@ -62,14 +64,11 @@ namespace tWpfMashUp_v0._0._1.Sevices
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void OnGameOver()
+        private void OnLoggingOut(User user)
         {
-            Modal.ShowModal("Better Luck Next Time", "GameOver!");
-            GameEnded?.Invoke(this, new EventArgs());
+            user = null;
+            LoggingOut?.Invoke(this, new EventArgs());
         }
-
-
-
 
         #region Connection
         private void OnConnected(string hubConnectionString)
@@ -82,11 +81,14 @@ namespace tWpfMashUp_v0._0._1.Sevices
             List<User> contacts;
             if (!store.HasKey(CommonKeys.Contacts.ToString()))
                 contacts = new List<User>();
-            else contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+            else 
+                contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
+
             if (!contacts.Where(u => u.Id == newOnlineUser.Id).Any())
             {
                 contacts.Add(newOnlineUser);
             }
+
             store.Add(CommonKeys.Contacts.ToString(), contacts);
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = newOnlineUser, IsLoggedIn = true });
         }
@@ -163,9 +165,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             GameStarting?.Invoke(this, new GameStartingEventArgs { IsStarting = isStarting });
         }
 
-        private void OnGameDenied(int obj)
+        private void OnGameDenied(string msg)
         {
-            Modal.ShowModal("Game request was denied by eather you or the other user");
+            Modal.ShowModal(msg);
         }
 
         #endregion
@@ -187,6 +189,12 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnPlayerForfeit()
         {
+            GameEnded?.Invoke(this, new EventArgs());
+        }
+
+        private void OnGameOver()
+        {
+            Modal.ShowModal("Better Luck Next Time", "GameOver!");
             GameEnded?.Invoke(this, new EventArgs());
         }
 

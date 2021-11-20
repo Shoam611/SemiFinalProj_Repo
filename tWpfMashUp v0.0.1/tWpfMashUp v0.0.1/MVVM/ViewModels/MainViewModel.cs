@@ -31,13 +31,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             signalRListener = signalRListiner;
             View = new LoginView();
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
-            signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
-            signalRListener.GameEnded += SignalRListener_GameEnded; ;
-        }
-
-        private void SignalRListener_GameEnded(object sender, EventArgs e)
-        {
-            SetViewTransition("Chat");
+            this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
+            this.signalRListener.GameEnded += (s, e) => SetViewTransition("Chat");
+            this.signalRListener.LoggingOut += (s, e) => SetViewTransition("Auth");
         }
 
         private void OnMouseDown(MouseButtonEventArgs e)
@@ -47,10 +43,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void OnMaximizeCommand()
         {
-            if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
-                Application.Current.MainWindow.WindowState = WindowState.Maximized;
-            else
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            Application.Current.MainWindow.WindowState = Application.Current.MainWindow.WindowState != WindowState.Maximized ? WindowState.Maximized : WindowState.Normal;
         }
 
         public void SetViewTransition(string option)

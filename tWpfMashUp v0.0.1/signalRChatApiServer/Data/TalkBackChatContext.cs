@@ -27,9 +27,9 @@ namespace signalRChatApiServer.Data
             });
 
             modelBuilder.Entity<User>().HasData(
-                    new { Id = 1, IsConnected = Status.Offline, UserName = "User1", Password = "123", HubConnectionString = "dummy-c-string" },
-                    new { Id = 2, IsConnected = Status.Offline, UserName = "User2", Password = "123", HubConnectionString = "dummy-c-string" },
-                    new { Id = 3, IsConnected = Status.Offline, UserName = "User3", Password = "123", HubConnectionString = "dummy-c-string" }
+                    new { Id = 1, Status = Status.Offline, UserName = "User1", Password = "123", HubConnectionString = "dummy-c-string" },
+                    new { Id = 2, Status = Status.Offline, UserName = "User2", Password = "123", HubConnectionString = "dummy-c-string" },
+                    new { Id = 3, Status = Status.Offline, UserName = "User3", Password = "123", HubConnectionString = "dummy-c-string" }
                     );
             modelBuilder.Entity<Message>().HasData(
                 new { Id = 1, Content = "למה לא בעצם?", Date = DateTime.Now.AddDays(2), ChatId = 1, Name = "User1", },

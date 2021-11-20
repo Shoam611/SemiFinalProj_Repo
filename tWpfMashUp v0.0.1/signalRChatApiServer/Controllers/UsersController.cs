@@ -4,6 +4,7 @@ using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories.Infra;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -26,13 +27,27 @@ namespace signalRChatApiServer.Controllers
             return repository.GetAllUsers();
         }
 
+        //[HttpGet]
+        //[Route("Logout")]
+        //public async Task Get()
+        //{
+        //    foreach (var user in chat.Users)
+        //    {
+        //        await chathub.Clients.Client(user.HubConnectionString).SendAsync("Loggingout");
+        //    }
+        //}
+
         //update user-> status and h.c.string
         [HttpPut]
         public void Put(User user)
         {
-            if (user.IsConnected == Status.Offline)
+            if (user.Status == Status.Offline)
+            {
                 chathub.Clients.AllExcept(user.HubConnectionString).SendAsync("ContactLoggedOut", user);
+                chathub.Clients.Client(user.HubConnectionString).SendAsync("LoggingOut", user);
+            }
             repository.UpdateUser(user);
         }
+
     }
 }
