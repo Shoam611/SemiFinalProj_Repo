@@ -8,11 +8,8 @@ using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.Sevices;
-using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models;
-using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
-using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -36,7 +33,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private IGameBoard gameBoard;
         private RadioButton TurnIndicator;
 
-        
+
         public GameViewModel(IGameBoard GameBoard, StoreService store, GameService gameService)
         {
             this.store = store;
@@ -129,7 +126,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void ForfeitBtnClick(object sender, RoutedEventArgs e)
         {
-            var mb = await Modal.ShowModal("Are You Sure You Want To Forfeit The Game?", "Forfeit", "No Way Out Of This", "I Can Still Win!");
+            var mb = await Modal.ShowModal("Are You Sure You Want To Forfeit The Game?", "Forfeit", "Yes", "Keep playing");
             if (mb == "Yes")
             {
                 Grid.Clear();
