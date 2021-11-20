@@ -72,14 +72,14 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private async void ShowInformation()
         {
-            var res = await Modal.ShowModal("You are sent to a website gide", "How to Play?", "OK", "Close");
+            var res = await Modal.ShowModal("You Are Sent To a Website Guide", "How to Play?", "OK", "Close");
             if (res == "OK")
                 Process.Start(new ProcessStartInfo { FileName = "https://www.bkgm.com/rules.html", UseShellExecute = true });
         }
 
         private void AboutTheDevs()
         {
-            Modal.ShowModal("This software brought to you by\nLiad Dadon and Shoham Siso.\nv 1.0", "About");
+            Modal.ShowModal("This Software Is Brought To You By\nLiad Dadon and Shoham Siso.\nv 1.0.0", "About");
         }
 
         private async void InviteToGame() => await gameService.CallServerForOtherUserInvite();
