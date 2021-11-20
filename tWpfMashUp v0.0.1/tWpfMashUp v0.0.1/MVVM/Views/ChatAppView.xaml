@@ -10,14 +10,6 @@
              d:DesignHeight="450" d:DesignWidth="600"
              Background="#36393f"                  
              DataContext="{Binding Source={StaticResource Locator},Path=Chat}">
-    <!--dark
-    #292b2f
-    #252525
-    #2f3136 
-    #36393f
-    #383660
-    light-->
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>

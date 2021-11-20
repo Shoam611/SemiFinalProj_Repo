@@ -14,7 +14,6 @@ namespace tWpfMashUp_v0._0._1.Sevices
     public class ChatsService
     {
         private readonly StoreService store;
-        //public event EventHandler CurrentChatChanged;
         public ChatsService(StoreService store) => this.store = store;
 
         public async Task<Chat> GetChatAsync(int userToId)

@@ -46,6 +46,11 @@ namespace signalRChatApiServer.Controllers
             var chat = chatRepository.GetChat(chatId);
             var user = chat.Users.First(u => u.Id != userId);
             chatHub.Clients.Client(user.HubConnectionString).SendAsync("GameOver");
+            foreach (var u in chat.Users)
+            {
+                user.Status = Status.Online;
+                usersRepository.UpdateUser(user);
+            }
         }
 
         [HttpGet]
@@ -53,8 +58,11 @@ namespace signalRChatApiServer.Controllers
         public async Task Get(string chatId)
         {
             Chat chat = chatRepository.GetChat(int.Parse(chatId));
+              
             foreach (var user in chat.Users)
             {
+                user.Status = Status.Online;
+                usersRepository.UpdateUser(user);
                 await chatHub.Clients.Client(user.HubConnectionString).SendAsync("GameEnded");
             }
         }

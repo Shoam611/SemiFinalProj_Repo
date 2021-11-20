@@ -52,7 +52,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
             connection.On<Chat>("GameInvite", OnGameInvite);
             connection.On<int,bool>("GameStarting", OnGameAccepted);
-            connection.On<int>("GameDenied", OnGameDenied);
+            connection.On<string>("GameDenied", OnGameDenied);
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
             connection.On("PlayerFinnishedPlay", OnPlayerFinnishedPlay);
@@ -167,9 +167,9 @@ namespace tWpfMashUp_v0._0._1.Sevices
             GameStarting?.Invoke(this, new GameStartingEventArgs { IsStarting = isStarting });
         }
 
-        private void OnGameDenied(int obj)
+        private void OnGameDenied(string msg)
         {
-            Modal.ShowModal("Game request was denied by eather you or the other user");
+            Modal.ShowModal(msg);
         }
 
         #endregion

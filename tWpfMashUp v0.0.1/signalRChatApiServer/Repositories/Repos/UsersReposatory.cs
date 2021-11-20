@@ -34,7 +34,7 @@ namespace signalRChatApiServer.Repositories.Repos
         {
             var tempUser = context.Users.FirstOrDefault(u => u.Id == user.Id);
             if (tempUser == null) return;
-            tempUser.IsConnected = user.IsConnected;
+            tempUser.Status = user.Status;
             tempUser.HubConnectionString = user.HubConnectionString;
             context.SaveChanges();
         }

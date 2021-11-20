@@ -4,6 +4,7 @@ using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories.Infra;
 using System;
+using System.Linq;
 
 namespace signalRChatApiServer.Controllers
 {
@@ -12,17 +13,29 @@ namespace signalRChatApiServer.Controllers
     public class InvitesController : Controller
     {
         private IChatsRepository reposatory;
+        private IUsersRepository userReposatory;
         private IHubContext<ChatHub> chathub;
 
-        public InvitesController(IHubContext<ChatHub> chathub, IChatsRepository reposatory)
+        public InvitesController(IHubContext<ChatHub> chathub, IChatsRepository reposatory, IUsersRepository usersRepository)
         {
             this.reposatory = reposatory;
+            this.userReposatory = usersRepository;
             this.chathub = chathub;
         }
 
         [HttpPut]
         public void Put(Chat chat)
         {
+            foreach (var user in chat.Users)
+            {
+                if (user.Status == Status.InGame)
+                {
+                    var calleruser = chat.Users.First(u => u.Id != user.Id);
+                    chathub.Clients.Client(calleruser.HubConnectionString)
+                    .SendAsync("GameDenied",$"{user.UserName} Is currently in a game");
+                    return;
+                }
+            }
             foreach (var user in chat.Users)
             {
                 chathub.Clients.Client(user.HubConnectionString).SendAsync("GameInvite", chat);
@@ -44,28 +57,26 @@ namespace signalRChatApiServer.Controllers
                     var temp = 0;
                     foreach (var user in chat.Users)
                     {
-                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat.Id,temp==rnd);
+                        user.Status = Status.InGame;
+                        userReposatory.UpdateUser(user);
+                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameStarting", chat.Id, temp == rnd);
                         temp++;
                     }
                     chat.InviteStatus = InviteStatus.Empty;
                     reposatory.UpdateChat(chat);
                 }
             }
-            //if deny push both on deny
             else
             {
                 chat.InviteStatus = InviteStatus.Empty;
                 reposatory.UpdateChat(chat);
-                //  game cancel popup,
-                //  action chain discontinuse,
-                //  turn of both bits
-
                 foreach (var user in chat.Users)
                 {
                     try
                     {
-                    chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", chat.Id);
-                    }catch { }
+                        chathub.Clients.Client(user.HubConnectionString).SendAsync("GameDenied", "Game request was denied");
+                    }
+                    catch { }
                 }
             }
         }

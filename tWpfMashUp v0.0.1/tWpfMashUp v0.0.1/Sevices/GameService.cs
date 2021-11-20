@@ -86,6 +86,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task CallServerToEndGame()
         {
+            store.Remove(CommonKeys.IsMyTurn.ToString());
             var chatId = (store.Get(CommonKeys.CurrentChat.ToString()) as Chat).Id;
             var url = $@"http://localhost:14795/Game/Forfeit?chatId={chatId}";
             try

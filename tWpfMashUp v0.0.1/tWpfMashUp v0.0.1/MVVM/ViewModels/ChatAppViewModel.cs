@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using System.Diagnostics;
-using System.IO;
-using System;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -70,10 +68,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.signalRListinerService.MessageRecived += OnMassageRecived;
         }
 
-        private async void LogOut()
-        {
-            await authenticationService.OnLogOutHandler();
-        }
+        private async void LogOut() => await authenticationService.InvokeLogOut();
 
         private async void ShowInformation()
         {
@@ -124,7 +119,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             OfflineContacts.Clear();
             foreach (var u in users)
             {
-                if (u.IsConnected == Status.Online) OnlineContacts.Add(u);
+                if (u.Status == Status.Online) OnlineContacts.Add(u);
                 else OfflineContacts.Add(u);
             }
         }
@@ -184,6 +179,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
                         SelectedUser = user;
                     }
                 }
+                storeService.InformContactChanged(selectionChangedEventArgs.Source,new ChatRecivedEventArgs {});
             }
             catch { }
         }

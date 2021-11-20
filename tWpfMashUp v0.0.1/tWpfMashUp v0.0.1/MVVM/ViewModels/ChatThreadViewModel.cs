@@ -5,7 +5,6 @@ using tWpfMashUp_v0._0._1.Sevices;
 using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.Extentions;
 using tWpfMashUp_v0._0._1.MVVM.Models;
-using System.Windows;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -14,7 +13,6 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly MessagesService messagesService;
         private readonly StoreService storeService;
         private readonly SignalRListenerService listenerService;
-        // private readonly ChatsService chatService;
 
         private string currentContact;
         public string CurrentContact { get => currentContact; set { currentContact = value; onProppertyChange(); } }
@@ -27,7 +25,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         public RelayCommand AddMessageCommand { get; set; }
      
-        public ChatThreadViewModel(MessagesService messagesService, ChatsService chatService, StoreService storeService, SignalRListenerService listenerService)
+        public ChatThreadViewModel(MessagesService messagesService, ChatsService chatService, StoreService storeService, SignalRListenerService listenerService,AuthenticationService authenticationService)
         {
             CurrentContact = "";
             // this.chatService = chatService;
@@ -36,12 +34,20 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.messagesService = messagesService;
             Messages = new ObservableCollection<Message>();
             AddMessageCommand = new RelayCommand((o) => AddMessageHandler());
-        
-            this.storeService.CurrentContactChanged += OnCurrentContactChanged;
-            this.listenerService.MessageRecived += OnMessageRecived;
-            this.listenerService.ChatForUserRecived += OnCurrentContactChanged;
-            this.listenerService.GameStarting += (s, e) => OnGameStarting();
+
             this.listenerService.ContactLogged += (s, e) => { if (!e.IsLoggedIn && e.User.UserName == CurrentContact) { Messages.Clear(); CurrentContact = ""; } };
+            this.storeService.CurrentContactChanged += OnCurrentContactChanged;
+            this.listenerService.ChatForUserRecived += OnCurrentContactChanged;
+            this.listenerService.MessageRecived += OnMessageRecived;
+            this.listenerService.GameStarting += (s, e) => OnGameStarting();
+            authenticationService.LoggingOut += (s, e) => OnLoggingOut();
+        }
+
+        private void OnLoggingOut()
+        {
+            this.Messages.Clear();
+            this.Message = "";
+            this.CurrentContact = "";
         }
 
         private void OnGameStarting()

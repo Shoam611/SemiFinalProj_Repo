@@ -25,6 +25,7 @@ namespace tWpfMashUp_v0._0._1
             await host.StartAsync();
             Start(host.Services);
         }
+
         private void ConfigServices(HostBuilderContext context, IServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
