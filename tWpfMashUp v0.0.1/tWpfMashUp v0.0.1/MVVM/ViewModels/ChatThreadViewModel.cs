@@ -54,6 +54,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             CurrentContact = (storeService.Get(CommonKeys.WithUser.ToString()) as User).UserName;
             Message = $"Good Luck {CurrentContact}!";
             Messages = new ObservableCollection<Message>(cChat.Messages);
+            AddMessageHandler();
         }
 
         private void OnCurrentContactChanged(object sender, EventArgs e)
