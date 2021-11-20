@@ -33,7 +33,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             this.authenticationService.LoggingIn += (s, e) => SetViewTransition("Chat");
             this.signalRListener.GameStarting += (s, e) => SetViewTransition("Game");
             this.signalRListener.GameEnded += (s, e) => SetViewTransition("Chat");
-            this.signalRListener.LoggingOut += (s, e) => SetViewTransition("Auth");
+            this.authenticationService.LoggingOut += (s, e) => SetViewTransition("Auth");
         }
 
         private void OnMouseDown(MouseButtonEventArgs e)

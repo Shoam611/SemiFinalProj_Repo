@@ -95,6 +95,8 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         private void OnContactLoggedOut(User disconnectedUser)
         {
+
+           
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {
