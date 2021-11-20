@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using System.Diagnostics;
-using System.IO;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {
@@ -78,7 +77,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         private void AboutTheDevs()
         {
-            Modal.ShowModal("This software brought to you by\nLiad Dadon and Shoham Siso.\n1.0v", "About");
+            Modal.ShowModal("This software brought to you by\nLiad Dadon and Shoham Siso.\nv 1.0", "About");
         }
 
         private async void InviteToGame() => await gameService.CallServerForOtherUserInvite();
