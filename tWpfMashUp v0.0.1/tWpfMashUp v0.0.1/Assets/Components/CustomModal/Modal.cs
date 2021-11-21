@@ -28,18 +28,5 @@ namespace tWpfMashUp_v0._0._1.Assets.Components.CustomModal
             return value;
         }
 
-        //caption title and three buttons
-        public static string ShowModal(string caption, string title, string Button1, string Button2, string Button3)
-        {
-            PopupWindow popupWindow = new PopupWindow();
-            popupWindow.ModalLoadedWithButtons += (out string[] Vals, out string Title, out string Caption) =>
-            {
-                Caption = caption;
-                Title = title;
-                Vals = new string[] { Button1, Button2, Button3 };
-            };
-            popupWindow.ShowDialog();
-            return value;
-        }
     }
 }
