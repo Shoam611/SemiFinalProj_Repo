@@ -23,8 +23,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public string Message { get => message; set { message = value; onProppertyChange(); } }
 
         public RelayCommand AddMessageCommand { get; set; }
-     
-        public ChatThreadViewModel(MessagesService messagesService, ChatsService chatService, StoreService storeService, SignalRListenerService listenerService,AuthenticationService authenticationService)
+
+        public ChatThreadViewModel(MessagesService messagesService, ChatsService chatService, StoreService storeService, SignalRListenerService listenerService, AuthenticationService authenticationService)
         {
             CurrentContact = "";
             this.storeService = storeService;
@@ -80,7 +80,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
             var currentChatId = currentChat.Id;
             if (eventArgs.ChatId == currentChatId)
             {
-                if (Messages.Count == 0) 
+                if (Messages.Count == 0)
                     Messages = new ObservableCollection<Message>(currentChat.Messages);
                 else Messages.Add(eventArgs.Massage);
             }

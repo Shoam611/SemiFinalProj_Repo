@@ -32,7 +32,7 @@ namespace signalRChatApiServer.Controllers
                 {
                     var calleruser = chat.Users.First(u => u.Id != user.Id);
                     chathub.Clients.Client(calleruser.HubConnectionString)
-                    .SendAsync("GameDenied",$"{user.UserName} Is currently in a game");
+                    .SendAsync("GameDenied", $"{user.UserName} Is currently in a game");
                     return;
                 }
             }

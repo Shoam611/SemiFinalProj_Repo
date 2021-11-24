@@ -1,11 +1,11 @@
-﻿using System;
-using System.Windows;
-using tWpfMashUp_v0._0._1.Sevices;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using tWpfMashUp_v0._0._1.MVVM.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Windows;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
+using tWpfMashUp_v0._0._1.MVVM.ViewModels;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1
 {

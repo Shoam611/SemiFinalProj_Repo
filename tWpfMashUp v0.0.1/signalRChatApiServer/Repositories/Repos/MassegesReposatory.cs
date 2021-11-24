@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using signalRChatApiServer.Data;
-using System.Collections.Generic;
+﻿using signalRChatApiServer.Data;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories.Infra;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace signalRChatApiServer.Repositories.Repos
 {

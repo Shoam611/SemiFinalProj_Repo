@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Controls;
-using System.Collections.Generic;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -43,8 +43,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             SoliderStack = new Stack<SoliderModel>();
             if (UiStack != null)
             {
-            UiStack.IsHitTestVisible = true;
-            UiStack.MouseDown += OnMouseDown;
+                UiStack.IsHitTestVisible = true;
+                UiStack.MouseDown += OnMouseDown;
             }
 
             if (Triangle != null)
@@ -110,7 +110,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             this.IsOption = isOption;
             Triangle.Fill = isOption ? new SolidColorBrush(Colors.White) : tColor;
         }
-        
+
         internal bool HasEnemyNoHouse() => SoliderStack.Count == 1 && !SoliderStack.Peek().IsOwnSolider;
     }
 }

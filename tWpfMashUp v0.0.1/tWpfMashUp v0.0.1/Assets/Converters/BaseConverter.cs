@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Data;
 using System.Globalization;
+using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace tWpfMashUp_v0._0._1.Assets.Converters

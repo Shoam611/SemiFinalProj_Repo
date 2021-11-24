@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using tWpfMashUp_v0._0._1.Core;
-using tWpfMashUp_v0._0._1.Sevices;
 using tWpfMashUp_v0._0._1.MVVM.Views;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 {

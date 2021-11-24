@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
 using System.Collections.Generic;
-using tWpfMashUp_v0._0._1.MVVM.Models;
-using Microsoft.AspNetCore.SignalR.Client;
-using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using tWpfMashUp_v0._0._1.MVVM.Models;
+using tWpfMashUp_v0._0._1.MVVM.Models.GameModels;
 
 namespace tWpfMashUp_v0._0._1.Sevices
-{ 
+{
     public class SignalRListenerService
     {
         #region services
@@ -49,7 +49,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             connection.On<Message>("MassageRecived", OnMassageRecived);
 
             connection.On<Chat>("GameInvite", OnGameInvite);
-            connection.On<int,bool>("GameStarting", OnGameAccepted);
+            connection.On<int, bool>("GameStarting", OnGameAccepted);
             connection.On<string>("GameDenied", OnGameDenied);
 
             connection.On<ActionUpdateModel>("OpponentPlayed", OnPlayerPlayed);
@@ -81,7 +81,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
             List<User> contacts;
             if (!store.HasKey(CommonKeys.Contacts.ToString()))
                 contacts = new List<User>();
-            else 
+            else
                 contacts = store.Get(CommonKeys.Contacts.ToString()) as List<User>;
 
             if (!contacts.Where(u => u.Id == newOnlineUser.Id).Any())
@@ -96,7 +96,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         private void OnContactLoggedOut(User disconnectedUser)
         {
 
-           
+
             ContactLogged?.Invoke(this, new ContactLoggedEventArgs { User = disconnectedUser, IsLoggedIn = false });
             if (store.HasKey(CommonKeys.Chats.ToString()))
             {

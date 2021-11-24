@@ -1,9 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Globalization;
-using tWpfMashUp_v0._0._1.Sevices;
+using System.Windows;
 using tWpfMashUp_v0._0._1.MVVM.Models;
-using Microsoft.Extensions.DependencyInjection;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1.Assets.Converters
 {

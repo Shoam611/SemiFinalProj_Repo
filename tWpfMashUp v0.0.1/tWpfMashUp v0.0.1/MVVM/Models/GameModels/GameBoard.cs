@@ -1,17 +1,16 @@
-﻿using System;
-using Castle.Core;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Input;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using Castle.Core;
+using System;
 using System.Collections.Generic;
-using tWpfMashUp_v0._0._1.Sevices;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
 using tWpfMashUp_v0._0._1.Extensions;
 using tWpfMashUp_v0._0._1.MVVM.Models.GameModels.Interfaces;
-using System.Collections.Generic;
-using tWpfMashUp_v0._0._1.Assets.Components.CustomModal;
+using tWpfMashUp_v0._0._1.Sevices;
 
 namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
 {
@@ -74,7 +73,7 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
         {
             rollsValues = newVals;
             options.Clear();
-          
+
             if (!HasAvailableMoves())
             {
                 SkipTurn(); return;
@@ -104,8 +103,8 @@ namespace tWpfMashUp_v0._0._1.MVVM.Models.GameModels
             if (GhostStack.Count > 0)
             {
                 MarkAvailableMoves(rollsValues, new MatrixLocation { Col = 12, Row = 0 });
-                return  options.Any();
-                
+                return options.Any();
+
             }
             for (int row = 0; row < MatrixRowsCount; row++)
             {

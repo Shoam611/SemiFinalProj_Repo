@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Windows.Controls;
 using tWpfMashUp_v0._0._1.MVVM.Models;
 
 namespace tWpfMashUp_v0._0._1.Sevices
@@ -13,7 +11,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         public event EventHandler CurrentContactChanged;
 
         public StoreService() => storeDictionary = new Dictionary<string, dynamic>();
-       
+
         public void Add(string key, dynamic obj)
         {
             if (obj == null) return;
@@ -25,7 +23,7 @@ namespace tWpfMashUp_v0._0._1.Sevices
         }
 
         public dynamic Get(string key) => storeDictionary.TryGetValue(key, out var val) ? val : null;
-       
+
         public bool HasKey(string key) => storeDictionary.ContainsKey(key);
 
         public void Remove(string key) => storeDictionary.Remove(key);

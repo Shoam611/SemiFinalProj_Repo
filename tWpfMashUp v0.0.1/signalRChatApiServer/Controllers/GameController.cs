@@ -41,7 +41,7 @@ namespace signalRChatApiServer.Controllers
 
         [HttpGet]
         [Route("GameOver")]
-        public void AnnounceWinner(int userId,int chatId)
+        public void AnnounceWinner(int userId, int chatId)
         {
             var chat = chatRepository.GetChat(chatId);
             var user = chat.Users.First(u => u.Id != userId);
@@ -58,7 +58,7 @@ namespace signalRChatApiServer.Controllers
         public async Task Get(string chatId)
         {
             Chat chat = chatRepository.GetChat(int.Parse(chatId));
-              
+
             foreach (var user in chat.Users)
             {
                 user.Status = Status.Online;

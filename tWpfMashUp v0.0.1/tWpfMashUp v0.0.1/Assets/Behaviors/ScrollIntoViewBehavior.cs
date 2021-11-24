@@ -1,6 +1,6 @@
-﻿using System.Windows.Controls;
-using Microsoft.Xaml.Behaviors;
+﻿using Microsoft.Xaml.Behaviors;
 using System.Collections.Specialized;
+using System.Windows.Controls;
 
 namespace tWpfMashUp_v0._0._1.Assets.Behaviors
 {

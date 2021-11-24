@@ -4,7 +4,6 @@ using signalRChatApiServer.Hubs;
 using signalRChatApiServer.Models;
 using signalRChatApiServer.Repositories.Infra;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace signalRChatApiServer.Controllers
 {
