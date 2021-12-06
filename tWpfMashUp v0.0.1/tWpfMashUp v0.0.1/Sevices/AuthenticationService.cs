@@ -54,29 +54,38 @@ namespace tWpfMashUp_v0._0._1.Sevices
 
         public async Task<bool> LoginAsync(string username, string password)
         {
-
-            var hubstring = storeService.Get(CommonKeys.HubConnectionString.ToString()) as string;
-            var url = @$"http://localhost:14795/Authentication?username={username}&password={password}&hubstring={hubstring}";
-            using HttpClient client = new();
-
-            try
+            if (!username.IsEmptyNullOrWhiteSpace() && !password.IsEmptyNullOrWhiteSpace())
             {
-                var response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                var rawData = await response.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<User>(rawData);
-                if (data != null)
+                if (username.Length > 2 && password.Length > 2)
                 {
-                    storeService.Add(CommonKeys.LoggedUser.ToString(), data);
-                    if (data.Chats != null)
-                        storeService.Add(CommonKeys.Chats.ToString(), data.Chats);
+                    var hubstring = storeService.Get(CommonKeys.HubConnectionString.ToString()) as string;
+                    var url = @$"http://localhost:14795/Authentication?username={username}&password={password}&hubstring={hubstring}";
+                    using HttpClient client = new();
 
-                    await FetchAllLoggedUsers();
-                    LoggingIn?.Invoke(this, new EventArgs());
-                    return true;
+                    try
+                    {
+                        var response = await client.GetAsync(url);
+                        response.EnsureSuccessStatusCode();
+                        var rawData = await response.Content.ReadAsStringAsync();
+                        var data = JsonConvert.DeserializeObject<User>(rawData);
+                        if (data != null)
+                        {
+                            storeService.Add(CommonKeys.LoggedUser.ToString(), data);
+                            if (data.Chats != null)
+                                storeService.Add(CommonKeys.Chats.ToString(), data.Chats);
+
+                            await FetchAllLoggedUsers();
+                            LoggingIn?.Invoke(this, new EventArgs());
+                            return true;
+                        }
+                    }
+                    catch { Modal.ShowModal("Failed To Login!"); }
+                    return false;
                 }
+                Modal.ShowModal("Username and Password must be at lease 2 characters!");
+                return false;
             }
-            catch { Modal.ShowModal("Failed To Call Server"); }
+            Modal.ShowModal("Username and Password cannot be empty!");
             return false;
         }
 
