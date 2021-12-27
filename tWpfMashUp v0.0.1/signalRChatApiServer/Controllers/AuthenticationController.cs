@@ -18,7 +18,6 @@ namespace signalRChatApiServer.Controllers
             this.chatHub = chatHub;
             this.repository = repository;
         }
-
         //For login
         [HttpGet]
         public User Get(string username, string password, string hubstring)

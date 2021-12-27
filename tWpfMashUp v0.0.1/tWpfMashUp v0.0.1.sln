@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tWpfMashUp v0.0.1", "tWpfMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "signalRChatApiServer", "signalRChatApiServer\signalRChatApiServer.csproj", "{1F2298D5-C13E-423D-84C3-85A3F3782D11}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Sela TalkBack Setup", "Sela TalkBack Setup\Sela TalkBack Setup\Sela TalkBack Setup.vdproj", "{DDD4052E-9892-470D-B62B-0BD24B5F4438}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,8 +20,6 @@ Global
 		{1F2298D5-C13E-423D-84C3-85A3F3782D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F2298D5-C13E-423D-84C3-85A3F3782D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F2298D5-C13E-423D-84C3-85A3F3782D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDD4052E-9892-470D-B62B-0BD24B5F4438}.Debug|Any CPU.ActiveCfg = Debug
-		{DDD4052E-9892-470D-B62B-0BD24B5F4438}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
