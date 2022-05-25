@@ -14,13 +14,13 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         private readonly SignalRListenerService listenerService;
 
         private string currentContact;
-        public string CurrentContact { get => currentContact; set { currentContact = value; onProppertyChange(); } }
+        public string CurrentContact { get => currentContact; set { currentContact = value; OnProppertyChange(); } }
 
         private ObservableCollection<Message> messages;
-        public ObservableCollection<Message> Messages { get => messages; set { messages = value; onProppertyChange(); } }
+        public ObservableCollection<Message> Messages { get => messages; set { messages = value; OnProppertyChange(); } }
 
         private string message;
-        public string Message { get => message; set { message = value; onProppertyChange(); } }
+        public string Message { get => message; set { message = value; OnProppertyChange(); } }
 
         public RelayCommand AddMessageCommand { get; set; }
 

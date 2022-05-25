@@ -16,9 +16,9 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public RelayCommand MouseDownCommand { get; set; }
 
         private object view;
-        public object View { get => view; set { view = value; onProppertyChange(); } }
+        public object View { get => view; set { view = value; OnProppertyChange(); } }
         private object modal;
-        public object Modal { get => modal; set { modal = value; onProppertyChange(); } }
+        public object Modal { get => modal; set { modal = value; OnProppertyChange(); } }
 
         public MainViewModel(SignalRListenerService signalRListiner, AuthenticationService authenticationService)
         {

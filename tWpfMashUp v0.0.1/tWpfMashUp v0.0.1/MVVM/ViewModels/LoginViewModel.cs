@@ -14,10 +14,10 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
         public RelayCommand PasswordChangedCommand { get; set; }
 
         private string userName;
-        public string UserName { get { return userName; } set { userName = value; onProppertyChange(); } }
+        public string UserName { get { return userName; } set { userName = value; OnProppertyChange(); } }
 
         private string password;
-        public string Password { get { return password; } set { password = value; onProppertyChange(); } }
+        public string Password { get { return password; } set { password = value; OnProppertyChange(); } }
 
         public LoginViewModel(AuthenticationService authService)
         {

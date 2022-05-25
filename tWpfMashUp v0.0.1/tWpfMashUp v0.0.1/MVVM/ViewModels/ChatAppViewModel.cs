@@ -21,19 +21,19 @@ namespace tWpfMashUp_v0._0._1.MVVM.ViewModels
 
         //Full Props
         private User loggedUser;
-        public User LoggedUser { get => loggedUser; set { loggedUser = value; onProppertyChange(); } }
+        public User LoggedUser { get => loggedUser; set { loggedUser = value; OnProppertyChange(); } }
 
         private Chat selectedChat;
-        public Chat SelectedChat { get => selectedChat; set { selectedChat = value; onProppertyChange(); } }
+        public Chat SelectedChat { get => selectedChat; set { selectedChat = value; OnProppertyChange(); } }
 
         private string displayedUser;
-        public string DisplayedUser { get => displayedUser; set { displayedUser = value; onProppertyChange(); } }
+        public string DisplayedUser { get => displayedUser; set { displayedUser = value; OnProppertyChange(); } }
 
         private User selectedUser;
-        public User SelectedUser { get => selectedUser; set { selectedUser = value; onProppertyChange(); } }
+        public User SelectedUser { get => selectedUser; set { selectedUser = value; OnProppertyChange(); } }
 
         private string bindingTest;
-        public string BindingTest { get => bindingTest; set { bindingTest = value; onProppertyChange(); } }
+        public string BindingTest { get => bindingTest; set { bindingTest = value; OnProppertyChange(); } }
 
         //Commands
         public RelayCommand OnSelectionChangedCommand { get; set; }
